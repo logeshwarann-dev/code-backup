@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: client
+  labels:
+    app: client
+spec:
+  serviceName: client-service # This is important for service discovery
+  replicas: 7
+  selector:
+    matchLabels:
+      app: client
+  template:
+    metadata:
+      labels:
+        app: client
+    spec:
+      containers:
+      - name: client
+        image: sender:v1
+        envFrom:
+        - configMapRef:
+            name: redis-config
+        env:
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 8090
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: client-service
+spec:
+  selector:
+    app: client
+  ports:
+  - protocol: TCP
+    port: 8090
+    targetPort: 8090
+  type: ClusterIP # This is the default, but it's good to be explicit

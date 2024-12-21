@@ -1,0 +1,26 @@
+#Update Helm repo
+helm repo update
+
+#search for Loki in Helm repo
+helm search repo loki
+
+#Get the default values of Loki stack
+helm show values grafana/loki-stack > loki-custom-values.yaml
+
+#Update and install loki
+helm upgrade --install --values loki-custom-values.yaml loki grafana/loki-stack -n grafana-loki --create-namespace
+
+#Get service NodePort of grafana
+kubectl get svc loki-grafana -n grafana-loki  -o jsonpath="{.spec.ports[0].nodePort}"
+
+#get External Minikube IP
+minikube ip
+
+#expose service
+minikube service <service-name> -n <namespace>
+
+#get grafana user and pwd
+kubectl get secret loki-grafana -n grafana-loki -o jsonpath="{.data.admin-user}" | base64 --decode
+admin
+kubectl get secret loki-grafana -n grafana-loki -o jsonpath="{.data.admin-password}" | base64 --decode
+2EOBv63sEESzZ1nlcxZu6p31B3Ad8aJtLXgEuO3r
