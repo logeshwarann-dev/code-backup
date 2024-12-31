@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: fileparser
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fileparser
+  template:
+    metadata:
+      labels:
+        app: fileparser
+    spec:
+      containers:
+      - name: fileparser
+        image: fileparser:v7
+        envFrom:
+        - configMapRef:
+            name: redis-config
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 5000 # Example port
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: fileparser-service
+spec:
+  selector:
+    app: fileparser
+  ports:
+  - protocol: TCP
+    port: 5000
+    targetPort: 5000

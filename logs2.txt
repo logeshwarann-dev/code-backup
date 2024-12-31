@@ -1,0 +1,24 @@
+[GIN-debug] [WARNING] Creating an Engine instance with the Logger and Recovery middleware already attached.
+
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] POST   /api/v2/sender/connectToRedis --> market_replay/src/api.ConnectToRedisAndLoadData (3 handlers)
+[GIN-debug] POST   /api/v1/sender/start-pumping --> market_replay/src/api.StartPumping (3 handlers)
+[GIN-debug] POST   /api/v1/sender/health-check --> market_replay/src/api.GetHealthStatus (3 handlers)
+[GIN-debug] [WARNING] You trusted all proxies, this is NOT safe. We recommend you to set a value.
+Please check https://pkg.go.dev/github.com/gin-gonic/gin#readme-don-t-trust-all-proxies for details.
+[GIN-debug] Listening and serving HTTP on :8090
+[GIN] 2024/12/30 - 16:08:23 | 200 |      88.686µs |    10.244.1.135 | POST     "/api/v1/sender/start-pumping"
+2024/12/30 16:08:24 No data available in mainChannel
+ORDER PUMPING COMPLETED!!
+Connected to Redis (DB: 0)
+Environment : LAB
+Start Time: 01-10-2024 11:33:06 End Time: 01-10-2024 11:33:18
+Throttle: 1000 Heartbeat: 1000
+Member Id: 1035 Pod Id: 0
+Redis Fetch Batch Size: 10
+Processing iteration 0 of 1
+Processing iteration 1 of 1
+[GIN] 2024/12/30 - 16:11:25 | 200 | 10.083828443s |    10.244.1.135 | POST     "/api/v2/sender/connectToRedis"

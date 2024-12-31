@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: secondary-redis
+spec:
+  serviceName: secondary-redis # Important: This is the service name
+  replicas: 1 
+  selector:
+    matchLabels:
+      app: secondary-redis
+  template:
+    metadata:
+      labels:
+        app: secondary-redis
+    spec:
+      containers:
+      - name: secondary-redis
+        image: redis:alpine
+        ports:
+        - containerPort: 6379
+  volumeClaimTemplates:
+  - metadata:
+      name: redis-persistent-storage
+    spec:
+      accessModes: ["ReadWriteOnce"]
+      resources:
+        requests:
+          storage: 256Mi 
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: secondary-redis-service
+spec:
+  selector:
+    app: secondary-redis
+  ports:
+  - protocol: TCP
+    port: 6379
+    targetPort: 6379
+  clusterIP: None # Use headless service for individual pod access

@@ -1,0 +1,1881 @@
+[GIN-debug] [WARNING] Creating an Engine instance with the Logger and Recovery middleware already attached.
+
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] POST   /api/v2/sender/connectToRedis --> market_replay/src/api.ConnectToRedisAndLoadData (3 handlers)
+[GIN-debug] POST   /api/v1/sender/start-pumping --> market_replay/src/api.StartPumping (3 handlers)
+[GIN-debug] POST   /api/v1/sender/health-check --> market_replay/src/api.GetHealthStatus (3 handlers)
+[GIN-debug] [WARNING] You trusted all proxies, this is NOT safe. We recommend you to set a value.
+Please check https://pkg.go.dev/github.com/gin-gonic/gin#readme-don-t-trust-all-proxies for details.
+[GIN-debug] Listening and serving HTTP on :8090
+[GIN] 2024/12/30 - 16:08:23 | 200 |      88.686µs |    10.244.1.135 | POST     "/api/v1/sender/start-pumping"
+2024/12/30 16:08:24 No data available in mainChannel
+ORDER PUMPING COMPLETED!!
+Connected to Redis (DB: 0)
+Environment : LAB
+Start Time: 01-10-2024 11:33:06 End Time: 01-10-2024 11:33:18
+Throttle: 1000 Heartbeat: 1000
+Member Id: 1035 Pod Id: 0
+Redis Fetch Batch Size: 10
+Processing iteration 0 of 1
+Processing iteration 1 of 1
+[GIN] 2024/12/30 - 16:11:25 | 200 | 10.083828443s |    10.244.1.135 | POST     "/api/v2/sender/connectToRedis"
+[GIN] 2024/12/30 - 16:12:35 | 200 |      121.57µs |    10.244.1.135 | POST     "/api/v1/sender/start-pumping"
+Orders pushed in data channel
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501042 0 -2147483648 1 1727782388 1581}
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501045 0 -2147483648 1 1727782388 1772}
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501046 0 -2147483648 1 1727782388 1632}
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501011 0 -2147483648 1 1727782388 1541}
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501022 0 -2147483648 1 1727782388 1548}
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501028 0 -2147483648 1 1727782388 1503}
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501031 0 -2147483648 1 1727782388 1559}
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501035 0 -2147483648 1 1727782388 1529}
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501033 0 -2147483648 1 1727782388 1500}
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501038 0 -2147483648 1 1727782388 1506}
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501043 0 -2147483648 1 1727782388 1526}
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501007 0 -2147483648 1 1727782388 1579}
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501001 0 -2147483648 1 1727782388 1505}
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501010 0 -2147483648 1 1727782388 1562}
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501029 0 -2147483648 1 1727782388 1510}
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501032 0 -2147483648 1 1727782388 1516}
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501044 0 -2147483648 1 1727782388 1522}
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501050 0 -2147483648 1 1727782388 1555}
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501041 0 -2147483648 1 1727782388 1642}
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501048 0 -2147483648 1 1727782388 1517}
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501009 0 -2147483648 1 1727782388 1557}
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501014 0 -2147483648 1 1727782388 1527}
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501019 0 -2147483648 1 1727782388 1504}
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501020 0 -2147483648 1 1727782388 1501}
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501023 0 -2147483648 1 1727782388 1531}
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501002 0 -2147483648 1 1727782388 1588}
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501006 0 -2147483648 1 1727782388 1499}
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501027 0 -2147483648 1 1727782388 1521}
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501034 0 -2147483648 1 1727782388 1520}
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501037 0 -2147483648 1 1727782388 1684}
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501004 0 -2147483648 1 1727782388 1525}
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501016 0 -2147483648 1 1727782388 1508}
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501017 0 -2147483648 1 1727782388 1587}
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501024 0 -2147483648 1 1727782388 1590}
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501025 0 -2147483648 1 1727782388 1513}
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501036 0 -2147483648 1 1727782388 1523}
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501049 0 -2147483648 1 1727782388 1515}
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501012 0 -2147483648 1 1727782388 1509}
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501018 0 -2147483648 1 1727782388 1573}
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501021 0 -2147483648 1 1727782388 1547}
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501030 0 -2147483648 1 1727782388 1644}
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501040 0 -2147483648 1 1727782388 1536}
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501026 0 -2147483648 1 1727782388 1537}
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501039 0 -2147483648 1 1727782388 1603}
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501047 0 -2147483648 1 1727782388 1511}
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501003 0 -2147483648 1 1727782388 1528}
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501008 0 -2147483648 1 1727782388 1507}
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501013 0 -2147483648 1 1727782388 1607}
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501015 0 -2147483648 1 1727782388 1539}
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501005 0 -2147483648 1 1727782388 1637}
+Response received for Trader 103501035: Order Placed Successfully!
+map[1529:{0 0 false}] ====== CACHE
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501035 0 -2147483648 1 1727782388 1530}
+Response received for Trader 103501001: Order Placed Successfully!
+Response received for Trader 103501028: Order Placed Successfully!
+map[1503:{0 0 false} 1505:{0 0 false} 1529:{0 0 false}] ====== CACHE
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501028 0 -2147483648 1 1727782388 1606}
+map[1505:{0 0 false} 1529:{0 0 false}] ====== CACHE
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501001 0 -2147483648 1 1727782388 1577}
+Response received for Trader 103501042: Order Placed Successfully!
+map[1503:{0 0 false} 1505:{0 0 false} 1529:{0 0 false} 1581:{0 0 false}] ====== CACHE
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501042 0 -2147483648 1 1727782388 1915}
+Response received for Trader 103501031: Order Placed Successfully!
+map[1503:{0 0 false} 1505:{0 0 false} 1529:{0 0 false} 1559:{0 0 false} 1581:{0 0 false}] ====== CACHE
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501031 0 -2147483648 1 1727782388 1567}
+Response received for Trader 103501043: Order Placed Successfully!
+map[1503:{0 0 false} 1505:{0 0 false} 1526:{0 0 false} 1529:{0 0 false} 1559:{0 0 false} 1581:{0 0 false}] ====== CACHE
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501043 0 -2147483648 1 1727782388 1619}
+Response received for Trader 103501045: Order Placed Successfully!
+map[1503:{0 0 false} 1505:{0 0 false} 1526:{0 0 false} 1529:{0 0 false} 1559:{0 0 false} 1581:{0 0 false} 1772:{0 0 false}] ====== CACHE
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501045 0 -2147483648 1 1727782388 1977}
+Response received for Trader 103501046: Order Placed Successfully!
+Response received for Trader 103501011: Order Placed Successfully!
+map[1503:{0 0 false} 1505:{0 0 false} 1526:{0 0 false} 1529:{0 0 false} 1559:{0 0 false} 1581:{0 0 false} 1632:{0 0 false} 1772:{0 0 false}] ====== CACHE
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501046 0 -2147483648 1 1727782388 1638}
+map[1503:{0 0 false} 1505:{0 0 false} 1526:{0 0 false} 1529:{0 0 false} 1541:{0 0 false} 1559:{0 0 false} 1581:{0 0 false} 1632:{0 0 false} 1772:{0 0 false}] ====== CACHE
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501011 0 -2147483648 1 1727782388 1544}
+Response received for Trader 103501007: Order Placed Successfully!
+map[1503:{0 0 false} 1505:{0 0 false} 1526:{0 0 false} 1529:{0 0 false} 1541:{0 0 false} 1559:{0 0 false} 1579:{0 0 false} 1581:{0 0 false} 1632:{0 0 false} 1772:{0 0 false}] ====== CACHE
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501007 0 -2147483648 1 1727782388 1593}
+Response received for Trader 103501032: Order Placed Successfully!
+Response received for Trader 103501020: Order Placed Successfully!
+map[1503:{0 0 false} 1505:{0 0 false} 1516:{0 0 false} 1526:{0 0 false} 1529:{0 0 false} 1541:{0 0 false} 1559:{0 0 false} 1579:{0 0 false} 1581:{0 0 false} 1632:{0 0 false} 1772:{0 0 false}] ====== CACHE
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501032 0 -2147483648 1 1727782388 1542}
+map[1501:{0 0 false} 1503:{0 0 false} 1505:{0 0 false} 1516:{0 0 false} 1526:{0 0 false} 1529:{0 0 false} 1541:{0 0 false} 1559:{0 0 false} 1579:{0 0 false} 1581:{0 0 false} 1632:{0 0 false} 1772:{0 0 false}] ====== CACHE
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501020 0 -2147483648 1 1727782388 1534}
+Response received for Trader 103501041: Order Placed Successfully!
+Response received for Trader 103501006: Order Placed Successfully!
+map[1499:{0 0 false} 1501:{0 0 false} 1503:{0 0 false} 1505:{0 0 false} 1516:{0 0 false} 1526:{0 0 false} 1529:{0 0 false} 1541:{0 0 false} 1559:{0 0 false} 1579:{0 0 false} 1581:{0 0 false} 1632:{0 0 false} 1642:{0 0 false} 1772:{0 0 false}] ====== CACHE
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501041 0 -2147483648 1 1727782388 1750}
+map[1499:{0 0 false} 1501:{0 0 false} 1503:{0 0 false} 1505:{0 0 false} 1516:{0 0 false} 1526:{0 0 false} 1529:{0 0 false} 1541:{0 0 false} 1559:{0 0 false} 1579:{0 0 false} 1581:{0 0 false} 1632:{0 0 false} 1642:{0 0 false} 1772:{0 0 false}] ====== CACHE
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501006 0 -2147483648 1 1727782388 1610}
+Response received for Trader 103501033: Order Placed Successfully!
+map[1499:{0 0 false} 1500:{0 0 false} 1501:{0 0 false} 1503:{0 0 false} 1505:{0 0 false} 1516:{0 0 false} 1526:{0 0 false} 1529:{0 0 false} 1541:{0 0 false} 1559:{0 0 false} 1579:{0 0 false} 1581:{0 0 false} 1632:{0 0 false} 1642:{0 0 false} 1772:{0 0 false}] ====== CACHE
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501033 0 -2147483648 1 1727782388 1502}
+Response received for Trader 103501029: Order Placed Successfully!
+Response received for Trader 103501022: Order Placed Successfully!
+Response received for Trader 103501038: Order Placed Successfully!
+map[1499:{0 0 false} 1500:{0 0 false} 1501:{0 0 false} 1503:{0 0 false} 1505:{0 0 false} 1510:{0 0 false} 1516:{0 0 false} 1526:{0 0 false} 1529:{0 0 false} 1541:{0 0 false} 1559:{0 0 false} 1579:{0 0 false} 1581:{0 0 false} 1632:{0 0 false} 1642:{0 0 false} 1772:{0 0 false}] ====== CACHE
+map[1499:{0 0 false} 1500:{0 0 false} 1501:{0 0 false} 1503:{0 0 false} 1505:{0 0 false} 1510:{0 0 false} 1516:{0 0 false} 1526:{0 0 false} 1529:{0 0 false} 1541:{0 0 false} 1548:{0 0 false} 1559:{0 0 false} 1579:{0 0 false} 1581:{0 0 false} 1632:{0 0 false} 1642:{0 0 false} 1772:{0 0 false}] ====== CACHE
+map[1499:{0 0 false} 1500:{0 0 false} 1501:{0 0 false} 1503:{0 0 false} 1505:{0 0 false} 1506:{0 0 false} 1510:{0 0 false} 1516:{0 0 false} 1526:{0 0 false} 1529:{0 0 false} 1541:{0 0 false} 1548:{0 0 false} 1559:{0 0 false} 1579:{0 0 false} 1581:{0 0 false} 1632:{0 0 false} 1642:{0 0 false} 1772:{0 0 false}] ====== CACHE
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501029 0 -2147483648 1 1727782388 1639}
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501022 0 -2147483648 1 1727782388 1552}
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501038 0 -2147483648 1 1727782388 1514}
+Response received for Trader 103501048: Order Placed Successfully!
+map[1499:{0 0 false} 1500:{0 0 false} 1501:{0 0 false} 1503:{0 0 false} 1505:{0 0 false} 1506:{0 0 false} 1510:{0 0 false} 1516:{0 0 false} 1517:{0 0 false} 1526:{0 0 false} 1529:{0 0 false} 1541:{0 0 false} 1548:{0 0 false} 1559:{0 0 false} 1579:{0 0 false} 1581:{0 0 false} 1632:{0 0 false} 1642:{0 0 false} 1772:{0 0 false}] ====== CACHE
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501048 0 -2147483648 1 1727782388 1518}
+Response received for Trader 103501017: Order Placed Successfully!
+map[1499:{0 0 false} 1500:{0 0 false} 1501:{0 0 false} 1503:{0 0 false} 1505:{0 0 false} 1506:{0 0 false} 1510:{0 0 false} 1516:{0 0 false} 1517:{0 0 false} 1526:{0 0 false} 1529:{0 0 false} 1541:{0 0 false} 1548:{0 0 false} 1559:{0 0 false} 1579:{0 0 false} 1581:{0 0 false} 1587:{0 0 false} 1632:{0 0 false} 1642:{0 0 false} 1772:{0 0 false}] ====== CACHE
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501017 0 -2147483648 1 1727782388 1678}
+Response received for Trader 103501004: Order Placed Successfully!
+map[1499:{0 0 false} 1500:{0 0 false} 1501:{0 0 false} 1503:{0 0 false} 1505:{0 0 false} 1506:{0 0 false} 1510:{0 0 false} 1516:{0 0 false} 1517:{0 0 false} 1525:{0 0 false} 1526:{0 0 false} 1529:{0 0 false} 1541:{0 0 false} 1548:{0 0 false} 1559:{0 0 false} 1579:{0 0 false} 1581:{0 0 false} 1587:{0 0 false} 1632:{0 0 false} 1642:{0 0 false} 1772:{0 0 false}] ====== CACHE
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501004 0 -2147483648 1 1727782388 1545}
+Response received for Trader 103501023: Order Placed Successfully!
+map[1499:{0 0 false} 1500:{0 0 false} 1501:{0 0 false} 1503:{0 0 false} 1505:{0 0 false} 1506:{0 0 false} 1510:{0 0 false} 1516:{0 0 false} 1517:{0 0 false} 1525:{0 0 false} 1526:{0 0 false} 1529:{0 0 false} 1531:{0 0 false} 1541:{0 0 false} 1548:{0 0 false} 1559:{0 0 false} 1579:{0 0 false} 1581:{0 0 false} 1587:{0 0 false} 1632:{0 0 false} 1642:{0 0 false} 1772:{0 0 false}] ====== CACHE
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501023 0 -2147483648 1 1727782388 1538}
+Response received for Trader 103501050: Order Placed Successfully!
+map[1499:{0 0 false} 1500:{0 0 false} 1501:{0 0 false} 1503:{0 0 false} 1505:{0 0 false} 1506:{0 0 false} 1510:{0 0 false} 1516:{0 0 false} 1517:{0 0 false} 1525:{0 0 false} 1526:{0 0 false} 1529:{0 0 false} 1531:{0 0 false} 1541:{0 0 false} 1548:{0 0 false} 1555:{0 0 false} 1559:{0 0 false} 1579:{0 0 false} 1581:{0 0 false} 1587:{0 0 false} 1632:{0 0 false} 1642:{0 0 false} 1772:{0 0 false}] ====== CACHE
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501050 0 -2147483648 1 1727782388 1608}
+Response received for Trader 103501019: Order Placed Successfully!
+map[1499:{0 0 false} 1500:{0 0 false} 1501:{0 0 false} 1503:{0 0 false} 1504:{0 0 false} 1505:{0 0 false} 1506:{0 0 false} 1510:{0 0 false} 1516:{0 0 false} 1517:{0 0 false} 1525:{0 0 false} 1526:{0 0 false} 1529:{0 0 false} 1531:{0 0 false} 1541:{0 0 false} 1548:{0 0 false} 1555:{0 0 false} 1559:{0 0 false} 1579:{0 0 false} 1581:{0 0 false} 1587:{0 0 false} 1632:{0 0 false} 1642:{0 0 false} 1772:{0 0 false}] ====== CACHE
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501019 0 -2147483648 1 1727782388 1532}
+Response received for Trader 103501002: Order Placed Successfully!
+map[1499:{0 0 false} 1500:{0 0 false} 1501:{0 0 false} 1503:{0 0 false} 1504:{0 0 false} 1505:{0 0 false} 1506:{0 0 false} 1510:{0 0 false} 1516:{0 0 false} 1517:{0 0 false} 1525:{0 0 false} 1526:{0 0 false} 1529:{0 0 false} 1531:{0 0 false} 1541:{0 0 false} 1548:{0 0 false} 1555:{0 0 false} 1559:{0 0 false} 1579:{0 0 false} 1581:{0 0 false} 1587:{0 0 false} 1588:{0 0 false} 1632:{0 0 false} 1642:{0 0 false} 1772:{0 0 false}] ====== CACHE
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501002 0 -2147483648 1 1727782388 1594}
+Response received for Trader 103501036: Order Placed Successfully!
+map[1499:{0 0 false} 1500:{0 0 false} 1501:{0 0 false} 1503:{0 0 false} 1504:{0 0 false} 1505:{0 0 false} 1506:{0 0 false} 1510:{0 0 false} 1516:{0 0 false} 1517:{0 0 false} 1523:{0 0 false} 1525:{0 0 false} 1526:{0 0 false} 1529:{0 0 false} 1531:{0 0 false} 1541:{0 0 false} 1548:{0 0 false} 1555:{0 0 false} 1559:{0 0 false} 1579:{0 0 false} 1581:{0 0 false} 1587:{0 0 false} 1588:{0 0 false} 1632:{0 0 false} 1642:{0 0 false} 1772:{0 0 false}] ====== CACHE
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501036 0 -2147483648 1 1727782388 1524}
+Response received for Trader 103501040: Order Placed Successfully!
+map[1499:{0 0 false} 1500:{0 0 false} 1501:{0 0 false} 1503:{0 0 false} 1504:{0 0 false} 1505:{0 0 false} 1506:{0 0 false} 1510:{0 0 false} 1516:{0 0 false} 1517:{0 0 false} 1523:{0 0 false} 1525:{0 0 false} 1526:{0 0 false} 1529:{0 0 false} 1531:{0 0 false} 1536:{0 0 false} 1541:{0 0 false} 1548:{0 0 false} 1555:{0 0 false} 1559:{0 0 false} 1579:{0 0 false} 1581:{0 0 false} 1587:{0 0 false} 1588:{0 0 false} 1632:{0 0 false} 1642:{0 0 false} 1772:{0 0 false}] ====== CACHE
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501040 0 -2147483648 1 1727782388 1572}
+Response received for Trader 103501039: Order Placed Successfully!
+Response received for Trader 103501012: Order Placed Successfully!
+Response received for Trader 103501037: Order Placed Successfully!
+map[1499:{0 0 false} 1500:{0 0 false} 1501:{0 0 false} 1503:{0 0 false} 1504:{0 0 false} 1505:{0 0 false} 1506:{0 0 false} 1509:{0 0 false} 1510:{0 0 false} 1516:{0 0 false} 1517:{0 0 false} 1523:{0 0 false} 1525:{0 0 false} 1526:{0 0 false} 1529:{0 0 false} 1531:{0 0 false} 1536:{0 0 false} 1541:{0 0 false} 1548:{0 0 false} 1555:{0 0 false} 1559:{0 0 false} 1579:{0 0 false} 1581:{0 0 false} 1587:{0 0 false} 1588:{0 0 false} 1603:{0 0 false} 1632:{0 0 false} 1642:{0 0 false} 1772:{0 0 false}] ====== CACHE
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501039 0 -2147483648 1 1727782388 1660}
+Response received for Trader 103501030: Order Placed Successfully!
+map[1499:{0 0 false} 1500:{0 0 false} 1501:{0 0 false} 1503:{0 0 false} 1504:{0 0 false} 1505:{0 0 false} 1506:{0 0 false} 1509:{0 0 false} 1510:{0 0 false} 1516:{0 0 false} 1517:{0 0 false} 1523:{0 0 false} 1525:{0 0 false} 1526:{0 0 false} 1529:{0 0 false} 1531:{0 0 false} 1536:{0 0 false} 1541:{0 0 false} 1548:{0 0 false} 1555:{0 0 false} 1559:{0 0 false} 1579:{0 0 false} 1581:{0 0 false} 1587:{0 0 false} 1588:{0 0 false} 1603:{0 0 false} 1632:{0 0 false} 1642:{0 0 false} 1772:{0 0 false}] ====== CACHE
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501012 0 -2147483648 1 1727782388 1640}
+map[1499:{0 0 false} 1500:{0 0 false} 1501:{0 0 false} 1503:{0 0 false} 1504:{0 0 false} 1505:{0 0 false} 1506:{0 0 false} 1509:{0 0 false} 1510:{0 0 false} 1516:{0 0 false} 1517:{0 0 false} 1523:{0 0 false} 1525:{0 0 false} 1526:{0 0 false} 1529:{0 0 false} 1531:{0 0 false} 1536:{0 0 false} 1541:{0 0 false} 1548:{0 0 false} 1555:{0 0 false} 1559:{0 0 false} 1579:{0 0 false} 1581:{0 0 false} 1587:{0 0 false} 1588:{0 0 false} 1603:{0 0 false} 1632:{0 0 false} 1642:{0 0 false} 1684:{0 0 false} 1772:{0 0 false}] ====== CACHE
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501037 0 -2147483648 1 1727782388 1708}
+map[1499:{0 0 false} 1500:{0 0 false} 1501:{0 0 false} 1503:{0 0 false} 1504:{0 0 false} 1505:{0 0 false} 1506:{0 0 false} 1509:{0 0 false} 1510:{0 0 false} 1516:{0 0 false} 1517:{0 0 false} 1523:{0 0 false} 1525:{0 0 false} 1526:{0 0 false} 1529:{0 0 false} 1531:{0 0 false} 1536:{0 0 false} 1541:{0 0 false} 1548:{0 0 false} 1555:{0 0 false} 1559:{0 0 false} 1579:{0 0 false} 1581:{0 0 false} 1587:{0 0 false} 1588:{0 0 false} 1603:{0 0 false} 1632:{0 0 false} 1642:{0 0 false} 1644:{0 0 false} 1684:{0 0 false} 1772:{0 0 false}] ====== CACHE
+Response received for Trader 103501049: Order Placed Successfully!
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501030 0 -2147483648 1 1727782388 1713}
+Response received for Trader 103501044: Order Placed Successfully!
+map[1499:{0 0 false} 1500:{0 0 false} 1501:{0 0 false} 1503:{0 0 false} 1504:{0 0 false} 1505:{0 0 false} 1506:{0 0 false} 1509:{0 0 false} 1510:{0 0 false} 1515:{0 0 false} 1516:{0 0 false} 1517:{0 0 false} 1523:{0 0 false} 1525:{0 0 false} 1526:{0 0 false} 1529:{0 0 false} 1531:{0 0 false} 1536:{0 0 false} 1541:{0 0 false} 1548:{0 0 false} 1555:{0 0 false} 1559:{0 0 false} 1579:{0 0 false} 1581:{0 0 false} 1587:{0 0 false} 1588:{0 0 false} 1603:{0 0 false} 1632:{0 0 false} 1642:{0 0 false} 1644:{0 0 false} 1684:{0 0 false} 1772:{0 0 false}] ====== CACHE
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501049 0 -2147483648 1 1727782388 1599}
+map[1499:{0 0 false} 1500:{0 0 false} 1501:{0 0 false} 1503:{0 0 false} 1504:{0 0 false} 1505:{0 0 false} 1506:{0 0 false} 1509:{0 0 false} 1510:{0 0 false} 1515:{0 0 false} 1516:{0 0 false} 1517:{0 0 false} 1522:{0 0 false} 1523:{0 0 false} 1525:{0 0 false} 1526:{0 0 false} 1529:{0 0 false} 1531:{0 0 false} 1536:{0 0 false} 1541:{0 0 false} 1548:{0 0 false} 1555:{0 0 false} 1559:{0 0 false} 1579:{0 0 false} 1581:{0 0 false} 1587:{0 0 false} 1588:{0 0 false} 1603:{0 0 false} 1632:{0 0 false} 1642:{0 0 false} 1644:{0 0 false} 1684:{0 0 false} 1772:{0 0 false}] ====== CACHE
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501044 0 -2147483648 1 1727782388 1533}
+Response received for Trader 103501010: Order Placed Successfully!
+map[1499:{0 0 false} 1500:{0 0 false} 1501:{0 0 false} 1503:{0 0 false} 1504:{0 0 false} 1505:{0 0 false} 1506:{0 0 false} 1509:{0 0 false} 1510:{0 0 false} 1515:{0 0 false} 1516:{0 0 false} 1517:{0 0 false} 1522:{0 0 false} 1523:{0 0 false} 1525:{0 0 false} 1526:{0 0 false} 1529:{0 0 false} 1531:{0 0 false} 1536:{0 0 false} 1541:{0 0 false} 1548:{0 0 false} 1555:{0 0 false} 1559:{0 0 false} 1562:{0 0 false} 1579:{0 0 false} 1581:{0 0 false} 1587:{0 0 false} 1588:{0 0 false} 1603:{0 0 false} 1632:{0 0 false} 1642:{0 0 false} 1644:{0 0 false} 1684:{0 0 false} 1772:{0 0 false}] ====== CACHE
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501010 0 -2147483648 1 1727782388 1563}
+Response received for Trader 103501014: Order Placed Successfully!
+map[1499:{0 0 false} 1500:{0 0 false} 1501:{0 0 false} 1503:{0 0 false} 1504:{0 0 false} 1505:{0 0 false} 1506:{0 0 false} 1509:{0 0 false} 1510:{0 0 false} 1515:{0 0 false} 1516:{0 0 false} 1517:{0 0 false} 1522:{0 0 false} 1523:{0 0 false} 1525:{0 0 false} 1526:{0 0 false} 1527:{0 0 false} 1529:{0 0 false} 1531:{0 0 false} 1536:{0 0 false} 1541:{0 0 false} 1548:{0 0 false} 1555:{0 0 false} 1559:{0 0 false} 1562:{0 0 false} 1579:{0 0 false} 1581:{0 0 false} 1587:{0 0 false} 1588:{0 0 false} 1603:{0 0 false} 1632:{0 0 false} 1642:{0 0 false} 1644:{0 0 false} 1684:{0 0 false} 1772:{0 0 false}] ====== CACHE
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501014 0 -2147483648 1 1727782388 1568}
+Response received for Trader 103501009: Order Placed Successfully!
+Response received for Trader 103501024: Order Placed Successfully!
+map[1499:{0 0 false} 1500:{0 0 false} 1501:{0 0 false} 1503:{0 0 false} 1504:{0 0 false} 1505:{0 0 false} 1506:{0 0 false} 1509:{0 0 false} 1510:{0 0 false} 1515:{0 0 false} 1516:{0 0 false} 1517:{0 0 false} 1522:{0 0 false} 1523:{0 0 false} 1525:{0 0 false} 1526:{0 0 false} 1527:{0 0 false} 1529:{0 0 false} 1531:{0 0 false} 1536:{0 0 false} 1541:{0 0 false} 1548:{0 0 false} 1555:{0 0 false} 1559:{0 0 false} 1562:{0 0 false} 1579:{0 0 false} 1581:{0 0 false} 1587:{0 0 false} 1588:{0 0 false} 1590:{0 0 false} 1603:{0 0 false} 1632:{0 0 false} 1642:{0 0 false} 1644:{0 0 false} 1684:{0 0 false} 1772:{0 0 false}] ====== CACHE
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501024 0 -2147483648 1 1727782388 1675}
+Response received for Trader 103501027: Order Placed Successfully!
+map[1499:{0 0 false} 1500:{0 0 false} 1501:{0 0 false} 1503:{0 0 false} 1504:{0 0 false} 1505:{0 0 false} 1506:{0 0 false} 1509:{0 0 false} 1510:{0 0 false} 1515:{0 0 false} 1516:{0 0 false} 1517:{0 0 false} 1522:{0 0 false} 1523:{0 0 false} 1525:{0 0 false} 1526:{0 0 false} 1527:{0 0 false} 1529:{0 0 false} 1531:{0 0 false} 1536:{0 0 false} 1541:{0 0 false} 1548:{0 0 false} 1555:{0 0 false} 1557:{0 0 false} 1559:{0 0 false} 1562:{0 0 false} 1579:{0 0 false} 1581:{0 0 false} 1587:{0 0 false} 1588:{0 0 false} 1590:{0 0 false} 1603:{0 0 false} 1632:{0 0 false} 1642:{0 0 false} 1644:{0 0 false} 1684:{0 0 false} 1772:{0 0 false}] ====== CACHE
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501009 0 -2147483648 1 1727782388 1561}
+map[1499:{0 0 false} 1500:{0 0 false} 1501:{0 0 false} 1503:{0 0 false} 1504:{0 0 false} 1505:{0 0 false} 1506:{0 0 false} 1509:{0 0 false} 1510:{0 0 false} 1515:{0 0 false} 1516:{0 0 false} 1517:{0 0 false} 1521:{0 0 false} 1522:{0 0 false} 1523:{0 0 false} 1525:{0 0 false} 1526:{0 0 false} 1527:{0 0 false} 1529:{0 0 false} 1531:{0 0 false} 1536:{0 0 false} 1541:{0 0 false} 1548:{0 0 false} 1555:{0 0 false} 1557:{0 0 false} 1559:{0 0 false} 1562:{0 0 false} 1579:{0 0 false} 1581:{0 0 false} 1587:{0 0 false} 1588:{0 0 false} 1590:{0 0 false} 1603:{0 0 false} 1632:{0 0 false} 1642:{0 0 false} 1644:{0 0 false} 1684:{0 0 false} 1772:{0 0 false}] ====== CACHE
+Response received for Trader 103501016: Order Placed Successfully!
+map[1499:{0 0 false} 1500:{0 0 false} 1501:{0 0 false} 1503:{0 0 false} 1504:{0 0 false} 1505:{0 0 false} 1506:{0 0 false} 1508:{0 0 false} 1509:{0 0 false} 1510:{0 0 false} 1515:{0 0 false} 1516:{0 0 false} 1517:{0 0 false} 1521:{0 0 false} 1522:{0 0 false} 1523:{0 0 false} 1525:{0 0 false} 1526:{0 0 false} 1527:{0 0 false} 1529:{0 0 false} 1531:{0 0 false} 1536:{0 0 false} 1541:{0 0 false} 1548:{0 0 false} 1555:{0 0 false} 1557:{0 0 false} 1559:{0 0 false} 1562:{0 0 false} 1579:{0 0 false} 1581:{0 0 false} 1587:{0 0 false} 1588:{0 0 false} 1590:{0 0 false} 1603:{0 0 false} 1632:{0 0 false} 1642:{0 0 false} 1644:{0 0 false} 1684:{0 0 false} 1772:{0 0 false}] ====== CACHE
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501016 0 -2147483648 1 1727782388 1519}
+Response received for Trader 103501034: Order Placed Successfully!
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501027 0 -2147483648 1 1727782388 1570}
+map[1499:{0 0 false} 1500:{0 0 false} 1501:{0 0 false} 1503:{0 0 false} 1504:{0 0 false} 1505:{0 0 false} 1506:{0 0 false} 1508:{0 0 false} 1509:{0 0 false} 1510:{0 0 false} 1515:{0 0 false} 1516:{0 0 false} 1517:{0 0 false} 1520:{0 0 false} 1521:{0 0 false} 1522:{0 0 false} 1523:{0 0 false} 1525:{0 0 false} 1526:{0 0 false} 1527:{0 0 false} 1529:{0 0 false} 1531:{0 0 false} 1536:{0 0 false} 1541:{0 0 false} 1548:{0 0 false} 1555:{0 0 false} 1557:{0 0 false} 1559:{0 0 false} 1562:{0 0 false} 1579:{0 0 false} 1581:{0 0 false} 1587:{0 0 false} 1588:{0 0 false} 1590:{0 0 false} 1603:{0 0 false} 1632:{0 0 false} 1642:{0 0 false} 1644:{0 0 false} 1684:{0 0 false} 1772:{0 0 false}] ====== CACHE
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501034 0 -2147483648 1 1727782388 1630}
+Response received for Trader 103501015: Order Placed Successfully!
+Response received for Trader 103501021: Order Placed Successfully!
+map[1499:{0 0 false} 1500:{0 0 false} 1501:{0 0 false} 1503:{0 0 false} 1504:{0 0 false} 1505:{0 0 false} 1506:{0 0 false} 1508:{0 0 false} 1509:{0 0 false} 1510:{0 0 false} 1515:{0 0 false} 1516:{0 0 false} 1517:{0 0 false} 1520:{0 0 false} 1521:{0 0 false} 1522:{0 0 false} 1523:{0 0 false} 1525:{0 0 false} 1526:{0 0 false} 1527:{0 0 false} 1529:{0 0 false} 1531:{0 0 false} 1536:{0 0 false} 1539:{0 0 false} 1541:{0 0 false} 1547:{0 0 false} 1548:{0 0 false} 1555:{0 0 false} 1557:{0 0 false} 1559:{0 0 false} 1562:{0 0 false} 1579:{0 0 false} 1581:{0 0 false} 1587:{0 0 false} 1588:{0 0 false} 1590:{0 0 false} 1603:{0 0 false} 1632:{0 0 false} 1642:{0 0 false} 1644:{0 0 false} 1684:{0 0 false} 1772:{0 0 false}] ====== CACHE
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501015 0 -2147483648 1 1727782388 1540}
+Response received for Trader 103501018: Order Placed Successfully!
+map[1499:{0 0 false} 1500:{0 0 false} 1501:{0 0 false} 1503:{0 0 false} 1504:{0 0 false} 1505:{0 0 false} 1506:{0 0 false} 1508:{0 0 false} 1509:{0 0 false} 1510:{0 0 false} 1515:{0 0 false} 1516:{0 0 false} 1517:{0 0 false} 1520:{0 0 false} 1521:{0 0 false} 1522:{0 0 false} 1523:{0 0 false} 1525:{0 0 false} 1526:{0 0 false} 1527:{0 0 false} 1529:{0 0 false} 1531:{0 0 false} 1536:{0 0 false} 1539:{0 0 false} 1541:{0 0 false} 1547:{0 0 false} 1548:{0 0 false} 1555:{0 0 false} 1557:{0 0 false} 1559:{0 0 false} 1562:{0 0 false} 1579:{0 0 false} 1581:{0 0 false} 1587:{0 0 false} 1588:{0 0 false} 1590:{0 0 false} 1603:{0 0 false} 1632:{0 0 false} 1642:{0 0 false} 1644:{0 0 false} 1684:{0 0 false} 1772:{0 0 false}] ====== CACHE
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501021 0 -2147483648 1 1727782388 1550}
+map[1499:{0 0 false} 1500:{0 0 false} 1501:{0 0 false} 1503:{0 0 false} 1504:{0 0 false} 1505:{0 0 false} 1506:{0 0 false} 1508:{0 0 false} 1509:{0 0 false} 1510:{0 0 false} 1515:{0 0 false} 1516:{0 0 false} 1517:{0 0 false} 1520:{0 0 false} 1521:{0 0 false} 1522:{0 0 false} 1523:{0 0 false} 1525:{0 0 false} 1526:{0 0 false} 1527:{0 0 false} 1529:{0 0 false} 1531:{0 0 false} 1536:{0 0 false} 1539:{0 0 false} 1541:{0 0 false} 1547:{0 0 false} 1548:{0 0 false} 1555:{0 0 false} 1557:{0 0 false} 1559:{0 0 false} 1562:{0 0 false} 1573:{0 0 false} 1579:{0 0 false} 1581:{0 0 false} 1587:{0 0 false} 1588:{0 0 false} 1590:{0 0 false} 1603:{0 0 false} 1632:{0 0 false} 1642:{0 0 false} 1644:{0 0 false} 1684:{0 0 false} 1772:{0 0 false}] ====== CACHE
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501018 0 -2147483648 1 1727782388 1592}
+Response received for Trader 103501005: Order Placed Successfully!
+map[1499:{0 0 false} 1500:{0 0 false} 1501:{0 0 false} 1503:{0 0 false} 1504:{0 0 false} 1505:{0 0 false} 1506:{0 0 false} 1508:{0 0 false} 1509:{0 0 false} 1510:{0 0 false} 1515:{0 0 false} 1516:{0 0 false} 1517:{0 0 false} 1520:{0 0 false} 1521:{0 0 false} 1522:{0 0 false} 1523:{0 0 false} 1525:{0 0 false} 1526:{0 0 false} 1527:{0 0 false} 1529:{0 0 false} 1531:{0 0 false} 1536:{0 0 false} 1539:{0 0 false} 1541:{0 0 false} 1547:{0 0 false} 1548:{0 0 false} 1555:{0 0 false} 1557:{0 0 false} 1559:{0 0 false} 1562:{0 0 false} 1573:{0 0 false} 1579:{0 0 false} 1581:{0 0 false} 1587:{0 0 false} 1588:{0 0 false} 1590:{0 0 false} 1603:{0 0 false} 1632:{0 0 false} 1637:{0 0 false} 1642:{0 0 false} 1644:{0 0 false} 1684:{0 0 false} 1772:{0 0 false}] ====== CACHE
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501005 0 -2147483648 1 1727782388 1647}
+Response received for Trader 103501047: Order Placed Successfully!
+map[1499:{0 0 false} 1500:{0 0 false} 1501:{0 0 false} 1503:{0 0 false} 1504:{0 0 false} 1505:{0 0 false} 1506:{0 0 false} 1508:{0 0 false} 1509:{0 0 false} 1510:{0 0 false} 1511:{0 0 false} 1515:{0 0 false} 1516:{0 0 false} 1517:{0 0 false} 1520:{0 0 false} 1521:{0 0 false} 1522:{0 0 false} 1523:{0 0 false} 1525:{0 0 false} 1526:{0 0 false} 1527:{0 0 false} 1529:{0 0 false} 1531:{0 0 false} 1536:{0 0 false} 1539:{0 0 false} 1541:{0 0 false} 1547:{0 0 false} 1548:{0 0 false} 1555:{0 0 false} 1557:{0 0 false} 1559:{0 0 false} 1562:{0 0 false} 1573:{0 0 false} 1579:{0 0 false} 1581:{0 0 false} 1587:{0 0 false} 1588:{0 0 false} 1590:{0 0 false} 1603:{0 0 false} 1632:{0 0 false} 1637:{0 0 false} 1642:{0 0 false} 1644:{0 0 false} 1684:{0 0 false} 1772:{0 0 false}] ====== CACHE
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501047 0 -2147483648 1 1727782388 1512}
+Response received for Trader 103501025: Order Placed Successfully!
+Response received for Trader 103501003: Order Placed Successfully!
+map[1499:{0 0 false} 1500:{0 0 false} 1501:{0 0 false} 1503:{0 0 false} 1504:{0 0 false} 1505:{0 0 false} 1506:{0 0 false} 1508:{0 0 false} 1509:{0 0 false} 1510:{0 0 false} 1511:{0 0 false} 1513:{0 0 false} 1515:{0 0 false} 1516:{0 0 false} 1517:{0 0 false} 1520:{0 0 false} 1521:{0 0 false} 1522:{0 0 false} 1523:{0 0 false} 1525:{0 0 false} 1526:{0 0 false} 1527:{0 0 false} 1529:{0 0 false} 1531:{0 0 false} 1536:{0 0 false} 1539:{0 0 false} 1541:{0 0 false} 1547:{0 0 false} 1548:{0 0 false} 1555:{0 0 false} 1557:{0 0 false} 1559:{0 0 false} 1562:{0 0 false} 1573:{0 0 false} 1579:{0 0 false} 1581:{0 0 false} 1587:{0 0 false} 1588:{0 0 false} 1590:{0 0 false} 1603:{0 0 false} 1632:{0 0 false} 1637:{0 0 false} 1642:{0 0 false} 1644:{0 0 false} 1684:{0 0 false} 1772:{0 0 false}] ====== CACHE
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501025 0 -2147483648 1 1727782388 1543}
+map[1499:{0 0 false} 1500:{0 0 false} 1501:{0 0 false} 1503:{0 0 false} 1504:{0 0 false} 1505:{0 0 false} 1506:{0 0 false} 1508:{0 0 false} 1509:{0 0 false} 1510:{0 0 false} 1511:{0 0 false} 1513:{0 0 false} 1515:{0 0 false} 1516:{0 0 false} 1517:{0 0 false} 1520:{0 0 false} 1521:{0 0 false} 1522:{0 0 false} 1523:{0 0 false} 1525:{0 0 false} 1526:{0 0 false} 1527:{0 0 false} 1528:{0 0 false} 1529:{0 0 false} 1531:{0 0 false} 1536:{0 0 false} 1539:{0 0 false} 1541:{0 0 false} 1547:{0 0 false} 1548:{0 0 false} 1555:{0 0 false} 1557:{0 0 false} 1559:{0 0 false} 1562:{0 0 false} 1573:{0 0 false} 1579:{0 0 false} 1581:{0 0 false} 1587:{0 0 false} 1588:{0 0 false} 1590:{0 0 false} 1603:{0 0 false} 1632:{0 0 false} 1637:{0 0 false} 1642:{0 0 false} 1644:{0 0 false} 1684:{0 0 false} 1772:{0 0 false}] ====== CACHE
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501003 0 -2147483648 1 1727782388 1591}
+Response received for Trader 103501008: Order Placed Successfully!
+map[1499:{0 0 false} 1500:{0 0 false} 1501:{0 0 false} 1503:{0 0 false} 1504:{0 0 false} 1505:{0 0 false} 1506:{0 0 false} 1507:{0 0 false} 1508:{0 0 false} 1509:{0 0 false} 1510:{0 0 false} 1511:{0 0 false} 1513:{0 0 false} 1515:{0 0 false} 1516:{0 0 false} 1517:{0 0 false} 1520:{0 0 false} 1521:{0 0 false} 1522:{0 0 false} 1523:{0 0 false} 1525:{0 0 false} 1526:{0 0 false} 1527:{0 0 false} 1528:{0 0 false} 1529:{0 0 false} 1531:{0 0 false} 1536:{0 0 false} 1539:{0 0 false} 1541:{0 0 false} 1547:{0 0 false} 1548:{0 0 false} 1555:{0 0 false} 1557:{0 0 false} 1559:{0 0 false} 1562:{0 0 false} 1573:{0 0 false} 1579:{0 0 false} 1581:{0 0 false} 1587:{0 0 false} 1588:{0 0 false} 1590:{0 0 false} 1603:{0 0 false} 1632:{0 0 false} 1637:{0 0 false} 1642:{0 0 false} 1644:{0 0 false} 1684:{0 0 false} 1772:{0 0 false}] ====== CACHE
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501008 0 -2147483648 1 1727782388 1583}
+Response received for Trader 103501026: Order Placed Successfully!
+map[1499:{0 0 false} 1500:{0 0 false} 1501:{0 0 false} 1503:{0 0 false} 1504:{0 0 false} 1505:{0 0 false} 1506:{0 0 false} 1507:{0 0 false} 1508:{0 0 false} 1509:{0 0 false} 1510:{0 0 false} 1511:{0 0 false} 1513:{0 0 false} 1515:{0 0 false} 1516:{0 0 false} 1517:{0 0 false} 1520:{0 0 false} 1521:{0 0 false} 1522:{0 0 false} 1523:{0 0 false} 1525:{0 0 false} 1526:{0 0 false} 1527:{0 0 false} 1528:{0 0 false} 1529:{0 0 false} 1531:{0 0 false} 1536:{0 0 false} 1537:{0 0 false} 1539:{0 0 false} 1541:{0 0 false} 1547:{0 0 false} 1548:{0 0 false} 1555:{0 0 false} 1557:{0 0 false} 1559:{0 0 false} 1562:{0 0 false} 1573:{0 0 false} 1579:{0 0 false} 1581:{0 0 false} 1587:{0 0 false} 1588:{0 0 false} 1590:{0 0 false} 1603:{0 0 false} 1632:{0 0 false} 1637:{0 0 false} 1642:{0 0 false} 1644:{0 0 false} 1684:{0 0 false} 1772:{0 0 false}] ====== CACHE
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501026 0 -2147483648 1 1727782388 1695}
+Response received for Trader 103501013: Order Placed Successfully!
+map[1499:{0 0 false} 1500:{0 0 false} 1501:{0 0 false} 1503:{0 0 false} 1504:{0 0 false} 1505:{0 0 false} 1506:{0 0 false} 1507:{0 0 false} 1508:{0 0 false} 1509:{0 0 false} 1510:{0 0 false} 1511:{0 0 false} 1513:{0 0 false} 1515:{0 0 false} 1516:{0 0 false} 1517:{0 0 false} 1520:{0 0 false} 1521:{0 0 false} 1522:{0 0 false} 1523:{0 0 false} 1525:{0 0 false} 1526:{0 0 false} 1527:{0 0 false} 1528:{0 0 false} 1529:{0 0 false} 1531:{0 0 false} 1536:{0 0 false} 1537:{0 0 false} 1539:{0 0 false} 1541:{0 0 false} 1547:{0 0 false} 1548:{0 0 false} 1555:{0 0 false} 1557:{0 0 false} 1559:{0 0 false} 1562:{0 0 false} 1573:{0 0 false} 1579:{0 0 false} 1581:{0 0 false} 1587:{0 0 false} 1588:{0 0 false} 1590:{0 0 false} 1603:{0 0 false} 1607:{0 0 false} 1632:{0 0 false} 1637:{0 0 false} 1642:{0 0 false} 1644:{0 0 false} 1684:{0 0 false} 1772:{0 0 false}] ====== CACHE
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501013 0 -2147483648 1 1727782388 1620}
+Response received for Trader 103501035: Order Placed Successfully!
+map[1499:{0 0 false} 1500:{0 0 false} 1501:{0 0 false} 1503:{0 0 false} 1504:{0 0 false} 1505:{0 0 false} 1506:{0 0 false} 1507:{0 0 false} 1508:{0 0 false} 1509:{0 0 false} 1510:{0 0 false} 1511:{0 0 false} 1513:{0 0 false} 1515:{0 0 false} 1516:{0 0 false} 1517:{0 0 false} 1520:{0 0 false} 1521:{0 0 false} 1522:{0 0 false} 1523:{0 0 false} 1525:{0 0 false} 1526:{0 0 false} 1527:{0 0 false} 1528:{0 0 false} 1529:{0 0 false} 1530:{0 0 false} 1531:{0 0 false} 1536:{0 0 false} 1537:{0 0 false} 1539:{0 0 false} 1541:{0 0 false} 1547:{0 0 false} 1548:{0 0 false} 1555:{0 0 false} 1557:{0 0 false} 1559:{0 0 false} 1562:{0 0 false} 1573:{0 0 false} 1579:{0 0 false} 1581:{0 0 false} 1587:{0 0 false} 1588:{0 0 false} 1590:{0 0 false} 1603:{0 0 false} 1607:{0 0 false} 1632:{0 0 false} 1637:{0 0 false} 1642:{0 0 false} 1644:{0 0 false} 1684:{0 0 false} 1772:{0 0 false}] ====== CACHE
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501035 0 -2147483648 1 1727782388 1576}
+Response received for Trader 103501001: Order Placed Successfully!
+map[1499:{0 0 false} 1500:{0 0 false} 1501:{0 0 false} 1503:{0 0 false} 1504:{0 0 false} 1505:{0 0 false} 1506:{0 0 false} 1507:{0 0 false} 1508:{0 0 false} 1509:{0 0 false} 1510:{0 0 false} 1511:{0 0 false} 1513:{0 0 false} 1515:{0 0 false} 1516:{0 0 false} 1517:{0 0 false} 1520:{0 0 false} 1521:{0 0 false} 1522:{0 0 false} 1523:{0 0 false} 1525:{0 0 false} 1526:{0 0 false} 1527:{0 0 false} 1528:{0 0 false} 1529:{0 0 false} 1530:{0 0 false} 1531:{0 0 false} 1536:{0 0 false} 1537:{0 0 false} 1539:{0 0 false} 1541:{0 0 false} 1547:{0 0 false} 1548:{0 0 false} 1555:{0 0 false} 1557:{0 0 false} 1559:{0 0 false} 1562:{0 0 false} 1573:{0 0 false} 1577:{0 0 false} 1579:{0 0 false} 1581:{0 0 false} 1587:{0 0 false} 1588:{0 0 false} 1590:{0 0 false} 1603:{0 0 false} 1607:{0 0 false} 1632:{0 0 false} 1637:{0 0 false} 1642:{0 0 false} 1644:{0 0 false} 1684:{0 0 false} 1772:{0 0 false}] ====== CACHE
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501001 0 -2147483648 1 1727782388 1646}
+Response received for Trader 103501028: Order Placed Successfully!
+map[1499:{0 0 false} 1500:{0 0 false} 1501:{0 0 false} 1503:{0 0 false} 1504:{0 0 false} 1505:{0 0 false} 1506:{0 0 false} 1507:{0 0 false} 1508:{0 0 false} 1509:{0 0 false} 1510:{0 0 false} 1511:{0 0 false} 1513:{0 0 false} 1515:{0 0 false} 1516:{0 0 false} 1517:{0 0 false} 1520:{0 0 false} 1521:{0 0 false} 1522:{0 0 false} 1523:{0 0 false} 1525:{0 0 false} 1526:{0 0 false} 1527:{0 0 false} 1528:{0 0 false} 1529:{0 0 false} 1530:{0 0 false} 1531:{0 0 false} 1536:{0 0 false} 1537:{0 0 false} 1539:{0 0 false} 1541:{0 0 false} 1547:{0 0 false} 1548:{0 0 false} 1555:{0 0 false} 1557:{0 0 false} 1559:{0 0 false} 1562:{0 0 false} 1573:{0 0 false} 1577:{0 0 false} 1579:{0 0 false} 1581:{0 0 false} 1587:{0 0 false} 1588:{0 0 false} 1590:{0 0 false} 1603:{0 0 false} 1606:{0 0 false} 1607:{0 0 false} 1632:{0 0 false} 1637:{0 0 false} 1642:{0 0 false} 1644:{0 0 false} 1684:{0 0 false} 1772:{0 0 false}] ====== CACHE
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501028 0 -2147483648 1 1727782388 1693}
+Response received for Trader 103501031: Order Placed Successfully!
+Response received for Trader 103501006: Order Placed Successfully!
+map[1499:{0 0 false} 1500:{0 0 false} 1501:{0 0 false} 1503:{0 0 false} 1504:{0 0 false} 1505:{0 0 false} 1506:{0 0 false} 1507:{0 0 false} 1508:{0 0 false} 1509:{0 0 false} 1510:{0 0 false} 1511:{0 0 false} 1513:{0 0 false} 1515:{0 0 false} 1516:{0 0 false} 1517:{0 0 false} 1520:{0 0 false} 1521:{0 0 false} 1522:{0 0 false} 1523:{0 0 false} 1525:{0 0 false} 1526:{0 0 false} 1527:{0 0 false} 1528:{0 0 false} 1529:{0 0 false} 1530:{0 0 false} 1531:{0 0 false} 1536:{0 0 false} 1537:{0 0 false} 1539:{0 0 false} 1541:{0 0 false} 1547:{0 0 false} 1548:{0 0 false} 1555:{0 0 false} 1557:{0 0 false} 1559:{0 0 false} 1562:{0 0 false} 1567:{0 0 false} 1573:{0 0 false} 1577:{0 0 false} 1579:{0 0 false} 1581:{0 0 false} 1587:{0 0 false} 1588:{0 0 false} 1590:{0 0 false} 1603:{0 0 false} 1606:{0 0 false} 1607:{0 0 false} 1632:{0 0 false} 1637:{0 0 false} 1642:{0 0 false} 1644:{0 0 false} 1684:{0 0 false} 1772:{0 0 false}] ====== CACHE
+Response received for Trader 103501017: Order Placed Successfully!
+map[1499:{0 0 false} 1500:{0 0 false} 1501:{0 0 false} 1503:{0 0 false} 1504:{0 0 false} 1505:{0 0 false} 1506:{0 0 false} 1507:{0 0 false} 1508:{0 0 false} 1509:{0 0 false} 1510:{0 0 false} 1511:{0 0 false} 1513:{0 0 false} 1515:{0 0 false} 1516:{0 0 false} 1517:{0 0 false} 1520:{0 0 false} 1521:{0 0 false} 1522:{0 0 false} 1523:{0 0 false} 1525:{0 0 false} 1526:{0 0 false} 1527:{0 0 false} 1528:{0 0 false} 1529:{0 0 false} 1530:{0 0 false} 1531:{0 0 false} 1536:{0 0 false} 1537:{0 0 false} 1539:{0 0 false} 1541:{0 0 false} 1547:{0 0 false} 1548:{0 0 false} 1555:{0 0 false} 1557:{0 0 false} 1559:{0 0 false} 1562:{0 0 false} 1567:{0 0 false} 1573:{0 0 false} 1577:{0 0 false} 1579:{0 0 false} 1581:{0 0 false} 1587:{0 0 false} 1588:{0 0 false} 1590:{0 0 false} 1603:{0 0 false} 1606:{0 0 false} 1607:{0 0 false} 1610:{0 0 false} 1632:{0 0 false} 1637:{0 0 false} 1642:{0 0 false} 1644:{0 0 false} 1684:{0 0 false} 1772:{0 0 false}] ====== CACHE
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501006 0 -2147483648 1 1727782388 1626}
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501031 0 -2147483648 1 1727782388 1627}
+map[1499:{0 0 false} 1500:{0 0 false} 1501:{0 0 false} 1503:{0 0 false} 1504:{0 0 false} 1505:{0 0 false} 1506:{0 0 false} 1507:{0 0 false} 1508:{0 0 false} 1509:{0 0 false} 1510:{0 0 false} 1511:{0 0 false} 1513:{0 0 false} 1515:{0 0 false} 1516:{0 0 false} 1517:{0 0 false} 1520:{0 0 false} 1521:{0 0 false} 1522:{0 0 false} 1523:{0 0 false} 1525:{0 0 false} 1526:{0 0 false} 1527:{0 0 false} 1528:{0 0 false} 1529:{0 0 false} 1530:{0 0 false} 1531:{0 0 false} 1536:{0 0 false} 1537:{0 0 false} 1539:{0 0 false} 1541:{0 0 false} 1547:{0 0 false} 1548:{0 0 false} 1555:{0 0 false} 1557:{0 0 false} 1559:{0 0 false} 1562:{0 0 false} 1567:{0 0 false} 1573:{0 0 false} 1577:{0 0 false} 1579:{0 0 false} 1581:{0 0 false} 1587:{0 0 false} 1588:{0 0 false} 1590:{0 0 false} 1603:{0 0 false} 1606:{0 0 false} 1607:{0 0 false} 1610:{0 0 false} 1632:{0 0 false} 1637:{0 0 false} 1642:{0 0 false} 1644:{0 0 false} 1678:{0 0 false} 1684:{0 0 false} 1772:{0 0 false}] ====== CACHE
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501017 0 -2147483648 1 1727782388 1898}
+Response received for Trader 103501042: Order Placed Successfully!
+map[1499:{0 0 false} 1500:{0 0 false} 1501:{0 0 false} 1503:{0 0 false} 1504:{0 0 false} 1505:{0 0 false} 1506:{0 0 false} 1507:{0 0 false} 1508:{0 0 false} 1509:{0 0 false} 1510:{0 0 false} 1511:{0 0 false} 1513:{0 0 false} 1515:{0 0 false} 1516:{0 0 false} 1517:{0 0 false} 1520:{0 0 false} 1521:{0 0 false} 1522:{0 0 false} 1523:{0 0 false} 1525:{0 0 false} 1526:{0 0 false} 1527:{0 0 false} 1528:{0 0 false} 1529:{0 0 false} 1530:{0 0 false} 1531:{0 0 false} 1536:{0 0 false} 1537:{0 0 false} 1539:{0 0 false} 1541:{0 0 false} 1547:{0 0 false} 1548:{0 0 false} 1555:{0 0 false} 1557:{0 0 false} 1559:{0 0 false} 1562:{0 0 false} 1567:{0 0 false} 1573:{0 0 false} 1577:{0 0 false} 1579:{0 0 false} 1581:{0 0 false} 1587:{0 0 false} 1588:{0 0 false} 1590:{0 0 false} 1603:{0 0 false} 1606:{0 0 false} 1607:{0 0 false} 1610:{0 0 false} 1632:{0 0 false} 1637:{0 0 false} 1642:{0 0 false} 1644:{0 0 false} 1678:{0 0 false} 1684:{0 0 false} 1772:{0 0 false} 1915:{0 0 false}] ====== CACHE
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501042 0 -2147483648 1 1727782388 1916}
+Response received for Trader 103501032: Order Placed Successfully!
+map[1499:{0 0 false} 1500:{0 0 false} 1501:{0 0 false} 1503:{0 0 false} 1504:{0 0 false} 1505:{0 0 false} 1506:{0 0 false} 1507:{0 0 false} 1508:{0 0 false} 1509:{0 0 false} 1510:{0 0 false} 1511:{0 0 false} 1513:{0 0 false} 1515:{0 0 false} 1516:{0 0 false} 1517:{0 0 false} 1520:{0 0 false} 1521:{0 0 false} 1522:{0 0 false} 1523:{0 0 false} 1525:{0 0 false} 1526:{0 0 false} 1527:{0 0 false} 1528:{0 0 false} 1529:{0 0 false} 1530:{0 0 false} 1531:{0 0 false} 1536:{0 0 false} 1537:{0 0 false} 1539:{0 0 false} 1541:{0 0 false} 1542:{0 0 false} 1547:{0 0 false} 1548:{0 0 false} 1555:{0 0 false} 1557:{0 0 false} 1559:{0 0 false} 1562:{0 0 false} 1567:{0 0 false} 1573:{0 0 false} 1577:{0 0 false} 1579:{0 0 false} 1581:{0 0 false} 1587:{0 0 false} 1588:{0 0 false} 1590:{0 0 false} 1603:{0 0 false} 1606:{0 0 false} 1607:{0 0 false} 1610:{0 0 false} 1632:{0 0 false} 1637:{0 0 false} 1642:{0 0 false} 1644:{0 0 false} 1678:{0 0 false} 1684:{0 0 false} 1772:{0 0 false} 1915:{0 0 false}] ====== CACHE
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501032 0 -2147483648 1 1727782388 1584}
+Response received for Trader 103501041: Order Placed Successfully!
+Response received for Trader 103501007: Order Placed Successfully!
+Response received for Trader 103501004: Order Placed Successfully!
+map[1499:{0 0 false} 1500:{0 0 false} 1501:{0 0 false} 1503:{0 0 false} 1504:{0 0 false} 1505:{0 0 false} 1506:{0 0 false} 1507:{0 0 false} 1508:{0 0 false} 1509:{0 0 false} 1510:{0 0 false} 1511:{0 0 false} 1513:{0 0 false} 1515:{0 0 false} 1516:{0 0 false} 1517:{0 0 false} 1520:{0 0 false} 1521:{0 0 false} 1522:{0 0 false} 1523:{0 0 false} 1525:{0 0 false} 1526:{0 0 false} 1527:{0 0 false} 1528:{0 0 false} 1529:{0 0 false} 1530:{0 0 false} 1531:{0 0 false} 1536:{0 0 false} 1537:{0 0 false} 1539:{0 0 false} 1541:{0 0 false} 1542:{0 0 false} 1547:{0 0 false} 1548:{0 0 false} 1555:{0 0 false} 1557:{0 0 false} 1559:{0 0 false} 1562:{0 0 false} 1567:{0 0 false} 1573:{0 0 false} 1577:{0 0 false} 1579:{0 0 false} 1581:{0 0 false} 1587:{0 0 false} 1588:{0 0 false} 1590:{0 0 false} 1603:{0 0 false} 1606:{0 0 false} 1607:{0 0 false} 1610:{0 0 false} 1632:{0 0 false} 1637:{0 0 false} 1642:{0 0 false} 1644:{0 0 false} 1678:{0 0 false} 1684:{0 0 false} 1750:{0 0 false} 1772:{0 0 false} 1915:{0 0 false}] ====== CACHE
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501041 0 -2147483648 1 1727782388 1759}
+Response received for Trader 103501043: Order Placed Successfully!
+map[1499:{0 0 false} 1500:{0 0 false} 1501:{0 0 false} 1503:{0 0 false} 1504:{0 0 false} 1505:{0 0 false} 1506:{0 0 false} 1507:{0 0 false} 1508:{0 0 false} 1509:{0 0 false} 1510:{0 0 false} 1511:{0 0 false} 1513:{0 0 false} 1515:{0 0 false} 1516:{0 0 false} 1517:{0 0 false} 1520:{0 0 false} 1521:{0 0 false} 1522:{0 0 false} 1523:{0 0 false} 1525:{0 0 false} 1526:{0 0 false} 1527:{0 0 false} 1528:{0 0 false} 1529:{0 0 false} 1530:{0 0 false} 1531:{0 0 false} 1536:{0 0 false} 1537:{0 0 false} 1539:{0 0 false} 1541:{0 0 false} 1542:{0 0 false} 1545:{0 0 false} 1547:{0 0 false} 1548:{0 0 false} 1555:{0 0 false} 1557:{0 0 false} 1559:{0 0 false} 1562:{0 0 false} 1567:{0 0 false} 1573:{0 0 false} 1577:{0 0 false} 1579:{0 0 false} 1581:{0 0 false} 1587:{0 0 false} 1588:{0 0 false} 1590:{0 0 false} 1593:{0 0 false} 1603:{0 0 false} 1606:{0 0 false} 1607:{0 0 false} 1610:{0 0 false} 1619:{0 0 false} 1632:{0 0 false} 1637:{0 0 false} 1642:{0 0 false} 1644:{0 0 false} 1678:{0 0 false} 1684:{0 0 false} 1750:{0 0 false} 1772:{0 0 false} 1915:{0 0 false}] ====== CACHE
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501043 0 -2147483648 1 1727782388 1656}
+map[1499:{0 0 false} 1500:{0 0 false} 1501:{0 0 false} 1503:{0 0 false} 1504:{0 0 false} 1505:{0 0 false} 1506:{0 0 false} 1507:{0 0 false} 1508:{0 0 false} 1509:{0 0 false} 1510:{0 0 false} 1511:{0 0 false} 1513:{0 0 false} 1515:{0 0 false} 1516:{0 0 false} 1517:{0 0 false} 1520:{0 0 false} 1521:{0 0 false} 1522:{0 0 false} 1523:{0 0 false} 1525:{0 0 false} 1526:{0 0 false} 1527:{0 0 false} 1528:{0 0 false} 1529:{0 0 false} 1530:{0 0 false} 1531:{0 0 false} 1536:{0 0 false} 1537:{0 0 false} 1539:{0 0 false} 1541:{0 0 false} 1542:{0 0 false} 1545:{0 0 false} 1547:{0 0 false} 1548:{0 0 false} 1555:{0 0 false} 1557:{0 0 false} 1559:{0 0 false} 1562:{0 0 false} 1567:{0 0 false} 1573:{0 0 false} 1577:{0 0 false} 1579:{0 0 false} 1581:{0 0 false} 1587:{0 0 false} 1588:{0 0 false} 1590:{0 0 false} 1593:{0 0 false} 1603:{0 0 false} 1606:{0 0 false} 1607:{0 0 false} 1610:{0 0 false} 1632:{0 0 false} 1637:{0 0 false} 1642:{0 0 false} 1644:{0 0 false} 1678:{0 0 false} 1684:{0 0 false} 1750:{0 0 false} 1772:{0 0 false} 1915:{0 0 false}] ====== CACHE
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501007 0 -2147483648 1 1727782388 1634}
+map[1499:{0 0 false} 1500:{0 0 false} 1501:{0 0 false} 1503:{0 0 false} 1504:{0 0 false} 1505:{0 0 false} 1506:{0 0 false} 1507:{0 0 false} 1508:{0 0 false} 1509:{0 0 false} 1510:{0 0 false} 1511:{0 0 false} 1513:{0 0 false} 1515:{0 0 false} 1516:{0 0 false} 1517:{0 0 false} 1520:{0 0 false} 1521:{0 0 false} 1522:{0 0 false} 1523:{0 0 false} 1525:{0 0 false} 1526:{0 0 false} 1527:{0 0 false} 1528:{0 0 false} 1529:{0 0 false} 1530:{0 0 false} 1531:{0 0 false} 1536:{0 0 false} 1537:{0 0 false} 1539:{0 0 false} 1541:{0 0 false} 1542:{0 0 false} 1545:{0 0 false} 1547:{0 0 false} 1548:{0 0 false} 1555:{0 0 false} 1557:{0 0 false} 1559:{0 0 false} 1562:{0 0 false} 1567:{0 0 false} 1573:{0 0 false} 1577:{0 0 false} 1579:{0 0 false} 1581:{0 0 false} 1587:{0 0 false} 1588:{0 0 false} 1590:{0 0 false} 1593:{0 0 false} 1603:{0 0 false} 1606:{0 0 false} 1607:{0 0 false} 1610:{0 0 false} 1632:{0 0 false} 1637:{0 0 false} 1642:{0 0 false} 1644:{0 0 false} 1678:{0 0 false} 1684:{0 0 false} 1750:{0 0 false} 1772:{0 0 false} 1915:{0 0 false}] ====== CACHE
+Response received for Trader 103501023: Order Placed Successfully!
+map[1499:{0 0 false} 1500:{0 0 false} 1501:{0 0 false} 1503:{0 0 false} 1504:{0 0 false} 1505:{0 0 false} 1506:{0 0 false} 1507:{0 0 false} 1508:{0 0 false} 1509:{0 0 false} 1510:{0 0 false} 1511:{0 0 false} 1513:{0 0 false} 1515:{0 0 false} 1516:{0 0 false} 1517:{0 0 false} 1520:{0 0 false} 1521:{0 0 false} 1522:{0 0 false} 1523:{0 0 false} 1525:{0 0 false} 1526:{0 0 false} 1527:{0 0 false} 1528:{0 0 false} 1529:{0 0 false} 1530:{0 0 false} 1531:{0 0 false} 1536:{0 0 false} 1537:{0 0 false} 1538:{0 0 false} 1539:{0 0 false} 1541:{0 0 false} 1542:{0 0 false} 1545:{0 0 false} 1547:{0 0 false} 1548:{0 0 false} 1555:{0 0 false} 1557:{0 0 false} 1559:{0 0 false} 1562:{0 0 false} 1567:{0 0 false} 1573:{0 0 false} 1577:{0 0 false} 1579:{0 0 false} 1581:{0 0 false} 1587:{0 0 false} 1588:{0 0 false} 1590:{0 0 false} 1593:{0 0 false} 1603:{0 0 false} 1606:{0 0 false} 1607:{0 0 false} 1610:{0 0 false} 1619:{0 0 false} 1632:{0 0 false} 1637:{0 0 false} 1642:{0 0 false} 1644:{0 0 false} 1678:{0 0 false} 1684:{0 0 false} 1750:{0 0 false} 1772:{0 0 false} 1915:{0 0 false}] ====== CACHE
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501023 0 -2147483648 1 1727782388 1560}
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501004 0 -2147483648 1 1727782388 1650}
+Response received for Trader 103501020: Order Placed Successfully!
+map[1499:{0 0 false} 1500:{0 0 false} 1501:{0 0 false} 1503:{0 0 false} 1504:{0 0 false} 1505:{0 0 false} 1506:{0 0 false} 1507:{0 0 false} 1508:{0 0 false} 1509:{0 0 false} 1510:{0 0 false} 1511:{0 0 false} 1513:{0 0 false} 1515:{0 0 false} 1516:{0 0 false} 1517:{0 0 false} 1520:{0 0 false} 1521:{0 0 false} 1522:{0 0 false} 1523:{0 0 false} 1525:{0 0 false} 1526:{0 0 false} 1527:{0 0 false} 1528:{0 0 false} 1529:{0 0 false} 1530:{0 0 false} 1531:{0 0 false} 1534:{0 0 false} 1536:{0 0 false} 1537:{0 0 false} 1538:{0 0 false} 1539:{0 0 false} 1541:{0 0 false} 1542:{0 0 false} 1545:{0 0 false} 1547:{0 0 false} 1548:{0 0 false} 1555:{0 0 false} 1557:{0 0 false} 1559:{0 0 false} 1562:{0 0 false} 1567:{0 0 false} 1573:{0 0 false} 1577:{0 0 false} 1579:{0 0 false} 1581:{0 0 false} 1587:{0 0 false} 1588:{0 0 false} 1590:{0 0 false} 1593:{0 0 false} 1603:{0 0 false} 1606:{0 0 false} 1607:{0 0 false} 1610:{0 0 false} 1619:{0 0 false} 1632:{0 0 false} 1637:{0 0 false} 1642:{0 0 false} 1644:{0 0 false} 1678:{0 0 false} 1684:{0 0 false} 1750:{0 0 false} 1772:{0 0 false} 1915:{0 0 false}] ====== CACHE
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501020 0 -2147483648 1 1727782388 1641}
+Response received for Trader 103501030: Order Placed Successfully!
+map[1499:{0 0 false} 1500:{0 0 false} 1501:{0 0 false} 1503:{0 0 false} 1504:{0 0 false} 1505:{0 0 false} 1506:{0 0 false} 1507:{0 0 false} 1508:{0 0 false} 1509:{0 0 false} 1510:{0 0 false} 1511:{0 0 false} 1513:{0 0 false} 1515:{0 0 false} 1516:{0 0 false} 1517:{0 0 false} 1520:{0 0 false} 1521:{0 0 false} 1522:{0 0 false} 1523:{0 0 false} 1525:{0 0 false} 1526:{0 0 false} 1527:{0 0 false} 1528:{0 0 false} 1529:{0 0 false} 1530:{0 0 false} 1531:{0 0 false} 1534:{0 0 false} 1536:{0 0 false} 1537:{0 0 false} 1538:{0 0 false} 1539:{0 0 false} 1541:{0 0 false} 1542:{0 0 false} 1545:{0 0 false} 1547:{0 0 false} 1548:{0 0 false} 1555:{0 0 false} 1557:{0 0 false} 1559:{0 0 false} 1562:{0 0 false} 1567:{0 0 false} 1573:{0 0 false} 1577:{0 0 false} 1579:{0 0 false} 1581:{0 0 false} 1587:{0 0 false} 1588:{0 0 false} 1590:{0 0 false} 1593:{0 0 false} 1603:{0 0 false} 1606:{0 0 false} 1607:{0 0 false} 1610:{0 0 false} 1619:{0 0 false} 1632:{0 0 false} 1637:{0 0 false} 1642:{0 0 false} 1644:{0 0 false} 1678:{0 0 false} 1684:{0 0 false} 1713:{0 0 false} 1750:{0 0 false} 1772:{0 0 false} 1915:{0 0 false}] ====== CACHE
+
+Data:  {10125 439690 10 1 842880 30 0 ABCXYZ60 0 103501030 0 -2147483648 1 1727782388 1777}
+fatal error: concurrent map iteration and map write
+Response received for Trader 103501038: Order Placed Successfully!
+Response received for Trader 103501012: Order Placed Successfully!
+Response received for Trader 103501039: Order Placed Successfully!
+Response received for Trader 103501045: Order Placed Successfully!
+Response received for Trader 103501048: Order Placed Successfully!
+map[1499:{0 0 false} 1500:{0 0 false} 1501:{0 0 false} 1503:{0 0 false} 1504:{0 0 false} 1505:{0 0 false} 1506:{0 0 false} 1507:{0 0 false} 1508:{0 0 false} 1509:{0 0 false} 1510:{0 0 false} 1511:{0 0 false} 1513:{0 0 false} 1515:{0 0 false} 1516:{0 0 false} 1517:{0 0 false} 1520:{0 0 false} 1521:{0 0 false} 1522:{0 0 false} 1523:{0 0 false} 1525:{0 0 false} 1526:{0 0 false} 1527:{0 0 false} 1528:{0 0 false} 1529:{0 0 false} 1530:{0 0 false} 1531:{0 0 false} 1534:{0 0 false} 1536:{0 0 false} 1537:{0 0 false} 1538:{0 0 false} 1539:{0 0 false} 1541:{0 0 false} 1542:{0 0 false} 1545:{0 0 false} 1547:{0 0 false} 1548:{0 0 false} 1555:{0 0 false} 1557:{0 0 false} 1559:{0 0 false} 1562:{0 0 false} 1567:{0 0 false} 1573:{0 0 false} 1577:{0 0 false} 1579:{0 0 false} 1581:{0 0 false} 1587:{0 0 false} 1588:{0 0 false} 1590:{0 0 false} 1593:{0 0 false} 1603:{0 0 false} 1606:{0 0 false} 1607:{0 0 false} 1610:{0 0 false} 1619:{0 0 false} 1632:{0 0 false} 1637:{0 0 false} 1640:{0 0 false} 1642:{0 0 false} 1644:{0 0 false} 1660:{0 0 false} 1678:{0 0 false} 1684:{0 0 false} 1713:{0 0 false} 1750:{0 0 false} 1772:{0 0 false} 1915:{0 0 false} 1977:{0 0 false}] ====== CACHE
+
+goroutine 103 [running]:
+reflect.mapiternext(0x4afdc9?)
+	/usr/local/go/src/runtime/map.go:1537 +0x13
+reflect.(*MapIter).Next(0xc00052d7e8?)
+	/usr/local/go/src/reflect/value.go:1989 +0x74
+internal/fmtsort.Sort({0x1805e40?, 0xc00ec92000?, 0xc00052da40?})
+	/usr/local/go/src/internal/fmtsort/sort.go:59 +0x1a7
+fmt.(*pp).printValue(0xc00ec98340, {0x1805e40?, 0xc00ec92000?, 0xc00052db98?}, 0x76, 0x0)
+	/usr/local/go/src/fmt/print.go:816 +0x988
+fmt.(*pp).printArg(0xc00ec98340, {0x1805e40, 0xc00ec92000}, 0x76)
+	/usr/local/go/src/fmt/print.go:759 +0x4bb
+fmt.(*pp).doPrintln(0xc00ec98340, {0xc00052dd28?, 0x2, 0x47446b?})
+	/usr/local/go/src/fmt/print.go:1220 +0x38
+fmt.Fprintln({0x1cd2e80, 0xc0001a6020}, {0xc00052dd28, 0x2, 0x2})
+	/usr/local/go/src/fmt/print.go:304 +0x49
+fmt.Println(...)
+	/usr/local/go/src/fmt/print.go:314
+market_replay/src/core.Traders.handleOrderEntryMR({0x0?})
+	/app/src/core/connect.go:508 +0x47b
+market_replay/src/core.Traders.establishConnection({0x0?}, 0x0?)
+	/app/src/core/connect.go:192 +0x92
+market_replay/src/core.Start.func1({0x0?})
+	/app/src/core/connect.go:59 +0x85
+created by market_replay/src/core.Start in goroutine 75
+	/app/src/core/connect.go:55 +0x13c
+
+goroutine 1 [IO wait, 3 minutes]:
+internal/poll.runtime_pollWait(0x7fa05a6b0e88, 0x72)
+	/usr/local/go/src/runtime/netpoll.go:351 +0x85
+internal/poll.(*pollDesc).wait(0xc00fb48000?, 0x900000036?, 0x0)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:84 +0x27
+internal/poll.(*pollDesc).waitRead(...)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).Accept(0xc00fb48000)
+	/usr/local/go/src/internal/poll/fd_unix.go:620 +0x295
+net.(*netFD).accept(0xc00fb48000)
+	/usr/local/go/src/net/fd_unix.go:172 +0x29
+net.(*TCPListener).accept(0xc00fb5a000)
+	/usr/local/go/src/net/tcpsock_posix.go:159 +0x1e
+net.(*TCPListener).Accept(0xc00fb5a000)
+	/usr/local/go/src/net/tcpsock.go:372 +0x30
+net/http.(*Server).Serve(0xc00fb3c000, {0x1cdf738, 0xc00fb5a000})
+	/usr/local/go/src/net/http/server.go:3330 +0x30c
+net/http.(*Server).ListenAndServe(0xc00fb3c000)
+	/usr/local/go/src/net/http/server.go:3259 +0x71
+net/http.ListenAndServe(...)
+	/usr/local/go/src/net/http/server.go:3514
+github.com/gin-gonic/gin.(*Engine).Run(0xc00ecae000, {0xc0005a1f30, 0x1, 0x1})
+	/app/vendor/github.com/gin-gonic/gin/gin.go:399 +0x211
+main.main()
+	/app/main.go:36 +0x11d
+
+goroutine 12 [IO wait]:
+internal/poll.runtime_pollWait(0x7fa05a6b0a68, 0x72)
+	/usr/local/go/src/runtime/netpoll.go:351 +0x85
+internal/poll.(*pollDesc).wait(0xc00fb48080?, 0xc00ebe9000?, 0x0)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:84 +0x27
+internal/poll.(*pollDesc).waitRead(...)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).Read(0xc00fb48080, {0xc00ebe9000, 0x1000, 0x1000})
+	/usr/local/go/src/internal/poll/fd_unix.go:165 +0x27a
+net.(*netFD).Read(0xc00fb48080, {0xc00ebe9000?, 0x101004f3845?, 0x7fa05a6a8c88?})
+	/usr/local/go/src/net/fd_posix.go:55 +0x25
+net.(*conn).Read(0xc000480028, {0xc00ebe9000?, 0xc00ebec000?, 0x0?})
+	/usr/local/go/src/net/net.go:189 +0x45
+bufio.(*Reader).Read(0xc00059fa60, {0xc00ebec000, 0x800, 0x0?})
+	/usr/local/go/src/bufio/bufio.go:241 +0x197
+market_replay/src/core.Traders.OrderResponseListner({0x40b?}, 0xc0005f6b80?)
+	/app/src/core/connect.go:696 +0x1b9
+market_replay/src/core.Traders.RetryOrderEntry({0x1cd2e80?}, 0xcdc80, 0x6b58a, 0x1)
+	/app/src/core/connect.go:959 +0x146
+market_replay/src/core.Traders.handleOrderEntryMR({0x0?})
+	/app/src/core/connect.go:490 +0x35a
+market_replay/src/core.Traders.establishConnection({0x0?}, 0x0?)
+	/app/src/core/connect.go:192 +0x92
+market_replay/src/core.Start.func1({0xc000652fa8?})
+	/app/src/core/connect.go:59 +0x85
+created by market_replay/src/core.Start in goroutine 75
+	/app/src/core/connect.go:55 +0x13c
+
+goroutine 13 [IO wait]:
+internal/poll.runtime_pollWait(0x7fa05a6b0540, 0x72)
+	/usr/local/go/src/runtime/netpoll.go:351 +0x85
+internal/poll.(*pollDesc).wait(0xc000058100?, 0xc03aa41000?, 0x0)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:84 +0x27
+internal/poll.(*pollDesc).waitRead(...)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).Read(0xc000058100, {0xc03aa41000, 0x1000, 0x1000})
+	/usr/local/go/src/internal/poll/fd_unix.go:165 +0x27a
+net.(*netFD).Read(0xc000058100, {0xc03aa41000?, 0x100004f3845?, 0x7fa058e45e68?})
+	/usr/local/go/src/net/fd_posix.go:55 +0x25
+net.(*conn).Read(0xc00fb42060, {0xc03aa41000?, 0xc03aa3f800?, 0x0?})
+	/usr/local/go/src/net/net.go:189 +0x45
+bufio.(*Reader).Read(0xc00052ba60, {0xc03aa3f800, 0x800, 0x0?})
+	/usr/local/go/src/bufio/bufio.go:241 +0x197
+market_replay/src/core.Traders.OrderResponseListner({0x40b?}, 0xc03aa2c580?)
+	/app/src/core/connect.go:696 +0x1b9
+market_replay/src/core.Traders.RetryOrderEntry({0x1cd2e80?}, 0xcdc80, 0x6b58a, 0x1)
+	/app/src/core/connect.go:959 +0x146
+market_replay/src/core.Traders.handleOrderEntryMR({0x0?})
+	/app/src/core/connect.go:490 +0x35a
+market_replay/src/core.Traders.establishConnection({0x0?}, 0x0?)
+	/app/src/core/connect.go:192 +0x92
+market_replay/src/core.Start.func1({0x0?})
+	/app/src/core/connect.go:59 +0x85
+created by market_replay/src/core.Start in goroutine 75
+	/app/src/core/connect.go:55 +0x13c
+
+goroutine 55 [chan receive]:
+market_replay/src/core.PumpTradersData()
+	/app/src/core/connect.go:123 +0x6a
+created by market_replay/src/core.Start in goroutine 51
+	/app/src/core/connect.go:80 +0x11f
+
+goroutine 66 [IO wait]:
+internal/poll.runtime_pollWait(0x7fa05a6b0d80, 0x72)
+	/usr/local/go/src/runtime/netpoll.go:351 +0x85
+internal/poll.(*pollDesc).wait(0xc00fb48200?, 0xc00032c000?, 0x0)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:84 +0x27
+internal/poll.(*pollDesc).waitRead(...)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).Read(0xc00fb48200, {0xc00032c000, 0x1000, 0x1000})
+	/usr/local/go/src/internal/poll/fd_unix.go:165 +0x27a
+net.(*netFD).Read(0xc00fb48200, {0xc00032c000?, 0xc0005a3aa0?, 0x4f0705?})
+	/usr/local/go/src/net/fd_posix.go:55 +0x25
+net.(*conn).Read(0xc000480000, {0xc00032c000?, 0x0?, 0xc00fb3e4b8?})
+	/usr/local/go/src/net/net.go:189 +0x45
+net/http.(*connReader).Read(0xc00fb3e4b0, {0xc00032c000, 0x1000, 0x1000})
+	/usr/local/go/src/net/http/server.go:798 +0x14b
+bufio.(*Reader).fill(0xc0001bc120)
+	/usr/local/go/src/bufio/bufio.go:110 +0x103
+bufio.(*Reader).Peek(0xc0001bc120, 0x4)
+	/usr/local/go/src/bufio/bufio.go:148 +0x53
+net/http.(*conn).serve(0xc00021d830, {0x1cee4c0, 0xc00fb3e240})
+	/usr/local/go/src/net/http/server.go:2127 +0x738
+created by net/http.(*Server).Serve in goroutine 1
+	/usr/local/go/src/net/http/server.go:3360 +0x485
+
+goroutine 11 [IO wait]:
+internal/poll.runtime_pollWait(0x7fa05a6b0960, 0x72)
+	/usr/local/go/src/runtime/netpoll.go:351 +0x85
+internal/poll.(*pollDesc).wait(0xc00fb48100?, 0xc00ed76000?, 0x0)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:84 +0x27
+internal/poll.(*pollDesc).waitRead(...)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).Read(0xc00fb48100, {0xc00ed76000, 0x1000, 0x1000})
+	/usr/local/go/src/internal/poll/fd_unix.go:165 +0x27a
+net.(*netFD).Read(0xc00fb48100, {0xc00ed76000?, 0x101004f3845?, 0x7fa058281868?})
+	/usr/local/go/src/net/fd_posix.go:55 +0x25
+net.(*conn).Read(0xc000480008, {0xc00ed76000?, 0xc00ed78000?, 0x0?})
+	/usr/local/go/src/net/net.go:189 +0x45
+bufio.(*Reader).Read(0xc00059da60, {0xc00ed78000, 0x800, 0x0?})
+	/usr/local/go/src/bufio/bufio.go:241 +0x197
+market_replay/src/core.Traders.OrderResponseListner({0x40b?}, 0xc0001c9300?)
+	/app/src/core/connect.go:696 +0x1b9
+market_replay/src/core.Traders.RetryOrderEntry({0x1cd2e80?}, 0xcdc80, 0x6b58a, 0x1)
+	/app/src/core/connect.go:959 +0x146
+market_replay/src/core.Traders.handleOrderEntryMR({0x1809440?})
+	/app/src/core/connect.go:490 +0x35a
+market_replay/src/core.Traders.establishConnection({0x1cd9f98?}, 0xc0005fa000?)
+	/app/src/core/connect.go:192 +0x92
+market_replay/src/core.Start.func1({0xc000512340?})
+	/app/src/core/connect.go:59 +0x85
+created by market_replay/src/core.Start in goroutine 75
+	/app/src/core/connect.go:55 +0x13c
+
+goroutine 75 [semacquire]:
+sync.runtime_Semacquire(0x1b4a3d8?)
+	/usr/local/go/src/runtime/sema.go:71 +0x25
+sync.(*WaitGroup).Wait(0x1805de0?)
+	/usr/local/go/src/sync/waitgroup.go:118 +0x48
+market_replay/src/core.Start()
+	/app/src/core/connect.go:82 +0x129
+created by market_replay/src/api.StartPumping in goroutine 66
+	/app/src/api/handlers.go:24 +0x25
+
+goroutine 72 [IO wait]:
+internal/poll.runtime_pollWait(0x7fa05a6b0c78, 0x72)
+	/usr/local/go/src/runtime/netpoll.go:351 +0x85
+internal/poll.(*pollDesc).wait(0xc00fb48400?, 0xc0005fc000?, 0x0)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:84 +0x27
+internal/poll.(*pollDesc).waitRead(...)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).Read(0xc00fb48400, {0xc0005fc000, 0x4800, 0x4800})
+	/usr/local/go/src/internal/poll/fd_unix.go:165 +0x27a
+net.(*netFD).Read(0xc00fb48400, {0xc0005fc000?, 0x29c5060?, 0xc00032b9a0?})
+	/usr/local/go/src/net/fd_posix.go:55 +0x25
+net.(*conn).Read(0xc0004800c0, {0xc0005fc000?, 0xc0000ab300?, 0xc0005fc005?})
+	/usr/local/go/src/net/net.go:189 +0x45
+crypto/tls.(*atLeastReader).Read(0xc0004d20c0, {0xc0005fc000?, 0x0?, 0xc0004d20c0?})
+	/usr/local/go/src/crypto/tls/conn.go:809 +0x3b
+bytes.(*Buffer).ReadFrom(0xc0002cc2b8, {0x1cd4400, 0xc0004d20c0})
+	/usr/local/go/src/bytes/buffer.go:211 +0x98
+crypto/tls.(*Conn).readFromUntil(0xc0002cc008, {0x1cd3c60, 0xc0004800c0}, 0xc00032ba10?)
+	/usr/local/go/src/crypto/tls/conn.go:831 +0xde
+crypto/tls.(*Conn).readRecordOrCCS(0xc0002cc008, 0x0)
+	/usr/local/go/src/crypto/tls/conn.go:629 +0x3cf
+crypto/tls.(*Conn).readRecord(...)
+	/usr/local/go/src/crypto/tls/conn.go:591
+crypto/tls.(*Conn).Read(0xc0002cc008, {0xc0003c7000, 0x1000, 0x3?})
+	/usr/local/go/src/crypto/tls/conn.go:1385 +0x150
+bufio.(*Reader).Read(0xc0003abf20, {0xc000224d60, 0x9, 0xc00fb5d500?})
+	/usr/local/go/src/bufio/bufio.go:241 +0x197
+io.ReadAtLeast({0x1cd30c0, 0xc0003abf20}, {0xc000224d60, 0x9, 0x9}, 0x9)
+	/usr/local/go/src/io/io.go:335 +0x90
+io.ReadFull(...)
+	/usr/local/go/src/io/io.go:354
+golang.org/x/net/http2.readFrameHeader({0xc000224d60, 0x9, 0x967c7e?}, {0x1cd30c0?, 0xc0003abf20?})
+	/app/vendor/golang.org/x/net/http2/frame.go:237 +0x65
+golang.org/x/net/http2.(*Framer).ReadFrame(0xc000224d20)
+	/app/vendor/golang.org/x/net/http2/frame.go:501 +0x85
+golang.org/x/net/http2.(*clientConnReadLoop).run(0xc00032bfa8)
+	/app/vendor/golang.org/x/net/http2/transport.go:2319 +0xda
+golang.org/x/net/http2.(*ClientConn).readLoop(0xc000512340)
+	/app/vendor/golang.org/x/net/http2/transport.go:2215 +0x7c
+created by golang.org/x/net/http2.(*Transport).newClientConn in goroutine 71
+	/app/vendor/golang.org/x/net/http2/transport.go:830 +0xd5b
+
+goroutine 23 [select]:
+github.com/go-redis/redis/v8/internal/pool.(*ConnPool).reaper(0xc000686a00, 0x0?)
+	/app/vendor/github.com/go-redis/redis/v8/internal/pool/pool.go:485 +0xb7
+created by github.com/go-redis/redis/v8/internal/pool.NewConnPool in goroutine 66
+	/app/vendor/github.com/go-redis/redis/v8/internal/pool/pool.go:111 +0x1ef
+
+goroutine 84 [IO wait]:
+internal/poll.runtime_pollWait(0x7fa058e49d30, 0x72)
+	/usr/local/go/src/runtime/netpoll.go:351 +0x85
+internal/poll.(*pollDesc).wait(0xc00022ee00?, 0xc00ed72000?, 0x0)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:84 +0x27
+internal/poll.(*pollDesc).waitRead(...)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).Read(0xc00022ee00, {0xc00ed72000, 0x1000, 0x1000})
+	/usr/local/go/src/internal/poll/fd_unix.go:165 +0x27a
+net.(*netFD).Read(0xc00022ee00, {0xc00ed72000?, 0x100004f3845?, 0x7fa058281b88?})
+	/usr/local/go/src/net/fd_posix.go:55 +0x25
+net.(*conn).Read(0xc00fb42090, {0xc00ed72000?, 0xc00ed6f000?, 0x0?})
+	/usr/local/go/src/net/net.go:189 +0x45
+bufio.(*Reader).Read(0xc000617a60, {0xc00ed6f000, 0x800, 0x0?})
+	/usr/local/go/src/bufio/bufio.go:241 +0x197
+market_replay/src/core.Traders.OrderResponseListner({0x40b?}, 0xc0001c9200?)
+	/app/src/core/connect.go:696 +0x1b9
+market_replay/src/core.Traders.RetryOrderEntry({0x1cd2e80?}, 0xcdc80, 0x6b58a, 0x1)
+	/app/src/core/connect.go:959 +0x146
+market_replay/src/core.Traders.handleOrderEntryMR({0x0?})
+	/app/src/core/connect.go:490 +0x35a
+market_replay/src/core.Traders.establishConnection({0x0?}, 0x0?)
+	/app/src/core/connect.go:192 +0x92
+market_replay/src/core.Start.func1({0x0?})
+	/app/src/core/connect.go:59 +0x85
+created by market_replay/src/core.Start in goroutine 75
+	/app/src/core/connect.go:55 +0x13c
+
+goroutine 14 [IO wait]:
+internal/poll.runtime_pollWait(0x7fa05a6b0648, 0x72)
+	/usr/local/go/src/runtime/netpoll.go:351 +0x85
+internal/poll.(*pollDesc).wait(0xc00022e080?, 0xc03aa4c000?, 0x0)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:84 +0x27
+internal/poll.(*pollDesc).waitRead(...)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).Read(0xc00022e080, {0xc03aa4c000, 0x1000, 0x1000})
+	/usr/local/go/src/internal/poll/fd_unix.go:165 +0x27a
+net.(*netFD).Read(0xc00022e080, {0xc03aa4c000?, 0x101004f3845?, 0x7fa058e45a08?})
+	/usr/local/go/src/net/fd_posix.go:55 +0x25
+net.(*conn).Read(0xc00fb42008, {0xc03aa4c000?, 0xc03aa4e000?, 0x0?})
+	/usr/local/go/src/net/net.go:189 +0x45
+bufio.(*Reader).Read(0xc000529a60, {0xc03aa4e000, 0x800, 0x0?})
+	/usr/local/go/src/bufio/bufio.go:241 +0x197
+market_replay/src/core.Traders.OrderResponseListner({0x40b?}, 0xc03aa2c800?)
+	/app/src/core/connect.go:696 +0x1b9
+market_replay/src/core.Traders.RetryOrderEntry({0x1cd2e80?}, 0xcdc80, 0x6b58a, 0x1)
+	/app/src/core/connect.go:959 +0x146
+market_replay/src/core.Traders.handleOrderEntryMR({0x0?})
+	/app/src/core/connect.go:490 +0x35a
+market_replay/src/core.Traders.establishConnection({0x0?}, 0x0?)
+	/app/src/core/connect.go:192 +0x92
+market_replay/src/core.Start.func1({0x0?})
+	/app/src/core/connect.go:59 +0x85
+created by market_replay/src/core.Start in goroutine 75
+	/app/src/core/connect.go:55 +0x13c
+
+goroutine 15 [IO wait]:
+internal/poll.runtime_pollWait(0x7fa05a6b0228, 0x72)
+	/usr/local/go/src/runtime/netpoll.go:351 +0x85
+internal/poll.(*pollDesc).wait(0xc00022eb00?, 0xc03aa9c000?, 0x0)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:84 +0x27
+internal/poll.(*pollDesc).waitRead(...)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).Read(0xc00022eb00, {0xc03aa9c000, 0x1000, 0x1000})
+	/usr/local/go/src/internal/poll/fd_unix.go:165 +0x27a
+net.(*netFD).Read(0xc00022eb00, {0xc03aa9c000?, 0x100004f3845?, 0x7fa05a6a8c88?})
+	/usr/local/go/src/net/fd_posix.go:55 +0x25
+net.(*conn).Read(0xc00fb42050, {0xc03aa9c000?, 0xc00ebed800?, 0x0?})
+	/usr/local/go/src/net/net.go:189 +0x45
+bufio.(*Reader).Read(0xc000527a60, {0xc00ebed800, 0x800, 0x0?})
+	/usr/local/go/src/bufio/bufio.go:241 +0x197
+market_replay/src/core.Traders.OrderResponseListner({0x40b?}, 0xc0005f6d00?)
+	/app/src/core/connect.go:696 +0x1b9
+market_replay/src/core.Traders.RetryOrderEntry({0x1cd2e80?}, 0xcdc80, 0x6b58a, 0x1)
+	/app/src/core/connect.go:959 +0x146
+market_replay/src/core.Traders.handleOrderEntryMR({0x0?})
+	/app/src/core/connect.go:490 +0x35a
+market_replay/src/core.Traders.establishConnection({0x0?}, 0x0?)
+	/app/src/core/connect.go:192 +0x92
+market_replay/src/core.Start.func1({0x0?})
+	/app/src/core/connect.go:59 +0x85
+created by market_replay/src/core.Start in goroutine 75
+	/app/src/core/connect.go:55 +0x13c
+
+goroutine 16 [IO wait]:
+internal/poll.runtime_pollWait(0x7fa05a6b0120, 0x72)
+	/usr/local/go/src/runtime/netpoll.go:351 +0x85
+internal/poll.(*pollDesc).wait(0xc00022eb80?, 0xc03aaa2000?, 0x0)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:84 +0x27
+internal/poll.(*pollDesc).waitRead(...)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).Read(0xc00022eb80, {0xc03aaa2000, 0x1000, 0x1000})
+	/usr/local/go/src/internal/poll/fd_unix.go:165 +0x27a
+net.(*netFD).Read(0xc00022eb80, {0xc03aaa2000?, 0x100004f3845?, 0x7fa05a6a8f08?})
+	/usr/local/go/src/net/fd_posix.go:55 +0x25
+net.(*conn).Read(0xc00fb420a0, {0xc03aaa2000?, 0xc03aa9e800?, 0x0?})
+	/usr/local/go/src/net/net.go:189 +0x45
+bufio.(*Reader).Read(0xc000619a60, {0xc03aa9e800, 0x800, 0x0?})
+	/usr/local/go/src/bufio/bufio.go:241 +0x197
+market_replay/src/core.Traders.OrderResponseListner({0x40b?}, 0xc0005f6e00?)
+	/app/src/core/connect.go:696 +0x1b9
+market_replay/src/core.Traders.RetryOrderEntry({0x1cd2e80?}, 0xcdc80, 0x6b58a, 0x1)
+	/app/src/core/connect.go:959 +0x146
+market_replay/src/core.Traders.handleOrderEntryMR({0x0?})
+	/app/src/core/connect.go:490 +0x35a
+market_replay/src/core.Traders.establishConnection({0x0?}, 0x0?)
+	/app/src/core/connect.go:192 +0x92
+market_replay/src/core.Start.func1({0x0?})
+	/app/src/core/connect.go:59 +0x85
+created by market_replay/src/core.Start in goroutine 75
+	/app/src/core/connect.go:55 +0x13c
+
+goroutine 98 [IO wait]:
+internal/poll.runtime_pollWait(0x7fa05a6b0018, 0x72)
+	/usr/local/go/src/runtime/netpoll.go:351 +0x85
+internal/poll.(*pollDesc).wait(0xc00022ec00?, 0xc03aa4b000?, 0x0)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:84 +0x27
+internal/poll.(*pollDesc).waitRead(...)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).Read(0xc00022ec00, {0xc03aa4b000, 0x1000, 0x1000})
+	/usr/local/go/src/internal/poll/fd_unix.go:165 +0x27a
+net.(*netFD).Read(0xc00022ec00, {0xc03aa4b000?, 0x100004f3845?, 0x7fa058e45c88?})
+	/usr/local/go/src/net/fd_posix.go:55 +0x25
+net.(*conn).Read(0xc00fb42080, {0xc03aa4b000?, 0xc03aa45800?, 0x0?})
+	/usr/local/go/src/net/net.go:189 +0x45
+bufio.(*Reader).Read(0xc00061ba60, {0xc03aa45800, 0x800, 0x0?})
+	/usr/local/go/src/bufio/bufio.go:241 +0x197
+market_replay/src/core.Traders.OrderResponseListner({0x40b?}, 0xc03aa2c780?)
+	/app/src/core/connect.go:696 +0x1b9
+market_replay/src/core.Traders.RetryOrderEntry({0x1cd2e80?}, 0xcdc80, 0x6b58a, 0x1)
+	/app/src/core/connect.go:959 +0x146
+market_replay/src/core.Traders.handleOrderEntryMR({0x0?})
+	/app/src/core/connect.go:490 +0x35a
+market_replay/src/core.Traders.establishConnection({0x0?}, 0x0?)
+	/app/src/core/connect.go:192 +0x92
+market_replay/src/core.Start.func1({0x0?})
+	/app/src/core/connect.go:59 +0x85
+created by market_replay/src/core.Start in goroutine 75
+	/app/src/core/connect.go:55 +0x13c
+
+goroutine 99 [IO wait]:
+internal/poll.runtime_pollWait(0x7fa05a6b0438, 0x72)
+	/usr/local/go/src/runtime/netpoll.go:351 +0x85
+internal/poll.(*pollDesc).wait(0xc00022ea00?, 0xc03aa42000?, 0x0)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:84 +0x27
+internal/poll.(*pollDesc).waitRead(...)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).Read(0xc00022ea00, {0xc03aa42000, 0x1000, 0x1000})
+	/usr/local/go/src/internal/poll/fd_unix.go:165 +0x27a
+net.(*netFD).Read(0xc00022ea00, {0xc03aa42000?, 0x101004f3845?, 0x7fa058e45c88?})
+	/usr/local/go/src/net/fd_posix.go:55 +0x25
+net.(*conn).Read(0xc0003c2018, {0xc03aa42000?, 0xc03aa44000?, 0x0?})
+	/usr/local/go/src/net/net.go:189 +0x45
+bufio.(*Reader).Read(0xc00061da60, {0xc03aa44000, 0x800, 0x0?})
+	/usr/local/go/src/bufio/bufio.go:241 +0x197
+market_replay/src/core.Traders.OrderResponseListner({0x40b?}, 0xc03aa2c600?)
+	/app/src/core/connect.go:696 +0x1b9
+market_replay/src/core.Traders.RetryOrderEntry({0x1cd2e80?}, 0xcdc80, 0x6b58a, 0x1)
+	/app/src/core/connect.go:959 +0x146
+market_replay/src/core.Traders.handleOrderEntryMR({0x0?})
+	/app/src/core/connect.go:490 +0x35a
+market_replay/src/core.Traders.establishConnection({0x0?}, 0x0?)
+	/app/src/core/connect.go:192 +0x92
+market_replay/src/core.Start.func1({0x0?})
+	/app/src/core/connect.go:59 +0x85
+created by market_replay/src/core.Start in goroutine 75
+	/app/src/core/connect.go:55 +0x13c
+
+goroutine 100 [IO wait]:
+internal/poll.runtime_pollWait(0x7fa05a6b0858, 0x72)
+	/usr/local/go/src/runtime/netpoll.go:351 +0x85
+internal/poll.(*pollDesc).wait(0xc000058200?, 0xc03aa98000?, 0x0)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:84 +0x27
+internal/poll.(*pollDesc).waitRead(...)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).Read(0xc000058200, {0xc03aa98000, 0x1000, 0x1000})
+	/usr/local/go/src/internal/poll/fd_unix.go:165 +0x27a
+net.(*netFD).Read(0xc000058200, {0xc03aa98000?, 0x100004f3845?, 0x7fa05a6a8c88?})
+	/usr/local/go/src/net/fd_posix.go:55 +0x25
+net.(*conn).Read(0xc000480060, {0xc03aa98000?, 0xc00ebec800?, 0x0?})
+	/usr/local/go/src/net/net.go:189 +0x45
+bufio.(*Reader).Read(0xc000329a60, {0xc00ebec800, 0x800, 0x0?})
+	/usr/local/go/src/bufio/bufio.go:241 +0x197
+market_replay/src/core.Traders.OrderResponseListner({0x40b?}, 0xc0005f6c00?)
+	/app/src/core/connect.go:696 +0x1b9
+market_replay/src/core.Traders.RetryOrderEntry({0x1cd2e80?}, 0xcdc80, 0x6b58a, 0x1)
+	/app/src/core/connect.go:959 +0x146
+market_replay/src/core.Traders.handleOrderEntryMR({0xc00fb5d500?})
+	/app/src/core/connect.go:490 +0x35a
+market_replay/src/core.Traders.establishConnection({0xfa39b680ca5f9924?}, 0xc000439760?)
+	/app/src/core/connect.go:192 +0x92
+market_replay/src/core.Start.func1({0x41c7b6?})
+	/app/src/core/connect.go:59 +0x85
+created by market_replay/src/core.Start in goroutine 75
+	/app/src/core/connect.go:55 +0x13c
+
+goroutine 101 [IO wait]:
+internal/poll.runtime_pollWait(0x7fa05a6b0330, 0x72)
+	/usr/local/go/src/runtime/netpoll.go:351 +0x85
+internal/poll.(*pollDesc).wait(0xc000058180?, 0xc00ecbe000?, 0x0)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:84 +0x27
+internal/poll.(*pollDesc).waitRead(...)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).Read(0xc000058180, {0xc00ecbe000, 0x1000, 0x1000})
+	/usr/local/go/src/internal/poll/fd_unix.go:165 +0x27a
+net.(*netFD).Read(0xc000058180, {0xc00ecbe000?, 0x100004f3845?, 0x7fa05a6d5f58?})
+	/usr/local/go/src/net/fd_posix.go:55 +0x25
+net.(*conn).Read(0xc00fb42028, {0xc00ecbe000?, 0xc00ecbc800?, 0x0?})
+	/usr/local/go/src/net/net.go:189 +0x45
+bufio.(*Reader).Read(0xc000327a60, {0xc00ecbc800, 0x800, 0x0?})
+	/usr/local/go/src/bufio/bufio.go:241 +0x197
+market_replay/src/core.Traders.OrderResponseListner({0x40b?}, 0xc0000b6a80?)
+	/app/src/core/connect.go:696 +0x1b9
+market_replay/src/core.Traders.RetryOrderEntry({0x1cd2e80?}, 0xcdc80, 0x6b58a, 0x1)
+	/app/src/core/connect.go:959 +0x146
+market_replay/src/core.Traders.handleOrderEntryMR({0xc00fb5d180?})
+	/app/src/core/connect.go:490 +0x35a
+market_replay/src/core.Traders.establishConnection({0xc0005fa5a0?}, 0xc000439fa0?)
+	/app/src/core/connect.go:192 +0x92
+market_replay/src/core.Start.func1({0xc000512340?})
+	/app/src/core/connect.go:59 +0x85
+created by market_replay/src/core.Start in goroutine 75
+	/app/src/core/connect.go:55 +0x13c
+
+goroutine 102 [IO wait]:
+internal/poll.runtime_pollWait(0x7fa058e49e38, 0x72)
+	/usr/local/go/src/runtime/netpoll.go:351 +0x85
+internal/poll.(*pollDesc).wait(0xc00022ed00?, 0xc00ebe4000?, 0x0)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:84 +0x27
+internal/poll.(*pollDesc).waitRead(...)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).Read(0xc00022ed00, {0xc00ebe4000, 0x1000, 0x1000})
+	/usr/local/go/src/internal/poll/fd_unix.go:165 +0x27a
+net.(*netFD).Read(0xc00022ed00, {0xc00ebe4000?, 0x100004f3845?, 0x7fa05bf2d438?})
+	/usr/local/go/src/net/fd_posix.go:55 +0x25
+net.(*conn).Read(0xc00fb42070, {0xc00ebe4000?, 0xc00ebe2800?, 0x0?})
+	/usr/local/go/src/net/net.go:189 +0x45
+bufio.(*Reader).Read(0xc000625a60, {0xc00ebe2800, 0x800, 0x0?})
+	/usr/local/go/src/bufio/bufio.go:241 +0x197
+market_replay/src/core.Traders.OrderResponseListner({0x40b?}, 0xc0005f6900?)
+	/app/src/core/connect.go:696 +0x1b9
+market_replay/src/core.Traders.RetryOrderEntry({0x1cd2e80?}, 0xcdc80, 0x6b58a, 0x1)
+	/app/src/core/connect.go:959 +0x146
+market_replay/src/core.Traders.handleOrderEntryMR({0x0?})
+	/app/src/core/connect.go:490 +0x35a
+market_replay/src/core.Traders.establishConnection({0xc0003b2f10?}, 0x95abd7?)
+	/app/src/core/connect.go:192 +0x92
+market_replay/src/core.Start.func1({0x0?})
+	/app/src/core/connect.go:59 +0x85
+created by market_replay/src/core.Start in goroutine 75
+	/app/src/core/connect.go:55 +0x13c
+
+goroutine 85 [IO wait]:
+internal/poll.runtime_pollWait(0x7fa058e49910, 0x72)
+	/usr/local/go/src/runtime/netpoll.go:351 +0x85
+internal/poll.(*pollDesc).wait(0xc00022ef00?, 0xc00ecbf000?, 0x0)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:84 +0x27
+internal/poll.(*pollDesc).waitRead(...)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).Read(0xc00022ef00, {0xc00ecbf000, 0x1000, 0x1000})
+	/usr/local/go/src/internal/poll/fd_unix.go:165 +0x27a
+net.(*netFD).Read(0xc00022ef00, {0xc00ecbf000?, 0x100004f3845?, 0x7fa05a6d5f58?})
+	/usr/local/go/src/net/fd_posix.go:55 +0x25
+net.(*conn).Read(0xc0003c2260, {0xc00ecbf000?, 0xc00ecbd000?, 0x0?})
+	/usr/local/go/src/net/net.go:189 +0x45
+bufio.(*Reader).Read(0xc00061fa60, {0xc00ecbd000, 0x800, 0x0?})
+	/usr/local/go/src/bufio/bufio.go:241 +0x197
+market_replay/src/core.Traders.OrderResponseListner({0x40b?}, 0xc0000b6b00?)
+	/app/src/core/connect.go:696 +0x1b9
+market_replay/src/core.Traders.RetryOrderEntry({0x1cd2e80?}, 0xcdc80, 0x6b58a, 0x1)
+	/app/src/core/connect.go:959 +0x146
+market_replay/src/core.Traders.handleOrderEntryMR({0x1809440?})
+	/app/src/core/connect.go:490 +0x35a
+market_replay/src/core.Traders.establishConnection({0x1cd9f98?}, 0xc00014e000?)
+	/app/src/core/connect.go:192 +0x92
+market_replay/src/core.Start.func1({0xc000512340?})
+	/app/src/core/connect.go:59 +0x85
+created by market_replay/src/core.Start in goroutine 75
+	/app/src/core/connect.go:55 +0x13c
+
+goroutine 86 [IO wait]:
+internal/poll.runtime_pollWait(0x7fa058e49808, 0x72)
+	/usr/local/go/src/runtime/netpoll.go:351 +0x85
+internal/poll.(*pollDesc).wait(0xc00022ef80?, 0xc03aa40000?, 0x0)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:84 +0x27
+internal/poll.(*pollDesc).waitRead(...)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).Read(0xc00022ef80, {0xc03aa40000, 0x1000, 0x1000})
+	/usr/local/go/src/internal/poll/fd_unix.go:165 +0x27a
+net.(*netFD).Read(0xc00022ef80, {0xc03aa40000?, 0x100004f3845?, 0x7fa058e45e68?})
+	/usr/local/go/src/net/fd_posix.go:55 +0x25
+net.(*conn).Read(0xc0003c2040, {0xc03aa40000?, 0xc03aa3f000?, 0x0?})
+	/usr/local/go/src/net/net.go:189 +0x45
+bufio.(*Reader).Read(0xc00ed2da60, {0xc03aa3f000, 0x800, 0x0?})
+	/usr/local/go/src/bufio/bufio.go:241 +0x197
+market_replay/src/core.Traders.OrderResponseListner({0x40b?}, 0xc03aa2c500?)
+	/app/src/core/connect.go:696 +0x1b9
+market_replay/src/core.Traders.RetryOrderEntry({0x1cd2e80?}, 0xcdc80, 0x6b58a, 0x1)
+	/app/src/core/connect.go:959 +0x146
+market_replay/src/core.Traders.handleOrderEntryMR({0x0?})
+	/app/src/core/connect.go:490 +0x35a
+market_replay/src/core.Traders.establishConnection({0x1bb?}, 0x0?)
+	/app/src/core/connect.go:192 +0x92
+market_replay/src/core.Start.func1({0x7fa058e46c28?})
+	/app/src/core/connect.go:59 +0x85
+created by market_replay/src/core.Start in goroutine 75
+	/app/src/core/connect.go:55 +0x13c
+
+goroutine 87 [IO wait]:
+internal/poll.runtime_pollWait(0x7fa058e49700, 0x72)
+	/usr/local/go/src/runtime/netpoll.go:351 +0x85
+internal/poll.(*pollDesc).wait(0xc00022f000?, 0xc03aa3c000?, 0x0)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:84 +0x27
+internal/poll.(*pollDesc).waitRead(...)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).Read(0xc00022f000, {0xc03aa3c000, 0x1000, 0x1000})
+	/usr/local/go/src/internal/poll/fd_unix.go:165 +0x27a
+net.(*netFD).Read(0xc00022f000, {0xc03aa3c000?, 0x101004f3845?, 0x7fa058e45e68?})
+	/usr/local/go/src/net/fd_posix.go:55 +0x25
+net.(*conn).Read(0xc000480080, {0xc03aa3c000?, 0xc03aa3e000?, 0x0?})
+	/usr/local/go/src/net/net.go:189 +0x45
+bufio.(*Reader).Read(0xc00ecb1a60, {0xc03aa3e000, 0x800, 0x0?})
+	/usr/local/go/src/bufio/bufio.go:241 +0x197
+market_replay/src/core.Traders.OrderResponseListner({0x40b?}, 0xc03aa2c400?)
+	/app/src/core/connect.go:696 +0x1b9
+market_replay/src/core.Traders.RetryOrderEntry({0x1cd2e80?}, 0xcdc80, 0x6b58a, 0x1)
+	/app/src/core/connect.go:959 +0x146
+market_replay/src/core.Traders.handleOrderEntryMR({0x37e11bfb0?})
+	/app/src/core/connect.go:490 +0x35a
+market_replay/src/core.Traders.establishConnection({0x1cee100?}, 0x0?)
+	/app/src/core/connect.go:192 +0x92
+market_replay/src/core.Start.func1({0xc000436fa8?})
+	/app/src/core/connect.go:59 +0x85
+created by market_replay/src/core.Start in goroutine 75
+	/app/src/core/connect.go:55 +0x13c
+
+goroutine 88 [IO wait]:
+internal/poll.runtime_pollWait(0x7fa058e494f0, 0x72)
+	/usr/local/go/src/runtime/netpoll.go:351 +0x85
+internal/poll.(*pollDesc).wait(0xc00022f080?, 0xc00ecc5000?, 0x0)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:84 +0x27
+internal/poll.(*pollDesc).waitRead(...)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).Read(0xc00022f080, {0xc00ecc5000, 0x1000, 0x1000})
+	/usr/local/go/src/internal/poll/fd_unix.go:165 +0x27a
+net.(*netFD).Read(0xc00022f080, {0xc00ecc5000?, 0x100004f3845?, 0x7fa05a6d63b8?})
+	/usr/local/go/src/net/fd_posix.go:55 +0x25
+net.(*conn).Read(0xc0003c2060, {0xc00ecc5000?, 0xc00ecc3000?, 0x0?})
+	/usr/local/go/src/net/net.go:189 +0x45
+bufio.(*Reader).Read(0xc00ed29a60, {0xc00ecc3000, 0x800, 0x0?})
+	/usr/local/go/src/bufio/bufio.go:241 +0x197
+market_replay/src/core.Traders.OrderResponseListner({0x40b?}, 0xc0000b6d00?)
+	/app/src/core/connect.go:696 +0x1b9
+market_replay/src/core.Traders.RetryOrderEntry({0x1cd2e80?}, 0xcdc80, 0x6b58a, 0x1)
+	/app/src/core/connect.go:959 +0x146
+market_replay/src/core.Traders.handleOrderEntryMR({0x0?})
+	/app/src/core/connect.go:490 +0x35a
+market_replay/src/core.Traders.establishConnection({0x0?}, 0x0?)
+	/app/src/core/connect.go:192 +0x92
+market_replay/src/core.Start.func1({0x0?})
+	/app/src/core/connect.go:59 +0x85
+created by market_replay/src/core.Start in goroutine 75
+	/app/src/core/connect.go:55 +0x13c
+
+goroutine 89 [IO wait]:
+internal/poll.runtime_pollWait(0x7fa058e493e8, 0x72)
+	/usr/local/go/src/runtime/netpoll.go:351 +0x85
+internal/poll.(*pollDesc).wait(0xc00022f100?, 0xc03aa99000?, 0x0)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:84 +0x27
+internal/poll.(*pollDesc).waitRead(...)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).Read(0xc00022f100, {0xc03aa99000, 0x1000, 0x1000})
+	/usr/local/go/src/internal/poll/fd_unix.go:165 +0x27a
+net.(*netFD).Read(0xc00022f100, {0xc03aa99000?, 0x100004f3845?, 0x7fa05a6a8c88?})
+	/usr/local/go/src/net/fd_posix.go:55 +0x25
+net.(*conn).Read(0xc0003c2240, {0xc03aa99000?, 0xc00ebed000?, 0x0?})
+	/usr/local/go/src/net/net.go:189 +0x45
+bufio.(*Reader).Read(0xc00ed2ba60, {0xc00ebed000, 0x800, 0x0?})
+	/usr/local/go/src/bufio/bufio.go:241 +0x197
+market_replay/src/core.Traders.OrderResponseListner({0x40b?}, 0xc0005f6c80?)
+	/app/src/core/connect.go:696 +0x1b9
+market_replay/src/core.Traders.RetryOrderEntry({0x1cd2e80?}, 0xcdc80, 0x6b58a, 0x1)
+	/app/src/core/connect.go:959 +0x146
+market_replay/src/core.Traders.handleOrderEntryMR({0x0?})
+	/app/src/core/connect.go:490 +0x35a
+market_replay/src/core.Traders.establishConnection({0x0?}, 0x0?)
+	/app/src/core/connect.go:192 +0x92
+market_replay/src/core.Start.func1({0x0?})
+	/app/src/core/connect.go:59 +0x85
+created by market_replay/src/core.Start in goroutine 75
+	/app/src/core/connect.go:55 +0x13c
+
+goroutine 90 [IO wait]:
+internal/poll.runtime_pollWait(0x7fa058e49b20, 0x72)
+	/usr/local/go/src/runtime/netpoll.go:351 +0x85
+internal/poll.(*pollDesc).wait(0xc00022ee80?, 0xc03aa36000?, 0x0)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:84 +0x27
+internal/poll.(*pollDesc).waitRead(...)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).Read(0xc00022ee80, {0xc03aa36000, 0x1000, 0x1000})
+	/usr/local/go/src/internal/poll/fd_unix.go:165 +0x27a
+net.(*netFD).Read(0xc00022ee80, {0xc03aa36000?, 0x101004f3845?, 0x7fa058e46048?})
+	/usr/local/go/src/net/fd_posix.go:55 +0x25
+net.(*conn).Read(0xc0003c2080, {0xc03aa36000?, 0xc03aa38000?, 0x0?})
+	/usr/local/go/src/net/net.go:189 +0x45
+bufio.(*Reader).Read(0xc00ecb7a60, {0xc03aa38000, 0x800, 0x0?})
+	/usr/local/go/src/bufio/bufio.go:241 +0x197
+market_replay/src/core.Traders.OrderResponseListner({0x40b?}, 0xc03aa2c200?)
+	/app/src/core/connect.go:696 +0x1b9
+market_replay/src/core.Traders.RetryOrderEntry({0x1cd2e80?}, 0xcdc80, 0x6b58a, 0x1)
+	/app/src/core/connect.go:959 +0x146
+market_replay/src/core.Traders.handleOrderEntryMR({0x0?})
+	/app/src/core/connect.go:490 +0x35a
+market_replay/src/core.Traders.establishConnection({0x0?}, 0x0?)
+	/app/src/core/connect.go:192 +0x92
+market_replay/src/core.Start.func1({0x0?})
+	/app/src/core/connect.go:59 +0x85
+created by market_replay/src/core.Start in goroutine 75
+	/app/src/core/connect.go:55 +0x13c
+
+goroutine 91 [IO wait]:
+internal/poll.runtime_pollWait(0x7fa058e49a18, 0x72)
+	/usr/local/go/src/runtime/netpoll.go:351 +0x85
+internal/poll.(*pollDesc).wait(0xc000058300?, 0xc000535000?, 0x0)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:84 +0x27
+internal/poll.(*pollDesc).waitRead(...)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).Read(0xc000058300, {0xc000535000, 0x1000, 0x1000})
+	/usr/local/go/src/internal/poll/fd_unix.go:165 +0x27a
+net.(*netFD).Read(0xc000058300, {0xc000535000?, 0x100004f3845?, 0x7fa058488258?})
+	/usr/local/go/src/net/fd_posix.go:55 +0x25
+net.(*conn).Read(0xc0003c2000, {0xc000535000?, 0xc00054a800?, 0x0?})
+	/usr/local/go/src/net/net.go:189 +0x45
+bufio.(*Reader).Read(0xc000623a60, {0xc00054a800, 0x800, 0x0?})
+	/usr/local/go/src/bufio/bufio.go:241 +0x197
+market_replay/src/core.Traders.OrderResponseListner({0x40b?}, 0xc000530100?)
+	/app/src/core/connect.go:696 +0x1b9
+market_replay/src/core.Traders.RetryOrderEntry({0x1cd2e80?}, 0xcdc80, 0x6b58a, 0x1)
+	/app/src/core/connect.go:959 +0x146
+market_replay/src/core.Traders.handleOrderEntryMR({0x0?})
+	/app/src/core/connect.go:490 +0x35a
+market_replay/src/core.Traders.establishConnection({0x0?}, 0x0?)
+	/app/src/core/connect.go:192 +0x92
+market_replay/src/core.Start.func1({0x100000001?})
+	/app/src/core/connect.go:59 +0x85
+created by market_replay/src/core.Start in goroutine 75
+	/app/src/core/connect.go:55 +0x13c
+
+goroutine 92 [IO wait]:
+internal/poll.runtime_pollWait(0x7fa058e495f8, 0x72)
+	/usr/local/go/src/runtime/netpoll.go:351 +0x85
+internal/poll.(*pollDesc).wait(0xc000058380?, 0xc00ecc1000?, 0x0)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:84 +0x27
+internal/poll.(*pollDesc).waitRead(...)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).Read(0xc000058380, {0xc00ecc1000, 0x1000, 0x1000})
+	/usr/local/go/src/internal/poll/fd_unix.go:165 +0x27a
+net.(*netFD).Read(0xc000058380, {0xc00ecc1000?, 0x101004f3845?, 0x7fa05a6d63b8?})
+	/usr/local/go/src/net/fd_posix.go:55 +0x25
+net.(*conn).Read(0xc0003c2180, {0xc00ecc1000?, 0xc00ecc2000?, 0x0?})
+	/usr/local/go/src/net/net.go:189 +0x45
+bufio.(*Reader).Read(0xc00ecb3a60, {0xc00ecc2000, 0x800, 0x0?})
+	/usr/local/go/src/bufio/bufio.go:241 +0x197
+market_replay/src/core.Traders.OrderResponseListner({0x40b?}, 0xc0000b6c00?)
+	/app/src/core/connect.go:696 +0x1b9
+market_replay/src/core.Traders.RetryOrderEntry({0x1cd2e80?}, 0xcdc80, 0x6b58a, 0x1)
+	/app/src/core/connect.go:959 +0x146
+market_replay/src/core.Traders.handleOrderEntryMR({0x0?})
+	/app/src/core/connect.go:490 +0x35a
+market_replay/src/core.Traders.establishConnection({0x0?}, 0x0?)
+	/app/src/core/connect.go:192 +0x92
+market_replay/src/core.Start.func1({0x0?})
+	/app/src/core/connect.go:59 +0x85
+created by market_replay/src/core.Start in goroutine 75
+	/app/src/core/connect.go:55 +0x13c
+
+goroutine 93 [IO wait]:
+internal/poll.runtime_pollWait(0x7fa058e492e0, 0x72)
+	/usr/local/go/src/runtime/netpoll.go:351 +0x85
+internal/poll.(*pollDesc).wait(0xc000058400?, 0xc00ec51000?, 0x0)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:84 +0x27
+internal/poll.(*pollDesc).waitRead(...)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).Read(0xc000058400, {0xc00ec51000, 0x1000, 0x1000})
+	/usr/local/go/src/internal/poll/fd_unix.go:165 +0x27a
+net.(*netFD).Read(0xc000058400, {0xc00ec51000?, 0x100004f3845?, 0x7fa058220e48?})
+	/usr/local/go/src/net/fd_posix.go:55 +0x25
+net.(*conn).Read(0xc0003c22c0, {0xc00ec51000?, 0xc00ec4d800?, 0x0?})
+	/usr/local/go/src/net/net.go:189 +0x45
+bufio.(*Reader).Read(0xc00ecb5a60, {0xc00ec4d800, 0x800, 0x0?})
+	/usr/local/go/src/bufio/bufio.go:241 +0x197
+market_replay/src/core.Traders.OrderResponseListner({0x40b?}, 0xc00ec3a600?)
+	/app/src/core/connect.go:696 +0x1b9
+market_replay/src/core.Traders.RetryOrderEntry({0x1cd2e80?}, 0xcdc80, 0x6b58a, 0x1)
+	/app/src/core/connect.go:959 +0x146
+market_replay/src/core.Traders.handleOrderEntryMR({0x0?})
+	/app/src/core/connect.go:490 +0x35a
+market_replay/src/core.Traders.establishConnection({0x0?}, 0x0?)
+	/app/src/core/connect.go:192 +0x92
+market_replay/src/core.Start.func1({0x0?})
+	/app/src/core/connect.go:59 +0x85
+created by market_replay/src/core.Start in goroutine 75
+	/app/src/core/connect.go:55 +0x13c
+
+goroutine 94 [IO wait]:
+internal/poll.runtime_pollWait(0x7fa058e491d8, 0x72)
+	/usr/local/go/src/runtime/netpoll.go:351 +0x85
+internal/poll.(*pollDesc).wait(0xc00eca4000?, 0xc03ab11000?, 0x0)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:84 +0x27
+internal/poll.(*pollDesc).waitRead(...)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).Read(0xc00eca4000, {0xc03ab11000, 0x1000, 0x1000})
+	/usr/local/go/src/internal/poll/fd_unix.go:165 +0x27a
+net.(*netFD).Read(0xc00eca4000, {0xc03ab11000?, 0x100004f3845?, 0x7fa0583c1048?})
+	/usr/local/go/src/net/fd_posix.go:55 +0x25
+net.(*conn).Read(0xc0003c2160, {0xc03ab11000?, 0xc03ab12800?, 0x0?})
+	/usr/local/go/src/net/net.go:189 +0x45
+bufio.(*Reader).Read(0xc00ed35a60, {0xc03ab12800, 0x800, 0x0?})
+	/usr/local/go/src/bufio/bufio.go:241 +0x197
+market_replay/src/core.Traders.OrderResponseListner({0x40b?}, 0xc03ab0e080?)
+	/app/src/core/connect.go:696 +0x1b9
+market_replay/src/core.Traders.RetryOrderEntry({0x1cd2e80?}, 0xcdc80, 0x6b58a, 0x1)
+	/app/src/core/connect.go:959 +0x146
+market_replay/src/core.Traders.handleOrderEntryMR({0x0?})
+	/app/src/core/connect.go:490 +0x35a
+market_replay/src/core.Traders.establishConnection({0x0?}, 0x0?)
+	/app/src/core/connect.go:192 +0x92
+market_replay/src/core.Start.func1({0x0?})
+	/app/src/core/connect.go:59 +0x85
+created by market_replay/src/core.Start in goroutine 75
+	/app/src/core/connect.go:55 +0x13c
+
+goroutine 95 [IO wait]:
+internal/poll.runtime_pollWait(0x7fa058da9618, 0x72)
+	/usr/local/go/src/runtime/netpoll.go:351 +0x85
+internal/poll.(*pollDesc).wait(0xc00022f180?, 0xc03aa3b000?, 0x0)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:84 +0x27
+internal/poll.(*pollDesc).waitRead(...)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).Read(0xc00022f180, {0xc03aa3b000, 0x1000, 0x1000})
+	/usr/local/go/src/internal/poll/fd_unix.go:165 +0x27a
+net.(*netFD).Read(0xc00022f180, {0xc03aa3b000?, 0x100004f3845?, 0x7fa058e46048?})
+	/usr/local/go/src/net/fd_posix.go:55 +0x25
+net.(*conn).Read(0xc0003c2340, {0xc03aa3b000?, 0xc03aa39800?, 0x0?})
+	/usr/local/go/src/net/net.go:189 +0x45
+bufio.(*Reader).Read(0xc00ed55a60, {0xc03aa39800, 0x800, 0x0?})
+	/usr/local/go/src/bufio/bufio.go:241 +0x197
+market_replay/src/core.Traders.OrderResponseListner({0x40b?}, 0xc03aa2c380?)
+	/app/src/core/connect.go:696 +0x1b9
+market_replay/src/core.Traders.RetryOrderEntry({0x1cd2e80?}, 0xcdc80, 0x6b58a, 0x1)
+	/app/src/core/connect.go:959 +0x146
+market_replay/src/core.Traders.handleOrderEntryMR({0x0?})
+	/app/src/core/connect.go:490 +0x35a
+market_replay/src/core.Traders.establishConnection({0x0?}, 0x0?)
+	/app/src/core/connect.go:192 +0x92
+market_replay/src/core.Start.func1({0x0?})
+	/app/src/core/connect.go:59 +0x85
+created by market_replay/src/core.Start in goroutine 75
+	/app/src/core/connect.go:55 +0x13c
+
+goroutine 96 [IO wait]:
+internal/poll.runtime_pollWait(0x7fa058e49c28, 0x72)
+	/usr/local/go/src/runtime/netpoll.go:351 +0x85
+internal/poll.(*pollDesc).wait(0xc000058280?, 0xc00ecc4000?, 0x0)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:84 +0x27
+internal/poll.(*pollDesc).waitRead(...)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).Read(0xc000058280, {0xc00ecc4000, 0x1000, 0x1000})
+	/usr/local/go/src/internal/poll/fd_unix.go:165 +0x27a
+net.(*netFD).Read(0xc000058280, {0xc00ecc4000?, 0x100004f3845?, 0x7fa05a6d63b8?})
+	/usr/local/go/src/net/fd_posix.go:55 +0x25
+net.(*conn).Read(0xc0003c21a0, {0xc00ecc4000?, 0xc00ecc2800?, 0x0?})
+	/usr/local/go/src/net/net.go:189 +0x45
+bufio.(*Reader).Read(0xc000621a60, {0xc00ecc2800, 0x800, 0x0?})
+	/usr/local/go/src/bufio/bufio.go:241 +0x197
+market_replay/src/core.Traders.OrderResponseListner({0x40b?}, 0xc0000b6c80?)
+	/app/src/core/connect.go:696 +0x1b9
+market_replay/src/core.Traders.RetryOrderEntry({0x1cd2e80?}, 0xcdc80, 0x6b58a, 0x1)
+	/app/src/core/connect.go:959 +0x146
+market_replay/src/core.Traders.handleOrderEntryMR({0x0?})
+	/app/src/core/connect.go:490 +0x35a
+market_replay/src/core.Traders.establishConnection({0x0?}, 0x0?)
+	/app/src/core/connect.go:192 +0x92
+market_replay/src/core.Start.func1({0x0?})
+	/app/src/core/connect.go:59 +0x85
+created by market_replay/src/core.Start in goroutine 75
+	/app/src/core/connect.go:55 +0x13c
+
+goroutine 97 [IO wait]:
+internal/poll.runtime_pollWait(0x7fa058da9e58, 0x72)
+	/usr/local/go/src/runtime/netpoll.go:351 +0x85
+internal/poll.(*pollDesc).wait(0xc00eca4500?, 0xc03aa43000?, 0x0)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:84 +0x27
+internal/poll.(*pollDesc).waitRead(...)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).Read(0xc00eca4500, {0xc03aa43000, 0x1000, 0x1000})
+	/usr/local/go/src/internal/poll/fd_unix.go:165 +0x27a
+net.(*netFD).Read(0xc00eca4500, {0xc03aa43000?, 0x100004f3845?, 0x7fa058e45c88?})
+	/usr/local/go/src/net/fd_posix.go:55 +0x25
+net.(*conn).Read(0xc0003c2200, {0xc03aa43000?, 0xc03aa44800?, 0x0?})
+	/usr/local/go/src/net/net.go:189 +0x45
+bufio.(*Reader).Read(0xc00ed37a60, {0xc03aa44800, 0x800, 0x0?})
+	/usr/local/go/src/bufio/bufio.go:241 +0x197
+market_replay/src/core.Traders.OrderResponseListner({0x40b?}, 0xc03aa2c680?)
+	/app/src/core/connect.go:696 +0x1b9
+market_replay/src/core.Traders.RetryOrderEntry({0x1cd2e80?}, 0xcdc80, 0x6b58a, 0x1)
+	/app/src/core/connect.go:959 +0x146
+market_replay/src/core.Traders.handleOrderEntryMR({0x0?})
+	/app/src/core/connect.go:490 +0x35a
+market_replay/src/core.Traders.establishConnection({0x0?}, 0x0?)
+	/app/src/core/connect.go:192 +0x92
+market_replay/src/core.Start.func1({0x0?})
+	/app/src/core/connect.go:59 +0x85
+created by market_replay/src/core.Start in goroutine 75
+	/app/src/core/connect.go:55 +0x13c
+
+goroutine 114 [IO wait]:
+internal/poll.runtime_pollWait(0x7fa058da9d50, 0x72)
+	/usr/local/go/src/runtime/netpoll.go:351 +0x85
+internal/poll.(*pollDesc).wait(0xc00eca4580?, 0xc03aa3d000?, 0x0)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:84 +0x27
+internal/poll.(*pollDesc).waitRead(...)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).Read(0xc00eca4580, {0xc03aa3d000, 0x1000, 0x1000})
+	/usr/local/go/src/internal/poll/fd_unix.go:165 +0x27a
+net.(*netFD).Read(0xc00eca4580, {0xc03aa3d000?, 0x100004f3845?, 0x7fa058e45e68?})
+	/usr/local/go/src/net/fd_posix.go:55 +0x25
+net.(*conn).Read(0xc0003c22e0, {0xc03aa3d000?, 0xc03aa3e800?, 0x0?})
+	/usr/local/go/src/net/net.go:189 +0x45
+bufio.(*Reader).Read(0xc00ed41a60, {0xc03aa3e800, 0x800, 0x0?})
+	/usr/local/go/src/bufio/bufio.go:241 +0x197
+market_replay/src/core.Traders.OrderResponseListner({0x40b?}, 0xc03aa2c480?)
+	/app/src/core/connect.go:696 +0x1b9
+market_replay/src/core.Traders.RetryOrderEntry({0x1cd2e80?}, 0xcdc80, 0x6b58a, 0x1)
+	/app/src/core/connect.go:959 +0x146
+market_replay/src/core.Traders.handleOrderEntryMR({0x0?})
+	/app/src/core/connect.go:490 +0x35a
+market_replay/src/core.Traders.establishConnection({0x0?}, 0x0?)
+	/app/src/core/connect.go:192 +0x92
+market_replay/src/core.Start.func1({0x0?})
+	/app/src/core/connect.go:59 +0x85
+created by market_replay/src/core.Start in goroutine 75
+	/app/src/core/connect.go:55 +0x13c
+
+goroutine 115 [IO wait]:
+internal/poll.runtime_pollWait(0x7fa058da9c48, 0x72)
+	/usr/local/go/src/runtime/netpoll.go:351 +0x85
+internal/poll.(*pollDesc).wait(0xc00eca4600?, 0xc00ed77000?, 0x0)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:84 +0x27
+internal/poll.(*pollDesc).waitRead(...)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).Read(0xc00eca4600, {0xc00ed77000, 0x1000, 0x1000})
+	/usr/local/go/src/internal/poll/fd_unix.go:165 +0x27a
+net.(*netFD).Read(0xc00eca4600, {0xc00ed77000?, 0x100004f3845?, 0x7fa058281868?})
+	/usr/local/go/src/net/fd_posix.go:55 +0x25
+net.(*conn).Read(0xc0003c21e0, {0xc00ed77000?, 0xc00ed78800?, 0x0?})
+	/usr/local/go/src/net/net.go:189 +0x45
+bufio.(*Reader).Read(0xc00ed43a60, {0xc00ed78800, 0x800, 0x0?})
+	/usr/local/go/src/bufio/bufio.go:241 +0x197
+market_replay/src/core.Traders.OrderResponseListner({0x40b?}, 0xc0001c9380?)
+	/app/src/core/connect.go:696 +0x1b9
+market_replay/src/core.Traders.RetryOrderEntry({0x1cd2e80?}, 0xcdc80, 0x6b58a, 0x1)
+	/app/src/core/connect.go:959 +0x146
+market_replay/src/core.Traders.handleOrderEntryMR({0x0?})
+	/app/src/core/connect.go:490 +0x35a
+market_replay/src/core.Traders.establishConnection({0x0?}, 0x0?)
+	/app/src/core/connect.go:192 +0x92
+market_replay/src/core.Start.func1({0x0?})
+	/app/src/core/connect.go:59 +0x85
+created by market_replay/src/core.Start in goroutine 75
+	/app/src/core/connect.go:55 +0x13c
+
+goroutine 116 [IO wait]:
+internal/poll.runtime_pollWait(0x7fa058da9f60, 0x72)
+	/usr/local/go/src/runtime/netpoll.go:351 +0x85
+internal/poll.(*pollDesc).wait(0xc00eca4480?, 0xc00ebe5000?, 0x0)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:84 +0x27
+internal/poll.(*pollDesc).waitRead(...)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).Read(0xc00eca4480, {0xc00ebe5000, 0x1000, 0x1000})
+	/usr/local/go/src/internal/poll/fd_unix.go:165 +0x27a
+net.(*netFD).Read(0xc00eca4480, {0xc00ebe5000?, 0x100004f3845?, 0x7fa05bf2d438?})
+	/usr/local/go/src/net/fd_posix.go:55 +0x25
+net.(*conn).Read(0xc0003c21c0, {0xc00ebe5000?, 0xc00ebe3000?, 0x0?})
+	/usr/local/go/src/net/net.go:189 +0x45
+bufio.(*Reader).Read(0xc00ed45a60, {0xc00ebe3000, 0x800, 0x0?})
+	/usr/local/go/src/bufio/bufio.go:241 +0x197
+market_replay/src/core.Traders.OrderResponseListner({0x40b?}, 0xc0005f6a80?)
+	/app/src/core/connect.go:696 +0x1b9
+market_replay/src/core.Traders.RetryOrderEntry({0x1cd2e80?}, 0xcdc80, 0x6b58a, 0x1)
+	/app/src/core/connect.go:959 +0x146
+market_replay/src/core.Traders.handleOrderEntryMR({0x0?})
+	/app/src/core/connect.go:490 +0x35a
+market_replay/src/core.Traders.establishConnection({0x0?}, 0x0?)
+	/app/src/core/connect.go:192 +0x92
+market_replay/src/core.Start.func1({0x0?})
+	/app/src/core/connect.go:59 +0x85
+created by market_replay/src/core.Start in goroutine 75
+	/app/src/core/connect.go:55 +0x13c
+
+goroutine 117 [IO wait]:
+internal/poll.runtime_pollWait(0x7fa058da9a38, 0x72)
+	/usr/local/go/src/runtime/netpoll.go:351 +0x85
+internal/poll.(*pollDesc).wait(0xc00eca4700?, 0xc00056c000?, 0x0)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:84 +0x27
+internal/poll.(*pollDesc).waitRead(...)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).Read(0xc00eca4700, {0xc00056c000, 0x1000, 0x1000})
+	/usr/local/go/src/internal/poll/fd_unix.go:165 +0x27a
+net.(*netFD).Read(0xc00eca4700, {0xc00056c000?, 0x100004f3845?, 0x7fa058488258?})
+	/usr/local/go/src/net/fd_posix.go:55 +0x25
+net.(*conn).Read(0xc0003c2100, {0xc00056c000?, 0xc00054b000?, 0x0?})
+	/usr/local/go/src/net/net.go:189 +0x45
+bufio.(*Reader).Read(0xc00ed3fa60, {0xc00054b000, 0x800, 0x0?})
+	/usr/local/go/src/bufio/bufio.go:241 +0x197
+market_replay/src/core.Traders.OrderResponseListner({0x40b?}, 0xc000530180?)
+	/app/src/core/connect.go:696 +0x1b9
+market_replay/src/core.Traders.RetryOrderEntry({0x1cd2e80?}, 0xcdc80, 0x6b58a, 0x1)
+	/app/src/core/connect.go:959 +0x146
+market_replay/src/core.Traders.handleOrderEntryMR({0x0?})
+	/app/src/core/connect.go:490 +0x35a
+market_replay/src/core.Traders.establishConnection({0x0?}, 0x0?)
+	/app/src/core/connect.go:192 +0x92
+market_replay/src/core.Start.func1({0x0?})
+	/app/src/core/connect.go:59 +0x85
+created by market_replay/src/core.Start in goroutine 75
+	/app/src/core/connect.go:55 +0x13c
+
+goroutine 118 [IO wait]:
+internal/poll.runtime_pollWait(0x7fa058da9b40, 0x72)
+	/usr/local/go/src/runtime/netpoll.go:351 +0x85
+internal/poll.(*pollDesc).wait(0xc00eca4680?, 0xc00ed7c000?, 0x0)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:84 +0x27
+internal/poll.(*pollDesc).waitRead(...)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).Read(0xc00eca4680, {0xc00ed7c000, 0x1000, 0x1000})
+	/usr/local/go/src/internal/poll/fd_unix.go:165 +0x27a
+net.(*netFD).Read(0xc00eca4680, {0xc00ed7c000?, 0x100004f3845?, 0x7fa058281868?})
+	/usr/local/go/src/net/fd_posix.go:55 +0x25
+net.(*conn).Read(0xc0003c2300, {0xc00ed7c000?, 0xc00ed79000?, 0x0?})
+	/usr/local/go/src/net/net.go:189 +0x45
+bufio.(*Reader).Read(0xc00ed4da60, {0xc00ed79000, 0x800, 0x0?})
+	/usr/local/go/src/bufio/bufio.go:241 +0x197
+market_replay/src/core.Traders.OrderResponseListner({0x40b?}, 0xc0001c9400?)
+	/app/src/core/connect.go:696 +0x1b9
+market_replay/src/core.Traders.RetryOrderEntry({0x1cd2e80?}, 0xcdc80, 0x6b58a, 0x1)
+	/app/src/core/connect.go:959 +0x146
+market_replay/src/core.Traders.handleOrderEntryMR({0x0?})
+	/app/src/core/connect.go:490 +0x35a
+market_replay/src/core.Traders.establishConnection({0x0?}, 0x0?)
+	/app/src/core/connect.go:192 +0x92
+market_replay/src/core.Start.func1({0x0?})
+	/app/src/core/connect.go:59 +0x85
+created by market_replay/src/core.Start in goroutine 75
+	/app/src/core/connect.go:55 +0x13c
+
+goroutine 119 [IO wait]:
+internal/poll.runtime_pollWait(0x7fa058da9930, 0x72)
+	/usr/local/go/src/runtime/netpoll.go:351 +0x85
+internal/poll.(*pollDesc).wait(0xc00eca4780?, 0xc00eccb000?, 0x0)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:84 +0x27
+internal/poll.(*pollDesc).waitRead(...)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).Read(0xc00eca4780, {0xc00eccb000, 0x1000, 0x1000})
+	/usr/local/go/src/internal/poll/fd_unix.go:165 +0x27a
+net.(*netFD).Read(0xc00eca4780, {0xc00eccb000?, 0x101004f3845?, 0x7fa05a6d5eb8?})
+	/usr/local/go/src/net/fd_posix.go:55 +0x25
+net.(*conn).Read(0xc0003c2220, {0xc00eccb000?, 0xc00eccc000?, 0x0?})
+	/usr/local/go/src/net/net.go:189 +0x45
+bufio.(*Reader).Read(0xc00ed49a60, {0xc00eccc000, 0x800, 0x0?})
+	/usr/local/go/src/bufio/bufio.go:241 +0x197
+market_replay/src/core.Traders.OrderResponseListner({0x40b?}, 0xc0000b6e00?)
+	/app/src/core/connect.go:696 +0x1b9
+market_replay/src/core.Traders.RetryOrderEntry({0x1cd2e80?}, 0xcdc80, 0x6b58a, 0x1)
+	/app/src/core/connect.go:959 +0x146
+market_replay/src/core.Traders.handleOrderEntryMR({0x0?})
+	/app/src/core/connect.go:490 +0x35a
+market_replay/src/core.Traders.establishConnection({0x0?}, 0x0?)
+	/app/src/core/connect.go:192 +0x92
+market_replay/src/core.Start.func1({0x0?})
+	/app/src/core/connect.go:59 +0x85
+created by market_replay/src/core.Start in goroutine 75
+	/app/src/core/connect.go:55 +0x13c
+
+goroutine 120 [IO wait]:
+internal/poll.runtime_pollWait(0x7fa0582c0658, 0x72)
+	/usr/local/go/src/runtime/netpoll.go:351 +0x85
+internal/poll.(*pollDesc).wait(0xc000058480?, 0xc00ec50000?, 0x0)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:84 +0x27
+internal/poll.(*pollDesc).waitRead(...)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).Read(0xc000058480, {0xc00ec50000, 0x1000, 0x1000})
+	/usr/local/go/src/internal/poll/fd_unix.go:165 +0x27a
+net.(*netFD).Read(0xc000058480, {0xc00ec50000?, 0x100004f3845?, 0x7fa058220e48?})
+	/usr/local/go/src/net/fd_posix.go:55 +0x25
+net.(*conn).Read(0xc0003c23c0, {0xc00ec50000?, 0xc00ec4d000?, 0x0?})
+	/usr/local/go/src/net/net.go:189 +0x45
+bufio.(*Reader).Read(0xc03aa25a60, {0xc00ec4d000, 0x800, 0x0?})
+	/usr/local/go/src/bufio/bufio.go:241 +0x197
+market_replay/src/core.Traders.OrderResponseListner({0x40b?}, 0xc00ec3a580?)
+	/app/src/core/connect.go:696 +0x1b9
+market_replay/src/core.Traders.RetryOrderEntry({0x1cd2e80?}, 0xcdc80, 0x6b58a, 0x1)
+	/app/src/core/connect.go:959 +0x146
+market_replay/src/core.Traders.handleOrderEntryMR({0x0?})
+	/app/src/core/connect.go:490 +0x35a
+market_replay/src/core.Traders.establishConnection({0x0?}, 0x0?)
+	/app/src/core/connect.go:192 +0x92
+market_replay/src/core.Start.func1({0x0?})
+	/app/src/core/connect.go:59 +0x85
+created by market_replay/src/core.Start in goroutine 75
+	/app/src/core/connect.go:55 +0x13c
+
+goroutine 121 [IO wait]:
+internal/poll.runtime_pollWait(0x7fa058e48fc8, 0x72)
+	/usr/local/go/src/runtime/netpoll.go:351 +0x85
+internal/poll.(*pollDesc).wait(0xc00eca4180?, 0xc00ecc0000?, 0x0)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:84 +0x27
+internal/poll.(*pollDesc).waitRead(...)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).Read(0xc00eca4180, {0xc00ecc0000, 0x1000, 0x1000})
+	/usr/local/go/src/internal/poll/fd_unix.go:165 +0x27a
+net.(*netFD).Read(0xc00eca4180, {0xc00ecc0000?, 0x100004f3845?, 0x7fa05a6d5f58?})
+	/usr/local/go/src/net/fd_posix.go:55 +0x25
+net.(*conn).Read(0xc0003c22a0, {0xc00ecc0000?, 0xc00ecbd800?, 0x0?})
+	/usr/local/go/src/net/net.go:189 +0x45
+bufio.(*Reader).Read(0xc00ed31a60, {0xc00ecbd800, 0x800, 0x0?})
+	/usr/local/go/src/bufio/bufio.go:241 +0x197
+market_replay/src/core.Traders.OrderResponseListner({0x40b?}, 0xc0000b6b80?)
+	/app/src/core/connect.go:696 +0x1b9
+market_replay/src/core.Traders.RetryOrderEntry({0x1cd2e80?}, 0xcdc80, 0x6b58a, 0x1)
+	/app/src/core/connect.go:959 +0x146
+market_replay/src/core.Traders.handleOrderEntryMR({0x0?})
+	/app/src/core/connect.go:490 +0x35a
+market_replay/src/core.Traders.establishConnection({0x0?}, 0x0?)
+	/app/src/core/connect.go:192 +0x92
+market_replay/src/core.Start.func1({0x0?})
+	/app/src/core/connect.go:59 +0x85
+created by market_replay/src/core.Start in goroutine 75
+	/app/src/core/connect.go:55 +0x13c
+
+goroutine 122 [IO wait]:
+internal/poll.runtime_pollWait(0x7fa058daa488, 0x72)
+	/usr/local/go/src/runtime/netpoll.go:351 +0x85
+internal/poll.(*pollDesc).wait(0xc00eca4200?, 0xc00ed73000?, 0x0)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:84 +0x27
+internal/poll.(*pollDesc).waitRead(...)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).Read(0xc00eca4200, {0xc00ed73000, 0x1000, 0x1000})
+	/usr/local/go/src/internal/poll/fd_unix.go:165 +0x27a
+net.(*netFD).Read(0xc00eca4200, {0xc00ed73000?, 0x100004f3845?, 0x7fa058281b88?})
+	/usr/local/go/src/net/fd_posix.go:55 +0x25
+net.(*conn).Read(0xc0003c20a0, {0xc00ed73000?, 0xc00ed6f800?, 0x0?})
+	/usr/local/go/src/net/net.go:189 +0x45
+bufio.(*Reader).Read(0xc00ed33a60, {0xc00ed6f800, 0x800, 0x0?})
+	/usr/local/go/src/bufio/bufio.go:241 +0x197
+market_replay/src/core.Traders.OrderResponseListner({0x40b?}, 0xc0001c9280?)
+	/app/src/core/connect.go:696 +0x1b9
+market_replay/src/core.Traders.RetryOrderEntry({0x1cd2e80?}, 0xcdc80, 0x6b58a, 0x1)
+	/app/src/core/connect.go:959 +0x146
+market_replay/src/core.Traders.handleOrderEntryMR({0x0?})
+	/app/src/core/connect.go:490 +0x35a
+market_replay/src/core.Traders.establishConnection({0x0?}, 0x0?)
+	/app/src/core/connect.go:192 +0x92
+market_replay/src/core.Start.func1({0x0?})
+	/app/src/core/connect.go:59 +0x85
+created by market_replay/src/core.Start in goroutine 75
+	/app/src/core/connect.go:55 +0x13c
+
+goroutine 123 [IO wait]:
+internal/poll.runtime_pollWait(0x7fa058daa380, 0x72)
+	/usr/local/go/src/runtime/netpoll.go:351 +0x85
+internal/poll.(*pollDesc).wait(0xc00eca4280?, 0xc00ed69000?, 0x0)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:84 +0x27
+internal/poll.(*pollDesc).waitRead(...)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).Read(0xc00eca4280, {0xc00ed69000, 0x1000, 0x1000})
+	/usr/local/go/src/internal/poll/fd_unix.go:165 +0x27a
+net.(*netFD).Read(0xc00eca4280, {0xc00ed69000?, 0x100004f3845?, 0x7fa058281ea8?})
+	/usr/local/go/src/net/fd_posix.go:55 +0x25
+net.(*conn).Read(0xc0003c20c0, {0xc00ed69000?, 0xc00ed65800?, 0x0?})
+	/usr/local/go/src/net/net.go:189 +0x45
+bufio.(*Reader).Read(0xc00ed3da60, {0xc00ed65800, 0x800, 0x0?})
+	/usr/local/go/src/bufio/bufio.go:241 +0x197
+market_replay/src/core.Traders.OrderResponseListner({0x40b?}, 0xc0001c9080?)
+	/app/src/core/connect.go:696 +0x1b9
+market_replay/src/core.Traders.RetryOrderEntry({0x1cd2e80?}, 0xcdc80, 0x6b58a, 0x1)
+	/app/src/core/connect.go:959 +0x146
+market_replay/src/core.Traders.handleOrderEntryMR({0x0?})
+	/app/src/core/connect.go:490 +0x35a
+market_replay/src/core.Traders.establishConnection({0x0?}, 0x0?)
+	/app/src/core/connect.go:192 +0x92
+market_replay/src/core.Start.func1({0x0?})
+	/app/src/core/connect.go:59 +0x85
+created by market_replay/src/core.Start in goroutine 75
+	/app/src/core/connect.go:55 +0x13c
+
+goroutine 124 [IO wait]:
+internal/poll.runtime_pollWait(0x7fa058e490d0, 0x72)
+	/usr/local/go/src/runtime/netpoll.go:351 +0x85
+internal/poll.(*pollDesc).wait(0xc00eca4100?, 0xc00ecba000?, 0x0)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:84 +0x27
+internal/poll.(*pollDesc).waitRead(...)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).Read(0xc00eca4100, {0xc00ecba000, 0x1000, 0x1000})
+	/usr/local/go/src/internal/poll/fd_unix.go:165 +0x27a
+net.(*netFD).Read(0xc00eca4100, {0xc00ecba000?, 0x100004f3845?, 0x7fa05a6d59b8?})
+	/usr/local/go/src/net/fd_posix.go:55 +0x25
+net.(*conn).Read(0xc0003c2140, {0xc00ecba000?, 0xc00ec2f800?, 0x0?})
+	/usr/local/go/src/net/net.go:189 +0x45
+bufio.(*Reader).Read(0xc00ed27a60, {0xc00ec2f800, 0x800, 0x0?})
+	/usr/local/go/src/bufio/bufio.go:241 +0x197
+market_replay/src/core.Traders.OrderResponseListner({0x40b?}, 0xc0000b6980?)
+	/app/src/core/connect.go:696 +0x1b9
+market_replay/src/core.Traders.RetryOrderEntry({0x1cd2e80?}, 0xcdc80, 0x6b58a, 0x1)
+	/app/src/core/connect.go:959 +0x146
+market_replay/src/core.Traders.handleOrderEntryMR({0x0?})
+	/app/src/core/connect.go:490 +0x35a
+market_replay/src/core.Traders.establishConnection({0x0?}, 0x0?)
+	/app/src/core/connect.go:192 +0x92
+market_replay/src/core.Start.func1({0x0?})
+	/app/src/core/connect.go:59 +0x85
+created by market_replay/src/core.Start in goroutine 75
+	/app/src/core/connect.go:55 +0x13c
+
+goroutine 125 [runnable]:
+fmt.(*pp).free(0xc00ec98270?)
+	/usr/local/go/src/fmt/print.go:161 +0xef
+fmt.Fprintf({0x1cd2e80, 0xc0001a6020}, {0x1a691ab, 0x23}, {0xc00ed399a8, 0x2, 0x2})
+	/usr/local/go/src/fmt/print.go:226 +0xb0
+fmt.Printf(...)
+	/usr/local/go/src/fmt/print.go:233
+market_replay/src/core.Traders.OrderResponseListner({0x40b?}, 0xc000530080?)
+	/app/src/core/connect.go:712 +0x40e
+market_replay/src/core.Traders.RetryOrderEntry({0x1cd2e80?}, 0xcdc80, 0x6b58a, 0x1)
+	/app/src/core/connect.go:959 +0x146
+market_replay/src/core.Traders.handleOrderEntryMR({0x0?})
+	/app/src/core/connect.go:490 +0x35a
+market_replay/src/core.Traders.establishConnection({0x0?}, 0x0?)
+	/app/src/core/connect.go:192 +0x92
+market_replay/src/core.Start.func1({0x0?})
+	/app/src/core/connect.go:59 +0x85
+created by market_replay/src/core.Start in goroutine 75
+	/app/src/core/connect.go:55 +0x13c
+
+goroutine 126 [runnable]:
+market_replay/src/core.Traders.handleOrderEntryMR({0x2c302c30332c312c?})
+	/app/src/core/connect.go:477 +0x17f
+market_replay/src/core.Traders.establishConnection({0x373237312c302e30?}, 0x2d2c303933323837?)
+	/app/src/core/connect.go:192 +0x92
+market_replay/src/core.Start.func1({0x30312c3039363933?})
+	/app/src/core/connect.go:59 +0x85
+created by market_replay/src/core.Start in goroutine 75
+	/app/src/core/connect.go:55 +0x13c
+
+goroutine 127 [runnable]:
+internal/poll.runtime_Semacquire(0x50bd26?)
+	/usr/local/go/src/runtime/sema.go:76 +0x25
+internal/poll.(*fdMutex).rwlock(0xc0001bc060, 0x30?)
+	/usr/local/go/src/internal/poll/fd_mutex.go:154 +0xc5
+internal/poll.(*FD).writeLock(...)
+	/usr/local/go/src/internal/poll/fd_mutex.go:239
+internal/poll.(*FD).Write(0xc0001bc060, {0xc0005dce00, 0x43, 0x380})
+	/usr/local/go/src/internal/poll/fd_unix.go:368 +0x65
+os.(*File).write(...)
+	/usr/local/go/src/os/file_posix.go:46
+os.(*File).Write(0xc0001a6020, {0xc0005dce00?, 0x43, 0xc00ed3b9a8?})
+	/usr/local/go/src/os/file.go:195 +0x51
+fmt.Fprintf({0x1cd2e80, 0xc0001a6020}, {0x1a691ab, 0x23}, {0xc00ed3b9a8, 0x2, 0x2})
+	/usr/local/go/src/fmt/print.go:225 +0x97
+fmt.Printf(...)
+	/usr/local/go/src/fmt/print.go:233
+market_replay/src/core.Traders.OrderResponseListner({0x40b?}, 0xc0001c9100?)
+	/app/src/core/connect.go:712 +0x40e
+market_replay/src/core.Traders.RetryOrderEntry({0x1cd2e80?}, 0xcdc80, 0x6b58a, 0x1)
+	/app/src/core/connect.go:959 +0x146
+market_replay/src/core.Traders.handleOrderEntryMR({0x0?})
+	/app/src/core/connect.go:490 +0x35a
+market_replay/src/core.Traders.establishConnection({0x0?}, 0x0?)
+	/app/src/core/connect.go:192 +0x92
+market_replay/src/core.Start.func1({0x0?})
+	/app/src/core/connect.go:59 +0x85
+created by market_replay/src/core.Start in goroutine 75
+	/app/src/core/connect.go:55 +0x13c
+
+goroutine 128 [IO wait]:
+internal/poll.runtime_pollWait(0x7fa058da9828, 0x72)
+	/usr/local/go/src/runtime/netpoll.go:351 +0x85
+internal/poll.(*pollDesc).wait(0xc00fb48300?, 0xc03aa4a000?, 0x0)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:84 +0x27
+internal/poll.(*pollDesc).waitRead(...)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).Read(0xc00fb48300, {0xc03aa4a000, 0x1000, 0x1000})
+	/usr/local/go/src/internal/poll/fd_unix.go:165 +0x27a
+net.(*netFD).Read(0xc00fb48300, {0xc03aa4a000?, 0x100004f3845?, 0x7fa058e45c88?})
+	/usr/local/go/src/net/fd_posix.go:55 +0x25
+net.(*conn).Read(0xc0003c2320, {0xc03aa4a000?, 0xc03aa45000?, 0x0?})
+	/usr/local/go/src/net/net.go:189 +0x45
+bufio.(*Reader).Read(0xc000325a60, {0xc03aa45000, 0x800, 0x0?})
+	/usr/local/go/src/bufio/bufio.go:241 +0x197
+market_replay/src/core.Traders.OrderResponseListner({0x40b?}, 0xc03aa2c700?)
+	/app/src/core/connect.go:696 +0x1b9
+market_replay/src/core.Traders.RetryOrderEntry({0x1cd2e80?}, 0xcdc80, 0x6b58a, 0x1)
+	/app/src/core/connect.go:959 +0x146
+market_replay/src/core.Traders.handleOrderEntryMR({0x0?})
+	/app/src/core/connect.go:490 +0x35a
+market_replay/src/core.Traders.establishConnection({0x0?}, 0x0?)
+	/app/src/core/connect.go:192 +0x92
+market_replay/src/core.Start.func1({0x0?})
+	/app/src/core/connect.go:59 +0x85
+created by market_replay/src/core.Start in goroutine 75
+	/app/src/core/connect.go:55 +0x13c
+
+goroutine 129 [IO wait]:
+internal/poll.runtime_pollWait(0x7fa0582c0e98, 0x72)
+	/usr/local/go/src/runtime/netpoll.go:351 +0x85
+internal/poll.(*pollDesc).wait(0xc00ec34000?, 0xc00ecca000?, 0x0)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:84 +0x27
+internal/poll.(*pollDesc).waitRead(...)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).Read(0xc00ec34000, {0xc00ecca000, 0x1000, 0x1000})
+	/usr/local/go/src/internal/poll/fd_unix.go:165 +0x27a
+net.(*netFD).Read(0xc00ec34000, {0xc00ecca000?, 0x100004f3845?, 0x7fa05a6d63b8?})
+	/usr/local/go/src/net/fd_posix.go:55 +0x25
+net.(*conn).Read(0xc0003c2380, {0xc00ecca000?, 0xc00ecc3800?, 0x0?})
+	/usr/local/go/src/net/net.go:189 +0x45
+bufio.(*Reader).Read(0xc00ed51a60, {0xc00ecc3800, 0x800, 0x0?})
+	/usr/local/go/src/bufio/bufio.go:241 +0x197
+market_replay/src/core.Traders.OrderResponseListner({0x40b?}, 0xc0000b6d80?)
+	/app/src/core/connect.go:696 +0x1b9
+market_replay/src/core.Traders.RetryOrderEntry({0x1cd2e80?}, 0xcdc80, 0x6b58a, 0x1)
+	/app/src/core/connect.go:959 +0x146
+market_replay/src/core.Traders.handleOrderEntryMR({0x0?})
+	/app/src/core/connect.go:490 +0x35a
+market_replay/src/core.Traders.establishConnection({0x0?}, 0x0?)
+	/app/src/core/connect.go:192 +0x92
+market_replay/src/core.Start.func1({0x0?})
+	/app/src/core/connect.go:59 +0x85
+created by market_replay/src/core.Start in goroutine 75
+	/app/src/core/connect.go:55 +0x13c
+
+goroutine 130 [IO wait]:
+internal/poll.runtime_pollWait(0x7fa0582c0d90, 0x72)
+	/usr/local/go/src/runtime/netpoll.go:351 +0x85
+internal/poll.(*pollDesc).wait(0xc00ebb4000?, 0xc03ab10000?, 0x0)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:84 +0x27
+internal/poll.(*pollDesc).waitRead(...)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).Read(0xc00ebb4000, {0xc03ab10000, 0x1000, 0x1000})
+	/usr/local/go/src/internal/poll/fd_unix.go:165 +0x27a
+net.(*netFD).Read(0xc00ebb4000, {0xc03ab10000?, 0x101004f3845?, 0x7fa0583c1048?})
+	/usr/local/go/src/net/fd_posix.go:55 +0x25
+net.(*conn).Read(0xc0003c2370, {0xc03ab10000?, 0xc03ab12000?, 0x0?})
+	/usr/local/go/src/net/net.go:189 +0x45
+bufio.(*Reader).Read(0xc00ebbda60, {0xc03ab12000, 0x800, 0x0?})
+	/usr/local/go/src/bufio/bufio.go:241 +0x197
+market_replay/src/core.Traders.OrderResponseListner({0x40b?}, 0xc03ab0e000?)
+	/app/src/core/connect.go:696 +0x1b9
+market_replay/src/core.Traders.RetryOrderEntry({0x1cd2e80?}, 0xcdc80, 0x6b58a, 0x1)
+	/app/src/core/connect.go:959 +0x146
+market_replay/src/core.Traders.handleOrderEntryMR({0x0?})
+	/app/src/core/connect.go:490 +0x35a
+market_replay/src/core.Traders.establishConnection({0x0?}, 0x0?)
+	/app/src/core/connect.go:192 +0x92
+market_replay/src/core.Start.func1({0x0?})
+	/app/src/core/connect.go:59 +0x85
+created by market_replay/src/core.Start in goroutine 75
+	/app/src/core/connect.go:55 +0x13c
+
+goroutine 131 [IO wait]:
+internal/poll.runtime_pollWait(0x7fa0582c0868, 0x72)
+	/usr/local/go/src/runtime/netpoll.go:351 +0x85
+internal/poll.(*pollDesc).wait(0xc000638000?, 0xc00ecbb000?, 0x0)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:84 +0x27
+internal/poll.(*pollDesc).waitRead(...)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).Read(0xc000638000, {0xc00ecbb000, 0x1000, 0x1000})
+	/usr/local/go/src/internal/poll/fd_unix.go:165 +0x27a
+net.(*netFD).Read(0xc000638000, {0xc00ecbb000?, 0x101004f3845?, 0x7fa05a6d5f58?})
+	/usr/local/go/src/net/fd_posix.go:55 +0x25
+net.(*conn).Read(0xc0003c2410, {0xc00ecbb000?, 0xc00ecbc000?, 0x0?})
+	/usr/local/go/src/net/net.go:189 +0x45
+bufio.(*Reader).Read(0xc03ab83a60, {0xc00ecbc000, 0x800, 0x0?})
+	/usr/local/go/src/bufio/bufio.go:241 +0x197
+market_replay/src/core.Traders.OrderResponseListner({0x40b?}, 0xc0000b6a00?)
+	/app/src/core/connect.go:696 +0x1b9
+market_replay/src/core.Traders.RetryOrderEntry({0x1cd2e80?}, 0xcdc80, 0x6b58a, 0x1)
+	/app/src/core/connect.go:959 +0x146
+market_replay/src/core.Traders.handleOrderEntryMR({0x0?})
+	/app/src/core/connect.go:490 +0x35a
+market_replay/src/core.Traders.establishConnection({0x0?}, 0x0?)
+	/app/src/core/connect.go:192 +0x92
+market_replay/src/core.Start.func1({0x0?})
+	/app/src/core/connect.go:59 +0x85
+created by market_replay/src/core.Start in goroutine 75
+	/app/src/core/connect.go:55 +0x13c
+
+goroutine 132 [runnable]:
+internal/fmtsort.Sort.func1({{0x17666a0, 0xc00027feb0, 0x98}, {0x18aad00, 0xc000570a50, 0x99}}, {{0x17666a0, 0xc00027fea0, 0x98}, {0x18aad00, ...}})
+	/usr/local/go/src/internal/fmtsort/sort.go:62 +0x7f
+slices.insertionSortCmpFunc[...]({0xc03aaa4008?, 0x44, 0x46e233}, 0x0?, 0x14, 0x1b4af38)
+	/usr/local/go/src/slices/zsortanyfunc.go:12 +0x198
+slices.stableCmpFunc[...]({0xc03aaa4008, 0x44, 0x44}, 0x44, 0x1b4af38)
+	/usr/local/go/src/slices/zsortanyfunc.go:339 +0x5c
+slices.SortStableFunc[...](...)
+	/usr/local/go/src/slices/sort.go:38
+internal/fmtsort.Sort({0x1805e40?, 0xc00ec92000?, 0xc03aa93a40?})
+	/usr/local/go/src/internal/fmtsort/sort.go:62 +0x2fd
+fmt.(*pp).printValue(0xc00fb40000, {0x1805e40?, 0xc00ec92000?, 0xc03aa93b98?}, 0x76, 0x0)
+	/usr/local/go/src/fmt/print.go:816 +0x988
+fmt.(*pp).printArg(0xc00fb40000, {0x1805e40, 0xc00ec92000}, 0x76)
+	/usr/local/go/src/fmt/print.go:759 +0x4bb
+fmt.(*pp).doPrintln(0xc00fb40000, {0xc03aa93d28?, 0x2, 0x47446b?})
+	/usr/local/go/src/fmt/print.go:1220 +0x38
+fmt.Fprintln({0x1cd2e80, 0xc0001a6020}, {0xc03aa93d28, 0x2, 0x2})
+	/usr/local/go/src/fmt/print.go:304 +0x49
+fmt.Println(...)
+	/usr/local/go/src/fmt/print.go:314
+market_replay/src/core.Traders.handleOrderEntryMR({0x0?})
+	/app/src/core/connect.go:508 +0x47b
+market_replay/src/core.Traders.establishConnection({0x0?}, 0x0?)
+	/app/src/core/connect.go:192 +0x92
+market_replay/src/core.Start.func1({0x0?})
+	/app/src/core/connect.go:59 +0x85
+created by market_replay/src/core.Start in goroutine 75
+	/app/src/core/connect.go:55 +0x13c
+
+goroutine 133 [IO wait]:
+internal/poll.runtime_pollWait(0x7fa0582c0760, 0x72)
+	/usr/local/go/src/runtime/netpoll.go:351 +0x85
+internal/poll.(*pollDesc).wait(0xc03aa20000?, 0xc00ed62000?, 0x0)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:84 +0x27
+internal/poll.(*pollDesc).waitRead(...)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).Read(0xc03aa20000, {0xc00ed62000, 0x1000, 0x1000})
+	/usr/local/go/src/internal/poll/fd_unix.go:165 +0x27a
+net.(*netFD).Read(0xc03aa20000, {0xc00ed62000?, 0x101004f3845?, 0x7fa058281ea8?})
+	/usr/local/go/src/net/fd_posix.go:55 +0x25
+net.(*conn).Read(0xc0003c2400, {0xc00ed62000?, 0xc00ed64000?, 0x0?})
+	/usr/local/go/src/net/net.go:189 +0x45
+bufio.(*Reader).Read(0xc03aa29a60, {0xc00ed64000, 0x800, 0x0?})
+	/usr/local/go/src/bufio/bufio.go:241 +0x197
+market_replay/src/core.Traders.OrderResponseListner({0x40b?}, 0xc0001c8f00?)
+	/app/src/core/connect.go:696 +0x1b9
+market_replay/src/core.Traders.RetryOrderEntry({0x1cd2e80?}, 0xcdc80, 0x6b58a, 0x1)
+	/app/src/core/connect.go:959 +0x146
+market_replay/src/core.Traders.handleOrderEntryMR({0x0?})
+	/app/src/core/connect.go:490 +0x35a
+market_replay/src/core.Traders.establishConnection({0x0?}, 0x0?)
+	/app/src/core/connect.go:192 +0x92
+market_replay/src/core.Start.func1({0x0?})
+	/app/src/core/connect.go:59 +0x85
+created by market_replay/src/core.Start in goroutine 75
+	/app/src/core/connect.go:55 +0x13c
+
+goroutine 134 [IO wait]:
+internal/poll.runtime_pollWait(0x7fa0582c0b80, 0x72)
+	/usr/local/go/src/runtime/netpoll.go:351 +0x85
+internal/poll.(*pollDesc).wait(0xc00fb48480?, 0xc03aa9d000?, 0x0)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:84 +0x27
+internal/poll.(*pollDesc).waitRead(...)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).Read(0xc00fb48480, {0xc03aa9d000, 0x1000, 0x1000})
+	/usr/local/go/src/internal/poll/fd_unix.go:165 +0x27a
+net.(*netFD).Read(0xc00fb48480, {0xc03aa9d000?, 0x101004f3845?, 0x7fa05a6a8f08?})
+	/usr/local/go/src/net/fd_posix.go:55 +0x25
+net.(*conn).Read(0xc0003c23e0, {0xc03aa9d000?, 0xc03aa9e000?, 0x0?})
+	/usr/local/go/src/net/net.go:189 +0x45
+bufio.(*Reader).Read(0xc03ab87a60, {0xc03aa9e000, 0x800, 0x0?})
+	/usr/local/go/src/bufio/bufio.go:241 +0x197
+market_replay/src/core.Traders.OrderResponseListner({0x40b?}, 0xc0005f6d80?)
+	/app/src/core/connect.go:696 +0x1b9
+market_replay/src/core.Traders.RetryOrderEntry({0x1cd2e80?}, 0xcdc80, 0x6b58a, 0x1)
+	/app/src/core/connect.go:959 +0x146
+market_replay/src/core.Traders.handleOrderEntryMR({0x0?})
+	/app/src/core/connect.go:490 +0x35a
+market_replay/src/core.Traders.establishConnection({0x0?}, 0x0?)
+	/app/src/core/connect.go:192 +0x92
+market_replay/src/core.Start.func1({0x0?})
+	/app/src/core/connect.go:59 +0x85
+created by market_replay/src/core.Start in goroutine 75
+	/app/src/core/connect.go:55 +0x13c
+
+goroutine 135 [runnable]:
+strconv.FormatFloat(...)
+	/usr/local/go/src/strconv/ftoa.go:48
+market_replay/src/core.Traders.handleOrderEntryMR({0x0?})
+	/app/src/core/connect.go:500 +0x3d9
+market_replay/src/core.Traders.establishConnection({0x0?}, 0x0?)
+	/app/src/core/connect.go:192 +0x92
+market_replay/src/core.Start.func1({0x0?})
+	/app/src/core/connect.go:59 +0x85
+created by market_replay/src/core.Start in goroutine 75
+	/app/src/core/connect.go:55 +0x13c
+
+goroutine 136 [IO wait]:
+internal/poll.runtime_pollWait(0x7fa0582c0970, 0x72)
+	/usr/local/go/src/runtime/netpoll.go:351 +0x85
+internal/poll.(*pollDesc).wait(0xc0005a6000?, 0xc03aa3a000?, 0x0)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:84 +0x27
+internal/poll.(*pollDesc).waitRead(...)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).Read(0xc0005a6000, {0xc03aa3a000, 0x1000, 0x1000})
+	/usr/local/go/src/internal/poll/fd_unix.go:165 +0x27a
+net.(*netFD).Read(0xc0005a6000, {0xc03aa3a000?, 0x100004f3845?, 0x7fa058e46048?})
+	/usr/local/go/src/net/fd_posix.go:55 +0x25
+net.(*conn).Read(0xc0003c2390, {0xc03aa3a000?, 0xc03aa39000?, 0x0?})
+	/usr/local/go/src/net/net.go:189 +0x45
+bufio.(*Reader).Read(0xc03aa8fa60, {0xc03aa39000, 0x800, 0x0?})
+	/usr/local/go/src/bufio/bufio.go:241 +0x197
+market_replay/src/core.Traders.OrderResponseListner({0x40b?}, 0xc03aa2c300?)
+	/app/src/core/connect.go:696 +0x1b9
+market_replay/src/core.Traders.RetryOrderEntry({0x1cd2e80?}, 0xcdc80, 0x6b58a, 0x1)
+	/app/src/core/connect.go:959 +0x146
+market_replay/src/core.Traders.handleOrderEntryMR({0x0?})
+	/app/src/core/connect.go:490 +0x35a
+market_replay/src/core.Traders.establishConnection({0x0?}, 0x0?)
+	/app/src/core/connect.go:192 +0x92
+market_replay/src/core.Start.func1({0x0?})
+	/app/src/core/connect.go:59 +0x85
+created by market_replay/src/core.Start in goroutine 75
+	/app/src/core/connect.go:55 +0x13c
+
+goroutine 137 [runnable]:
+internal/poll.runtime_Semacquire(0x50bd26?)
+	/usr/local/go/src/runtime/sema.go:76 +0x25
+internal/poll.(*fdMutex).rwlock(0xc0001bc060, 0x0?)
+	/usr/local/go/src/internal/poll/fd_mutex.go:154 +0xc5
+internal/poll.(*FD).writeLock(...)
+	/usr/local/go/src/internal/poll/fd_mutex.go:239
+internal/poll.(*FD).Write(0xc0001bc060, {0xc00054c000, 0x43, 0x580})
+	/usr/local/go/src/internal/poll/fd_unix.go:368 +0x65
+os.(*File).write(...)
+	/usr/local/go/src/os/file_posix.go:46
+os.(*File).Write(0xc0001a6020, {0xc00054c000?, 0x43, 0xc00ed4b9a8?})
+	/usr/local/go/src/os/file.go:195 +0x51
+fmt.Fprintf({0x1cd2e80, 0xc0001a6020}, {0x1a691ab, 0x23}, {0xc00ed4b9a8, 0x2, 0x2})
+	/usr/local/go/src/fmt/print.go:225 +0x97
+fmt.Printf(...)
+	/usr/local/go/src/fmt/print.go:233
+market_replay/src/core.Traders.OrderResponseListner({0x40b?}, 0xc03aa2c180?)
+	/app/src/core/connect.go:712 +0x40e
+market_replay/src/core.Traders.RetryOrderEntry({0x1cd2e80?}, 0xcdc80, 0x6b58a, 0x1)
+	/app/src/core/connect.go:959 +0x146
+market_replay/src/core.Traders.handleOrderEntryMR({0x2c302c30332c312c?})
+	/app/src/core/connect.go:490 +0x35a
+market_replay/src/core.Traders.establishConnection({0x373237312c302e30?}, 0x2d2c303933323837?)
+	/app/src/core/connect.go:192 +0x92
+market_replay/src/core.Start.func1({0x30312c3039363933?})
+	/app/src/core/connect.go:59 +0x85
+created by market_replay/src/core.Start in goroutine 75
+	/app/src/core/connect.go:55 +0x13c
+
+goroutine 139 [chan receive]:
+market_replay/src/core.PumpData()
+	/app/src/core/connect.go:92 +0x4f
+created by market_replay/src/core.Start in goroutine 75
+	/app/src/core/connect.go:79 +0x113
+
+goroutine 140 [chan receive]:
+market_replay/src/core.PumpTradersData()
+	/app/src/core/connect.go:123 +0x6a
+created by market_replay/src/core.Start in goroutine 75
+	/app/src/core/connect.go:80 +0x11f

@@ -7,13 +7,12 @@ import (
 	"log"
 	"strconv"
 	"time"
-
 	// "github.com/segmentio/kafka-go"
 )
 
 var ctx = context.Background()
 
-func (db *DB) FetchFromRedis() error {
+func (db *DB) SetDataToSecondaryRedis() error {
 
 	parsedTimeStart, err := time.Parse(LAYOUT, START_TIME_STR)
 	if err != nil {

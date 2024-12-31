@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: service-a
-        image: service-a:v1 # Replace with your image
+        image: service-a:latest # Replace with your image
         imagePullPolicy: Never
         ports:
         - containerPort: 8081

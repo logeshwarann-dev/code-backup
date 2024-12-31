@@ -78,7 +78,7 @@ func RedisConnection() error {
 
 			fmt.Println("REDIS CONNECTED SUCCESSFULLY FOR TRADER SET:", db.Set)
 
-			err := db.FetchFromRedis()
+			err := db.SetDataToSecondaryRedis()
 			if err != nil {
 				fmt.Println("Error in Fetch from Redis", err)
 				return

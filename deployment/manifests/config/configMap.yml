@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: redis-config
+data:
+  master-redis: "18.215.162.116"
+  secondary-redis-template: "secondary-redis-service-{pod-index}:6379"
+  aws-eti-server: "34.224.56.185"
