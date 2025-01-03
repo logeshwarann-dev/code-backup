@@ -2,8 +2,8 @@ package utils
 
 var (
 	BATCH_SIZE     = int64(10)
-	START_TIME_STR = "01-10-2024 11:33:06"
-	END_TIME_STR   = "01-10-2024 11:33:20"
+	START_TIME_STR = "01-10-2024 11:33:07"
+	END_TIME_STR   = "01-10-2024 11:49:46"
 	LAYOUT         = "02-01-2006 15:04:05"
 )
 

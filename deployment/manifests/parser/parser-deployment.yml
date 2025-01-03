@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: fileparser
-        image: fileparser:v7
+        image: fileparser:v12
         envFrom:
         - configMapRef:
             name: redis-config

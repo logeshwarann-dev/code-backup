@@ -14,7 +14,8 @@ spec:
     spec:
       containers:
       - name: metrics-generator
-        image: metric-gen:v3
+        image: metric-gen:v12
+        imagePullPolicy: Never
         envFrom:
         - configMapRef:
             name: redis-config

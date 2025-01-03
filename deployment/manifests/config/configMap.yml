@@ -3,6 +3,7 @@ kind: ConfigMap
 metadata:
   name: redis-config
 data:
-  master-redis: "18.215.162.116"
+  master-redis: "3.80.77.187"
   secondary-redis-template: "secondary-redis-service-{pod-index}:6379"
-  aws-eti-server: "34.224.56.185"
+  aws-mock-server-ip: "98.84.182.252"
+  aws-mock-server-port: "3002"

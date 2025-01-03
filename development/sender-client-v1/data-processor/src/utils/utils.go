@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	"sync"
+	"time"
 
 	"github.com/go-redis/redis/v8"
 )
@@ -45,12 +45,12 @@ func RedisConnection() error {
 
 	constructTradersDB(redisPods)
 
-	var wg sync.WaitGroup
+	// var wg sync.WaitGroup
 	for index := range len(MEMBER_SET) {
-		wg.Add(1)
+		// wg.Add(1)
 		database := &Traders_DB[index]
 		go func(db *DB) {
-			defer wg.Done()
+			// defer wg.Done()
 
 			traderClient := redis.NewClient(&redis.Options{
 				Addr: db.Addr,
@@ -58,9 +58,15 @@ func RedisConnection() error {
 				DB: 0,
 			})
 
-			if _, err := traderClient.Ping(ctx).Result(); err != nil {
-				fmt.Printf("Failed to connect to trader Redis: %v\n", err)
-				return
+			for retryConn := range 5 {
+				if _, err := traderClient.Ping(ctx).Result(); err != nil {
+					fmt.Printf("Failed to connect to trader Redis: %v\n", err)
+					fmt.Println("Retrying Redis Pod Connection: Attempt-", retryConn)
+					time.Sleep(5 * time.Second)
+					continue
+				}
+				// fmt.Println("Redis Pod Connection Successful!")
+				break
 			}
 
 			db.main_db = mainRdb
@@ -76,6 +82,6 @@ func RedisConnection() error {
 		}(database)
 	}
 
-	wg.Wait()
+	// wg.Wait()
 	return nil
 }

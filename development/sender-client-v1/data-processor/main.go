@@ -25,7 +25,7 @@ func main() {
 
 	router := gin.Default()
 
-	router.POST("/api/v1/data-processor/scale-fileparser", api.ScaleFileParserPods) // Body: { "historyfile_path": ["", ""]}
+	router.POST("/api/v1/data-processor/scale-fileparser", api.StartDataProcessing) // Body: { "historyfile_path": ["", ""]}
 
 	// router.POST("/api/v1/data-processor/scale-redis-sender-pods", api.ScaleRedisAndSenderPods) // Body: {"replica_count": int}
 

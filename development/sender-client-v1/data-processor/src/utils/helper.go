@@ -309,10 +309,10 @@ func (db *DB) fetchDataByPatterns(ctx context.Context, patterns [][]string) ([]i
 				return nil, fmt.Errorf("error fetching values for keys: %v", err)
 			}
 
-			// _, err = db.main_db.Del(ctx, allMatchingKeys...).Result()
-			// if err != nil {
-			// 	return nil, fmt.Errorf("error deleting keys: %v", err)
-			// }
+			_, err = db.main_db.Del(ctx, allMatchingKeys...).Result()
+			if err != nil {
+				return nil, fmt.Errorf("error deleting keys: %v", err)
+			}
 
 			allResults = append(allResults, values)
 		}
@@ -426,12 +426,21 @@ func ScaleStatefulSet(clientset *kubernetes.Clientset, namespace, statefulSetNam
 
 func constructTradersDB(redisPods []v1.Pod) {
 
+	if len(Traders_DB) > 1 {
+		clearTradersDB(&Traders_DB)
+	}
 	for i := range len(MEMBER_SET) {
 		podIP := redisPods[i].Status.PodIP
 		secondaryRedisURL := fmt.Sprintf("%s:6379", podIP)
 		setName := fmt.Sprintf("set%d", i)
 		Traders_DB = append(Traders_DB, DB{Set: i, Addr: secondaryRedisURL, session_ids: MEMBER_SET[setName]})
 	}
+	// {set: 0, Addr: "old addr",session_id: "" }... {set: 7, Adrr: "old addr"}, {set: 8, Addr: "new addr"}
+}
+
+func clearTradersDB(db *[]DB) {
+	// Reassign the slice to an empty slice
+	*db = []DB{}
 }
 
 // ===========ARCHIVE=================

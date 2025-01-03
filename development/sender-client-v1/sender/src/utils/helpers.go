@@ -469,8 +469,11 @@ func SetEnvVariables() error {
 
 	case LAB_ENV:
 		envName = "LAB"
-		ip = LAB_IP
-		port = LAB_PORT
+
+		// ip = LAB_IP
+		// port = LAB_PORT
+		ip = os.Getenv("aws-mock-server-ip")
+		port = os.Getenv("aws-mock-server-port")
 		RECORD_FILE = LAB_RECORDS1_FILE
 		if FILE_TYPE == 0 {
 			RECORD_FILE = LAB_RECORDS_FILE

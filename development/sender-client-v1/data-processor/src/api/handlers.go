@@ -3,6 +3,7 @@ package api
 import (
 	"bytes"
 	"context"
+	"encoding/json"
 	"fmt"
 	"io"
 	"log"
@@ -18,13 +19,19 @@ import (
 	"k8s.io/client-go/rest"
 )
 
+type HistoryFilePath struct {
+	FilePath []string `json:"historyfile_path"`
+}
+
 // ===========HANDLER FUNCTIONS==============
 
 func TransferOrderDataToRedisPods(context *gin.Context) {
+
 	if err := utils.RedisConnection(); err != nil {
 		context.JSON(http.StatusOK, gin.H{"message": "Error in Redis operation."})
 		return
 	}
+
 	context.JSON(http.StatusOK, gin.H{"message": "Redis Connection is successful!"})
 	// return
 }
@@ -47,14 +54,48 @@ func GetSenderHealthStatus(context *gin.Context) {
 	context.JSON(http.StatusOK, gin.H{"responses": responses})
 }
 
-func ScaleFileParserPods(context *gin.Context) {
-	var historyFilePath struct {
-		FilePath []string `json:"historyfile_path"`
-	}
-	if err := context.ShouldBindJSON(&historyFilePath); err != nil {
+func StartDataProcessing(context *gin.Context) {
+
+	historyFilesPath := HistoryFilePath{}
+
+	if err := context.ShouldBindJSON(&historyFilesPath); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request"})
 		return
 	}
+	metricRes, err := TriggerMetricGenerator(historyFilesPath)
+	if err != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{"error": metricRes})
+		return
+	}
+	fileParserRes, err := ScaleFileParserPods(historyFilesPath)
+	if err != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{"error": fileParserRes})
+		return
+	}
+
+	context.JSON(http.StatusOK, gin.H{"message": "Data Processing has been started!"})
+
+}
+
+func TriggerMetricGenerator(historyFilePath HistoryFilePath) (string, error) {
+
+	requestBody, err := json.Marshal(historyFilePath)
+	if err != nil {
+		return "Marshalling error", err
+	}
+
+	resp, err := http.Post("http://metrics-generator-service:5001/api/v1/metric-gen/store-metrics-in-redis", "application/json", bytes.NewBuffer(requestBody))
+	if err != nil {
+		return "Error in sending request to Metric Generator", err
+	}
+	defer resp.Body.Close()
+
+	metricGenResponse := fmt.Sprintf("Response from Metric Generator: %d\n", resp.StatusCode)
+	return metricGenResponse, nil
+
+}
+
+func ScaleFileParserPods(historyFilePath HistoryFilePath) (string, error) {
 
 	totalFiles := len(historyFilePath.FilePath)
 
@@ -73,8 +114,7 @@ func ScaleFileParserPods(context *gin.Context) {
 
 	scaleErr := utils.ScaleStatefulSet(clientset, namespace, statefulSet, totalFiles)
 	if scaleErr != nil {
-		context.JSON(http.StatusInternalServerError, gin.H{"error": scaleErr.Error()})
-		return
+		return scaleErr.Error(), scaleErr
 	}
 
 	for try := range 5 {
@@ -93,7 +133,7 @@ func ScaleFileParserPods(context *gin.Context) {
 		fanOutRequestsToPods("/api/v1/fileparser/process-file", reqBody, "fileparser", "5000")
 	}
 
-	context.JSON(http.StatusOK, gin.H{"message": "File Parser pods are scaled successfully"})
+	return "File Parser pods are scaled successfully", nil
 
 }
 

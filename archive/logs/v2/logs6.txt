@@ -1,0 +1,20 @@
+[GIN-debug] [WARNING] Creating an Engine instance with the Logger and Recovery middleware already attached.
+
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] POST   /api/v2/sender/connectToRedis --> market_replay/src/api.ConnectToRedisAndLoadData (3 handlers)
+[GIN-debug] POST   /api/v1/sender/start-pumping --> market_replay/src/api.StartPumping (3 handlers)
+[GIN-debug] POST   /api/v1/sender/health-check --> market_replay/src/api.GetHealthStatus (3 handlers)
+[GIN-debug] [WARNING] You trusted all proxies, this is NOT safe. We recommend you to set a value.
+Please check https://pkg.go.dev/github.com/gin-gonic/gin#readme-don-t-trust-all-proxies for details.
+[GIN-debug] Listening and serving HTTP on :8090
+[GIN] 2024/12/31 - 06:42:59 | 200 |      58.445µs |    10.244.1.220 | POST     "/api/v1/sender/health-check"
+Connected to Redis (DB: 0)
+Error in setting config values: error parsing config value for environment: strconv.Atoi: parsing "": invalid syntax
+Error in reading config data from local redis error parsing config value for environment: strconv.Atoi: parsing "": invalid syntax
+[GIN] 2024/12/31 - 06:43:15 | 500 |  498.119628ms |    10.244.1.220 | POST     "/api/v2/sender/connectToRedis"
+[GIN] 2024/12/31 - 06:53:11 | 200 |   13.103261ms |    10.244.1.220 | POST     "/api/v1/sender/start-pumping"
+2024/12/31 06:53:12 No data available in mainChannel
+ORDER PUMPING COMPLETED!!

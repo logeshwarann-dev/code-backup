@@ -169,13 +169,13 @@ func getDataFromLocalRedis(rdb *redis.Client) error {
 			MainChannel <- item
 		}
 
-		// //Delete the key after fetching
-		// err = rdb.Del(ctx, strconv.Itoa(i)).Err()
-		// if err != nil {
-		// 	fmt.Println("error deleting key:", err)
-		// }
+		//Delete the key after fetching
+		err = rdb.Del(ctx, strconv.Itoa(i)).Err()
+		if err != nil {
+			fmt.Println("error deleting key:", err)
+		}
 
-		// fmt.Printf("Deleted key %d from redis db \n", i)
+		fmt.Printf("Deleted key %d from redis db \n", i)
 
 		time.Sleep(time.Duration(REDIS_TIMESTAMP_BATCH/2) * time.Second)
 	}

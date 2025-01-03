@@ -14,7 +14,8 @@ spec:
     spec:
       containers:
       - name: data-processor
-        image: data-processor:v7
+        image: data-processor:v11
+        imagePullPolicy: Never
         envFrom:
         - configMapRef:
             name: redis-config

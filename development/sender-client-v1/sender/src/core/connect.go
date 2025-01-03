@@ -499,6 +499,7 @@ func (t Traders) handleOrderEntryMR() error {
 
 				orderID_str := strconv.FormatFloat(data.OrderID, 'f', -1, 64)
 
+				cacheMu.Lock()
 				cache[orderID_str] = utils.CacheEntry{
 					NewOrderID:          int64(order_id),
 					UpdatedActivityTime: int64(act_time),
@@ -506,6 +507,7 @@ func (t Traders) handleOrderEntryMR() error {
 				}
 
 				fmt.Println(cache, "====== CACHE")
+				cacheMu.Unlock()
 
 				// case utils.ORDER_MODIFY:
 				// 	orderID_str := strconv.FormatFloat(data.OrderID, 'f', -1, 64)
@@ -521,11 +523,13 @@ func (t Traders) handleOrderEntryMR() error {
 				// 		break
 				// 	}
 
+				// cacheMu.Lock()
 				// 	cache[orderID_str] = utils.CacheEntry{
 				// 		NewOrderID:          int64(order_id),
 				// 		UpdatedActivityTime: int64(act_time),
 				// 		Used:                false,
 				// 	}
+				// cacheMu.Unlock()
 
 				// case utils.ORDER_CANCEL:
 				// 	orderID_str := strconv.FormatFloat(data.OrderID, 'f', -1, 64)

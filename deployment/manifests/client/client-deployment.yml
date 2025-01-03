@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: client
-        image: sender:v7
+        image: sender:v11
         envFrom:
         - configMapRef:
             name: redis-config
