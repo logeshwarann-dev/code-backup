@@ -1,0 +1,50 @@
+
+<div class="container">
+  <div class="dashboard">
+    <aside class="sidebar" [class.show]="stateService.getBurgerMenuState()()">
+      <app-config-panel (configChange)="onConfigChange($event)"></app-config-panel>
+    </aside>
+
+    <main class="main-content" [class.shift-right]="isSidebarOpen">
+      <div class="controls">
+        <h2 class="grafana-heading">LIVE DASHBOARD</h2>
+        <!-- <div class="button-group">      
+          <button 
+            mat-button
+            [matMenuTriggerFor]="menu"
+            class="menu-button"
+            title="Menu"
+          >
+            <mat-icon>menu</mat-icon>
+          </button>
+
+
+          <mat-menu #menu="matMenu" class="custom-menu">
+            <button mat-menu-item (click)="openAddRecordsModal('default')">
+              <mat-icon>assignment</mat-icon>
+              <span>Manage Records</span>
+            </button>
+            <button mat-menu-item (click)="openAddRecordsModal('option1')">
+              <mat-icon>delete</mat-icon>
+              <span>Delete All Orders</span>
+            </button>
+            <button mat-menu-item (click)="openAddRecordsModal('option2')">
+              <mat-icon>timeline</mat-icon>
+              <span>Change Throttle</span>
+            </button>
+            <button mat-menu-item (click)="startProcess()" *ngIf="!stateService.marketReplay()">
+              <mat-icon>launch</mat-icon>
+              <span>Launch Order Pumping</span>
+            </button>
+          </mat-menu>          
+        </div> -->
+      </div>      
+
+      <app-grafana-dashboard></app-grafana-dashboard>
+      <!-- <app-topstocks *ngIf="stateService.metrics_received()"></app-topstocks> -->
+      <app-topstocks *ngIf="stateService.marketReplay()" [intervalData]="intervalData"></app-topstocks>
+      <!-- <app-widgets-grid *ngIf="stateService.metrics_received()"></app-widgets-grid> -->
+      <app-chart-widget *ngIf="stateService.marketReplay()" [intervalData]="intervalData"></app-chart-widget>
+    </main>
+  </div>
+</div>

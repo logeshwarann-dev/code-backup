@@ -1,0 +1,33 @@
+<div>
+  <div (mouseleave)="showDropDown = false" class="dropdown-container">
+    <button class="drop-toggle btn flat" (click)="showDropDown = !showDropDown">
+      <span *ngIf="selectAllChecked">All Partitions</span>
+      <span *ngIf="!selectAllChecked && appliedCheckedList.length > 0">
+        {{ appliedCheckedList.join(', ') }}
+      </span>
+      <span *ngIf="!selectAllChecked && appliedCheckedList.length === 0">Select</span>
+      <i class="fa fa-angle-down"></i>
+    </button>
+    <div class="drop-show" *ngIf="showDropDown">
+      <div class="options-wrapper">
+        <label>
+          <input 
+            type="checkbox" 
+            [(ngModel)]="selectAllChecked" 
+            (change)="toggleAllPartitions(selectAllChecked)" 
+          />
+          <span>All Partitions</span>
+        </label>
+        <label *ngFor="let a of list">
+          <input 
+            type="checkbox" 
+            [(ngModel)]="a.checked" 
+            (change)="updatePartitionSelection()" 
+          />
+          <span>{{ a.name }}</span>
+        </label>
+      </div>
+      <button class="apply-btn" (click)="applySelection()">Apply</button>
+    </div>
+  </div>
+</div>

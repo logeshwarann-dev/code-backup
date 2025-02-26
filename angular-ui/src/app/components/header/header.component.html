@@ -1,0 +1,47 @@
+<header class="header">
+  <div class="burger-menu" [class.active]="stateService.getBurgerMenuState()()" (click)="toggleMenu()">
+    <div class="burger-container">
+      <div class="burger-inner"></div>
+    </div>
+  </div>
+    <div class="logo">
+      <img src="/BSE fin.png" alt="BSE Logo" class="logo-img" />
+    </div>
+    <div class="controls">
+      <!-- <div>
+        <button 
+          (click)="startProcess()" 
+          class="playButton"
+          title="Start"
+          >
+          <mat-icon>launch</mat-icon>
+        </button>
+      </div> -->
+
+      <!-- <select [(ngModel)]="selectedMode" (change)="onModeChange()" class="mode-select">
+        <option value="market-replay">Market Replay</option>
+        <option value="order-pumping">Order Pumping</option>
+      </select> -->
+
+      <div class="status-indicator" [class.active]="stateService.process_state()">
+        <div class="indicator-dot"></div>
+      </div>
+
+    <!-- <button
+      class="stopButton"
+      title="Stop"
+      >
+      <mat-icon>stop</mat-icon>
+    </button> -->
+
+    <button 
+      (click)="openAllDayStats()"
+      class="infoButton" 
+      title="All Day Stats"
+      *ngIf="stateService.marketReplay()"
+    >
+      <mat-icon>info</mat-icon>
+    </button>
+    </div>
+  </header>
+  
