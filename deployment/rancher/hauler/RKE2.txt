@@ -1,0 +1,40 @@
+
+ systemctl disable nm-cloud-setup.service nm-cloud-setup.timer
+    
+    systemctl status rke2-server
+    3  cd /opt/
+    4  ls
+    5  ls hauler/
+    6  cat hauler/airgap_hauler.yaml
+    7  kubectl get node
+    8  echo $KUBECONFI
+    9  echo $KUBECONFIG
+   10  ls -l ~/.kube
+   11  ls -l ~/.kube/cache/
+   12  sudo rke2 server --write-kubeconfig-mode 644
+   13  ls
+   14  rke2 --version
+   15  rke2 server status
+   16  systemctl status rke2-server
+   17  journalctl -u rke2 -f
+   18  curl -kv https://172.31.22.180:6443/healthz
+   19  systemctl status rke2-server
+   20  rke2 server restart
+   21  sudo rke2 server restart
+   22  ls /etc/rancher/rke2/
+   23  cat /etc/rancher/rke2/config.yaml
+   24  cat /etc/rancher/rke2/rke2.yaml
+   25  cd ~/.kube/
+   26  ls
+   27  sudo vi config
+   28  cd ..
+   29  echo $KUBECONFIG
+   30  cat ~/.kube/config
+   31  kubectl get node
+   32  kubectl get pods
+   33  kubectl get pod -A
+
+
+   Worker:
+sudo su
+   curl -sfL http://172.31.22.180:8080/hauler_all_the_things.sh | bash -s -- worker 172.31.22.180

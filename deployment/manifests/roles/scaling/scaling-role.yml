@@ -1,0 +1,9 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: default
+  name: statefulset-scaler
+rules:
+  - apiGroups: ["apps"] # API group for statefulsets
+    resources: ["statefulsets"] # StatefulSet resource
+    verbs: ["get", "update"] # Required actions

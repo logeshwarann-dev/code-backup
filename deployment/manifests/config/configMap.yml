@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: redis-config
+data:
+  master-redis: "43.204.237.3"
+  secondary-redis-template: "secondary-redis-service-{pod-index}:6379"
+  aws-mock-server-ip: "13.201.104.45"
+  aws-mock-server-port: "3002"

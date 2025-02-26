@@ -1,0 +1,39 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: data-processor-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+    - host: ""  # No specific host is required for Minikube
+      http:
+        paths:
+          - path: /api/v1/data-processor/scale-fileparser
+            pathType: Prefix
+            backend:
+              service:
+                name: data-processor-service
+                port:
+                  number: 8080
+          - path: /api/v1/data-processor/get-sender-pod-health
+            pathType: Prefix
+            backend:
+              service:
+                name: data-processor-service
+                port:
+                  number: 8080
+          - path: /api/v1/data-processor/redis/store-data-in-secondary
+            pathType: Prefix
+            backend:
+              service:
+                name: data-processor-service
+                port:
+                  number: 8080
+          - path: /api/v1/data-processor/sender/trigger
+            pathType: Prefix
+            backend:
+              service:
+                name: data-processor-service
+                port:
+                  number: 8080

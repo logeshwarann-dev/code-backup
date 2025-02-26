@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: sync-sender
+  labels:
+    app: sync-sender
+spec:
+  serviceName: sync-sender-service 
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sync-sender
+  template:
+    metadata:
+      labels:
+        app: sync-sender
+    spec:
+      containers:
+      - name: sync-sender
+        image: sender:v01
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 8090
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sync-sender-service
+spec:
+  selector:
+    app: sync-sender
+  ports:
+  - protocol: TCP
+    port: 8090
+    targetPort: 8090
