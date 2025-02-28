@@ -1,0 +1,134 @@
+<div class="modal-container" *ngIf="data?.mode === 'default' || data?.mode === 'option1' || data?.mode === 'option2'">
+  <h2 class="modal-header" *ngIf="data?.mode ==='default'">MANAGE RECORDS</h2>
+  <h2 class="modal-header" *ngIf="data?.mode ==='option1'">DELETE ALL ORDERS</h2>
+  <h2 class="modal-header" *ngIf="data?.mode ==='option2'">CHANGE THROTTLE VALUE</h2>
+
+  <!-- Radio Buttons for Add and Delete Record (Default Mode Only) -->
+  <div class="radio-group" *ngIf="data?.mode === 'default'">
+    <label>
+      <input
+        type="radio"
+        id="add-record"
+        name="mode"
+        value="add"
+        [(ngModel)]="mode"
+        (change)="onModeChange($event)"
+      />
+      Add Record
+    </label>
+    <label>
+      <input
+        type="radio"
+        id="delete-record"
+        name="mode"
+        value="delete"
+        [(ngModel)]="mode"
+        (change)="onModeChange($event)"
+      />
+      Delete Record
+    </label>
+  </div>
+
+  <form [formGroup]="recordForm" (ngSubmit)="onSubmit()">
+
+    <!-- Spinner Overlay -->
+    <div class="spinner-overlay" *ngIf="loading">
+      <div class="spinner-container">
+        <mat-spinner diameter="40"></mat-spinner>
+      </div>
+    </div>
+
+
+    <!-- Add Operation Fields -->
+    <div *ngIf="mode === 'add' && data?.mode === 'default'">
+      <div class="form-item">
+        <label for="instrument_id">Instrument ID:</label>
+        <input
+          id="instrument_id"
+          type="text"
+          formControlName="instrument_id"
+          required
+          placeholder="Enter Instrument ID"
+        />
+      </div>
+      <div *ngFor="let field of ['lower_limit', 'upper_limit', 'min_lot', 'bid_interval', 'max_trd_qty', 'product_id']">
+        <div class="form-item">
+          <label [for]="field">{{ field.replace('_', ' ') | titlecase }}:</label>
+          <input
+            [id]="field"
+            type="number"
+            [formControlName]="field"
+            required
+            [placeholder]="'Enter ' + field.replace('_', ' ')"
+          />
+        </div>
+      </div>
+    </div>
+
+    <!-- Delete Operation Fields -->
+    <div *ngIf="mode === 'delete' && data?.mode === 'default'">
+      <div class="form-item">
+        <label for="instrument_id">Instrument ID:</label>
+        <input
+          id="instrument_id"
+          type="text"
+          formControlName="instrument_id"
+          required
+          placeholder="Enter Instrument ID"
+        />
+      </div>
+    </div>
+
+    <!-- Option 1: Delete Order with Product ID -->
+    <div *ngIf="data?.mode === 'option1'">
+      <div class="form-item">
+        
+        <label for="instrument_id">Instrument ID:</label>
+        <input
+          id="instrument_id"
+          type="text"
+          formControlName="instrument_id"
+          required
+          placeholder="Enter Instrument ID"
+        />
+
+        <label for="product_id">Product ID:</label>
+        <input
+          id="product_id"
+          type="text"
+          formControlName="product_id"
+          required
+          placeholder="Enter Product ID"
+        />
+      </div>
+    </div>
+
+    <!-- Option 2: Change Throttle with Throttle Value -->
+    <div *ngIf="data?.mode === 'option2'">
+      <div class="form-item">
+        <label for="throttle_value">Throttle Value:</label>
+        <input
+          id="throttle_value"
+          type="number"
+          formControlName="throttle_value"
+          required
+          placeholder="Enter Throttle Value"
+        />
+      </div>
+    </div>
+
+    <!-- Form Buttons -->
+    <div class="modal-buttons">
+      <button
+        type="submit"
+        class="button primary-button"
+        [disabled]="recordForm.invalid || loading"
+      >
+        {{ getSubmitButtonText() }}
+      </button>
+      <button type="button" class="button cancel-button" (click)="onCancel()">
+        Cancel
+      </button>
+    </div>
+  </form>
+</div>

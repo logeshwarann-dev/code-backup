@@ -1,0 +1,65 @@
+<div 
+  class="widgets-grid" 
+  cdkDropList 
+  [cdkDropListData]="widgets"
+  (cdkDropListDropped)="onDrop($event)"
+>
+  <div 
+    *ngFor="let widget of widgets" 
+    cdkDrag 
+    [cdkDragData]="widget"
+    [ngClass]="{
+      'pie-chart': widget.chartType === 'pie',
+      'bar-chart': widget.chartType === 'bar',
+      'line-chart': widget.chartType === 'line'
+    }"
+    class="widget-wrapper"
+  >
+    <div class="chart-widget">
+      <div class="header">
+        <h3 class="widget-title">{{ widget.title }}</h3>
+        <div class="partition-selection">
+          <label>
+            <input 
+              type="radio" 
+              name="partitionOption{{ widget.id }}" 
+              [(ngModel)]="widget.selectedOption" 
+              value="allPartitions" 
+              (change)="onOptionChange(widget)"
+              [checked]="widget.selectedOption === 'allPartitions'"
+            >
+            All Partitions
+          </label>
+          <label>
+            <input 
+              type="radio" 
+              name="partitionOption{{ widget.id }}" 
+              [(ngModel)]="widget.selectedOption" 
+              value="selectPartition" 
+              (change)="onOptionChange(widget)"
+              [checked]="widget.selectedOption === 'selectPartition'"
+            >
+            Select Partition
+          </label>
+      
+          <!-- Dropdown without Apply Changes button -->
+          <div class="dropdown-wrapper">
+            <select 
+              [disabled]="widget.selectedOption !== 'selectPartition'" 
+              [(ngModel)]="widget.selectedPartition" 
+              (ngModelChange)="applyChanges(widget)"
+            >
+              <option *ngFor="let partition of partitions" [value]="partition">
+                Partition {{ partition }}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>      
+
+      <div class="chart-container">
+        <canvas id="chart-{{ widget.id }}"></canvas>
+      </div>
+    </div>
+  </div>
+</div>

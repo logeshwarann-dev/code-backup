@@ -1,0 +1,15 @@
+<div class="topstocks-container">
+    <div *ngFor="let stock of topStocks" class="stock-card">
+      <h4>{{ stock.name }}</h4>
+      <p>Price: {{ stock.price | currency }}</p>
+      <p>
+        Change: 
+        <span 
+          [class.positive]="stock.change >= 0" 
+          [class.negative]="stock.change < 0">
+          {{ stock.change }}%
+        </span>
+      </p>
+    </div>
+  </div>
+  
