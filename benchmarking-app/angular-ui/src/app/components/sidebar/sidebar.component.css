@@ -1,0 +1,379 @@
+/* General styles */
+.config-panel {
+    padding: 20px;
+    color: #ffffff;
+}
+
+.config-title {
+    font-style: italic;
+    margin-bottom: 20px;
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #00ff9d;
+    text-align: center;
+}
+
+.generate-select {
+    height: 10px;
+}
+
+.advanced-settings {
+    padding-top: 20px;
+}
+
+/* Sub Panels */
+.sub-panel {
+    background: #112233;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 15px;
+}
+
+.sub-panel-title {
+    font-size: 1.3em;
+    font-weight: bold;
+    color: #00ff9d;
+    text-align: left;
+    margin-bottom: 10px;
+}
+
+/* Config Items */
+.config-item {
+    margin-bottom: 15px;
+}
+
+/* Inputs & Selects */
+.config-input,
+.config-select {
+    font-family: inherit;
+    width: 100%;
+    padding: 8px;
+    background: #163456;
+    border: 1px solid #1a3654 !important;
+    border-radius: 4px;
+    color: #ffffff;
+    margin-top: 5px;
+}
+
+.advanced-settings {
+    background: #0d2137;
+}
+
+/* Hover and Focus effects */
+.config-input:hover,
+.config-select:hover,
+.sub-panel-input:hover,
+.sub-panel-select:hover {
+    border: 1px solid #00ff9d !important;
+}
+
+.config-input:focus,
+.config-select:focus,
+.sub-panel-input:focus,
+.sub-panel-select:focus {
+    border: 1px solid #00ff9d !important;
+    outline: none;
+}
+
+.config-input::placeholder,
+.config-select::placeholder,
+.sub-panel-input::placeholder,
+.sub-panel-select::placeholder {
+    color: #ffffff;
+    font-family: "Funnel Display", serif;
+    font-size: 14px;
+    opacity: 1;
+}
+
+/* Buttons */
+.config-button,
+.sub-panel-button {
+    display: inline-block;
+    padding: 10px 20px;
+    margin: 10px 5px;
+    font-size: 16px;
+    font-weight: bold;
+    color: black;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #00ff9d;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.config-button:hover,
+.sub-panel-button:hover {
+    transform: scale(1.05);
+    background-color: #00cc7d;
+}
+
+.config-button:active,
+.sub-panel-button:active {
+    transform: scale(0.95);
+}
+
+.config-button:disabled{
+    background-color: #ccc;
+    color: #666;
+    cursor: not-allowed;
+}
+
+/* New Settings Button */
+.new-settings-button {
+    background-color: #6c63ff;
+}
+
+.new-settings-button:hover {
+    background-color: #5a52cc;
+}
+
+/* Error Messages */
+.error-message {
+    color: #ff4d4d;
+    font-size: 0.85em;
+}
+
+/* Sub Panel Specific */
+.sub-panel-input,
+.sub-panel-select {
+    width: 100%;
+    padding: 8px;
+    background: #0d2137;
+    border: 1px solid #00ff9d;
+    border-radius: 4px;
+    color: #ffffff;
+    margin-top: 5px;
+}
+
+.sub-panel-helper-text {
+    font-size: 0.85em;
+    color: #00ff9d;
+}
+
+.error-text{
+    color: red;
+}
+
+.sub-panel-error-message {
+    color: #ff4d4d;
+    font-size: 0.85em;
+}
+
+/* Sub Panel Buttons */
+.sub-panel-apply-button {
+    width: 100%;
+    padding: 10px;
+    background: #00ff9d;
+    border: none;
+    border-radius: 4px;
+    color: #0a1929;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 16px;
+    margin-top: 20px;
+    font-family: "Funnel Display", serif;
+}
+
+.sub-panel-apply-button:hover {
+    background: #00cc7d;
+}
+
+
+
+
+/* Section Styling */
+.sub-panel-preview {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #1a3654;
+    border-radius: 5px;
+    color: #ffffff;
+}
+
+/* Advanced Settings */
+.adv-settings-panel {
+    padding: 20px;
+    padding-top: 0px;
+    color: #ffffff;
+    background-color: #112233;
+    border-radius: 8px;
+}
+
+/* Spinner Overlay */
+.spinner-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+.spinner-container {
+    background: transparent;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Radio Button Customization */
+mat-radio-button .mat-radio-inner-container {
+    display: none;
+}
+
+.custom-radio {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: white;
+    border: 2px solid #00ff9d;
+    display: inline-block;
+    margin-right: 10px;
+    vertical-align: middle;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+mat-radio-button.mat-radio-checked .custom-radio {
+    background-color: #00ff9d;
+    border-color: #00ff9d;
+}
+
+/* Delete Button */
+.adv-delete-button {
+    background-color: #ff4d4d;
+}
+
+.adv-delete-button:hover {
+    background-color: #cc3c3c;
+}
+
+/* General Button Styling */
+.styled-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: 500;
+    border-radius: 8px;
+    transition: background 0.3s ease-in-out, transform 0.2s;
+    text-transform: uppercase;
+    font-family: "Funnel Display", serif;
+}
+
+/* Submit Button */
+.submit-button {
+    width: 100%;
+    padding: 10px;
+    background: #00ff9d;
+    border: none;
+    border-radius: 4px;
+    color: #0a1929;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 16px;
+    margin-top: 20px;
+    font-family: "Funnel Display", serif;
+    transition: background 0.3s ease-in-out, transform 0.2s;
+}
+
+.submit-button:hover {
+    background: #00cc7d;
+    transform: scale(1.05);
+}
+
+/* Delete All Orders Button */
+.delete-all-button {
+    width: 100%;
+    padding: 10px;
+    background-color: #b71c1c;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 16px;
+    margin-top: 20px;
+    font-family: "Funnel Display", serif;
+    transition: background 0.3s ease-in-out, transform 0.2s;
+}
+
+.delete-all-button:hover {
+    background-color: #8a0000;
+    transform: scale(1.05);
+}
+
+/* Update Throttle Button */
+.update-throttle-button {
+    width: 100%;
+    padding: 10px;
+    background-color: #00ff9d;
+    color: #0a1929;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 20px;
+    font-family: "Funnel Display", serif;
+    transition: background 0.3s ease-in-out, transform 0.2s;
+}
+
+.update-throttle-button:hover {
+    background: #00cc7d;
+    transform: scale(1.05);
+}
+
+.submit-button:disabled {
+    background-color: #a3a3a3; /* Greyed out */
+    color: #666666; /* Dimmed text */
+    cursor: not-allowed; /* Show disabled cursor */
+    transform: none; /* Prevent scaling effect */
+    opacity: 0.6; /* Reduce visibility */
+}
+
+.generate-pattern-button {
+    width: 100%;
+    padding: 10px;
+    background-color: #00ff9d;
+    color: #0a1929;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 20px;
+    font-family: "Funnel Display", serif;
+    transition: background 0.3s ease-in-out, transform 0.2s;
+}
+
+.generate-pattern-button:hover{
+    background: #00cc7d;
+    transform: scale(1.05);
+}
+
+.generate-pattern-button:disabled {
+    background-color: #a3a3a3; /* Greyed out */
+    color: #666666; /* Dimmed text */
+    cursor: not-allowed; /* Show disabled cursor */
+    transform: none; /* Prevent scaling effect */
+    opacity: 0.6; /* Reduce visibility */
+}
+
+
+.dynamic-config-panel {
+    background-color: #0d2137; /* Dark theme */
+    color: #0d2137 !important;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    color: white;
+}
+
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
