@@ -1,0 +1,688 @@
+<p-toast position="bottom-right" [baseZIndex]="10000" [life]="3000"></p-toast>
+
+<mat-tab-group>
+  <!-- Configuration Settings -->
+  <mat-tab label="Configuration" style="color: white;">
+  
+    <div class="config-panel">
+      <!-- <h3 class="config-title">CONFIGURATION SETTINGS</h3> -->
+      
+      <!-- General Settings Section -->
+      <div class="config-section">
+        <div class="config-item">
+          <input 
+            type="checkbox" 
+            [(ngModel)]="config.marketReplay"
+            [checked]="stateService.marketReplay()"
+            (change)="onMarketReplayChange($event)"
+            disabled="true"
+          >
+          <label style="margin-left: 5px;">Market Replay</label>
+        </div>
+    
+        <div class="config-item">
+          <label>Environment:</label>
+          <select [(ngModel)]="config.environment" class="config-select">
+            <option [value]="2">Production</option>
+            <option [value]="1">Lab</option>
+            <option [value]="0">Simulation</option>
+          </select>
+        </div>
+    
+        <div class="config-item">
+          <label>Heartbeat (ms):</label>
+          <input 
+            type="number" 
+            [(ngModel)]="config.heartbeat"
+            min="100"
+            max="60000"
+            class="config-input"
+          >
+          <!-- <small class="helper-text">Default: 1 min</small> -->
+        </div>
+      </div>
+    
+      <!-- ORDER PUMPING FIELDS -->
+      <div class="config-section" *ngIf="!config.marketReplay">
+        <div class="config-item" *ngIf="!config.marketReplay">
+          <label>Number of Traders:</label>
+          <input 
+            type="number" 
+            [(ngModel)]="config.numTraders" 
+            min="100" 
+            max="1300"
+            class="config-input"
+            (change)="validateInput('numTraders'); updateRecommendations()"
+          >
+          <small *ngIf="errors['numTraders']" class="error-text">{{ errors['numTraders'] }}</small>
+        </div>
+    
+        <div class="config-item" *ngIf="!config.marketReplay">
+          <label>OPS Rate:</label>
+          <input 
+            type="number" 
+            [(ngModel)]="config.throttle" 
+            class="config-input" 
+            min="0" 
+            max="10000000"
+            required>
+          <div *ngIf="config.throttle < 0 || config.throttle > 10000000" class="error">
+            <small class="error-text">OPS Rate must be between 0 and 100L.</small>
+          </div>
+        </div> 
+        
+        <div class="config-item" *ngIf="!config.marketReplay">
+          <label>Trade OPS Rate:</label>
+          <input 
+            type="number" 
+            [(ngModel)]="config.trade_throttle" 
+            class="config-input" 
+            min="0" 
+            max="100000"
+            required>
+          <div *ngIf="config.trade_throttle < 0 || config.trade_throttle > 100000" class="error">
+            <small class="error-text">Trade OPS Rate must be between 0 and 1L.</small>
+          </div>
+        </div>
+    
+        <div class="config-item">
+          <label>Env File:</label>
+          <select [(ngModel)]="config.envFile" class="config-select">
+            <option [value]="1">Limited Records</option>
+            <option [value]="0">All Records</option>
+          </select>
+        </div>
+
+        <div class="upload-container">
+          <input type="file" (change)="onFileSelected($event)" />
+          <button (click)="onUpload()" [disabled]="!selectedFile">Upload</button>
+        </div>
+        <p *ngIf="uploadMessage" [ngClass]="{'success': isSuccess, 'error': !isSuccess}">
+          {{ uploadMessage }}
+        </p>        
+
+        <div class="config-item">
+          <input
+            type="checkbox"
+            [(ngModel)]="config.unique_identifier"
+            >
+            <!-- [checked]="stateService.marketReplay()" -->
+          <label style="margin-left: 5px;">Unique Identifier</label>
+        </div>
+    
+        <!-- <div class="config-item">
+          <label>Instruments:</label>
+          <input 
+            type="text" 
+            [(ngModel)]="config.instruments"
+            placeholder="Enter integers, separated by commas"
+            class="config-input"
+          >
+          <small class="helper-text">Example: 101, 102, 103</small>
+        </div> -->
+    
+        <div class="config-item">
+          <label>Modify Percentage:</label>
+          <input 
+            type="number" 
+            [(ngModel)]="config.modifyPercentage"
+            min="0"
+            max="100"
+            class="config-input"
+          >
+          <small class="helper-text">Enter a value between 0 and 100</small>
+        </div>
+    
+        <div class="config-item">
+          <label>Cancel Percentage:</label>
+          <input 
+            type="number" 
+            [(ngModel)]="config.cancelPercentage"
+            min="0"
+            max="100"
+            class="config-input"
+          >
+          <small class="helper-text">Enter a value between 0 and 100</small>
+        </div>
+    
+        <div class="config-item">
+          <label>Duration (seconds):</label>
+          <input 
+            type="number" 
+            [(ngModel)]="config.duration"
+            min="10"
+            max="7200"
+            class="config-input"
+          >
+        </div>
+      </div>
+    
+      <!-- MARKET REPLAY FIELDS -->
+      <div class="config-section" *ngIf="config.marketReplay">
+        <div class="config-item">
+          <label>Batch Size (seconds):</label>
+          <input 
+            type="number" 
+            [(ngModel)]="config.batchSize"
+            min="10"
+            max="600"
+            class="config-input"
+          >
+        </div>
+        
+        <div class="config-item">
+          <label>Start Time:</label>
+          <input
+            type="datetime-local"
+            [(ngModel)]="config.startTime"
+            class="config-input"
+          >
+          <!-- <small class="helper-text">Select the start time for the configuration.</small> -->
+        </div>
+    
+        <div class="config-item">
+          <label>End Time:</label>
+          <input
+            type="datetime-local"
+            [(ngModel)]="config.endTime"
+            class="config-input"
+          >
+          <!-- <small class="helper-text">Select the end time for the configuration.</small> -->
+        </div>
+      </div>
+    
+      <!-- Apply Button -->
+      <button 
+        (click)="applyConfig()" 
+        class="styled-button generate-pattern-button"
+        [disabled]="isButtonDisabled"
+      >
+        Apply Configuration
+        <span *ngIf="isLoading" class="loading-spinner"></span>
+      </button>
+    </div>
+  </mat-tab>
+
+  <!-- Advanced Settings -->
+  <mat-tab label="Advanced Setting" *ngIf="!stateService.marketReplay()" >
+    <!-- [disabled]="!stateService.process_state()" -->
+    
+    <div class="spinner-overlay" *ngIf="stateService.getloading()()">
+      <div class="spinner-container">
+        <mat-spinner diameter="50"></mat-spinner>
+      </div>
+    </div>
+    <div class="advanced-settings">
+      <mat-accordion>
+
+        <!-- Manage Records -->
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title> 
+              <mat-icon style="margin-right: 8px;">assignment</mat-icon>
+              Manage Records 
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+    
+          <div class="config-item">
+            <mat-radio-group [(ngModel)]="selectedAction">
+              <mat-radio-button value="add">Add Record</mat-radio-button>
+              <mat-radio-button value="delete">Delete Record</mat-radio-button>
+            </mat-radio-group>
+          </div>
+    
+          <!-- Add Record Form -->
+          <div *ngIf="selectedAction === 'add'">
+            <form [formGroup]="addRecordForm">
+              <div class="config-item">
+                <label>Instrument ID:</label>
+                <input type="number" formControlName="instrument_id" [min]="1" class="config-input advanced-settings" placeholder="Enter Instrument ID">
+                <div *ngIf="addRecordForm.controls['instrument_id'].invalid && addRecordForm.controls['instrument_id'].touched">
+                  <small class="error-text">Valid Instrument ID is required.</small> 
+                </div>
+              </div>
+              <div class="config-item">
+                <label>Lower Limit:</label>
+                <input type="number" formControlName="lower_limit" [min]="1" class="config-input advanced-settings"  placeholder="Enter Lower Limit" >
+                <div *ngIf="addRecordForm.controls['lower_limit'].hasError('min')">
+                  <small class="error-text">Lower Limit must be greater than 0.</small> 
+                </div>
+              </div>
+              <div class="config-item">
+                <label>Upper Limit:</label>
+                <input type="number" formControlName="upper_limit" [min]="1" class="config-input advanced-settings"  placeholder="Enter Upper Limit">
+                <div *ngIf="addRecordForm.controls['upper_limit'].hasError('min')">
+                  <small class="error-text">Upper Limit must be greater than 0.</small> 
+                </div>
+              </div>
+              <div class="config-item">
+                <label>Min Lot:</label>
+                <input type="number" formControlName="min_lot" [min]="1" class="config-input advanced-settings"  placeholder="Enter Min Lot">
+                <div *ngIf="addRecordForm.controls['min_lot'].hasError('min')">
+                  <small class="error-text">Min Lot must be greater than 0.</small> 
+                </div>
+              </div>
+              <div class="config-item">
+                <label>Bid Interval:</label>
+                <input type="number" formControlName="bid_interval" [min]="1" class="config-input advanced-settings"  placeholder="Enter Bid Interval">
+                <div *ngIf="addRecordForm.controls['bid_interval'].hasError('min')">
+                  <small class="error-text">Bid Interval must be greater than 0.</small> 
+                </div>
+              </div>
+              <div class="config-item">
+                <label>Max Trade Qty:</label>
+                <input type="number" formControlName="max_trd_qty" [min]="1" class="config-input advanced-settings"  placeholder="Enter Max Trade Qty">
+                <div *ngIf="addRecordForm.controls['max_trd_qty'].hasError('min')">
+                  <small class="error-text">Max Trade Qty must be greater than 0.</small> 
+                </div>
+              </div>
+              <div class="config-item">
+                <label>Product ID:</label>
+                <input type="number" formControlName="product_id" [min]="1" class="config-input advanced-settings" placeholder="Enter Product ID">
+                <div *ngIf="addRecordForm.controls['product_id'].invalid && addRecordForm.controls['product_id'].touched">
+                  <small class="error-text">Valid Product ID is required.</small> 
+                </div>
+              </div>
+            </form>
+            <button mat-button class="styled-button submit-button" (click)="submitAddRecord()" [disabled]="addRecordForm.invalid">Submit</button>
+          </div>
+    
+          <!-- Delete Record Form -->
+          <div *ngIf="selectedAction === 'delete'">
+            <div class="config-item">
+              <label>Instrument ID:</label>
+              <input type="number" [(ngModel)]="deleteInstrumentId" class="config-input advanced-settings" [min]="1" placeholder="Enter Instrument ID">
+            </div>
+            <button mat-button color="warn" class="styled-button delete-all-button" (click)="deleteRecord()">Delete Record</button>
+          </div>
+        </mat-expansion-panel>
+    
+        <!-- Delete All Orders -->
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <mat-icon style="margin-right: 8px;">delete</mat-icon>
+              Delete All Orders
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+
+          <div class="config-item">
+            <mat-radio-group [(ngModel)]="deleteOrderType">
+              <mat-radio-button [value]="2" >All Ids</mat-radio-button>
+              <mat-radio-button [value]="0" >Session</mat-radio-button>
+              <mat-radio-button [value]="1" >Member</mat-radio-button>
+            </mat-radio-group>
+          </div>
+
+          <div class="config-item" *ngIf="deleteOrderType != 2">
+            <label> {{deleteOrderType == 1 ? "Member Id": "Session Id"}}</label>
+            <input type="text" [(ngModel)]="deleteAllId" class="config-input advanced-settings" [placeholder]="'Enter ' + (deleteOrderType == 1 ? 'Member Id' : 'Session Id')">
+          </div>
+    
+          <div class="config-item">
+            <label>Instrument ID:</label>
+            <input type="text" [(ngModel)]="deleteAllInstrumentId" class="config-input advanced-settings" placeholder="Enter Instrument ID">
+          </div>
+          <div class="config-item">
+            <label>Product ID:</label>
+            <input type="text" [(ngModel)]="deleteAllProductId" class="config-input advanced-settings" placeholder="Enter Product ID">
+          </div>
+          <button mat-button color="warn" class="styled-button delete-all-button" (click)="deleteAllOrders()">Delete All</button>
+        </mat-expansion-panel>
+    
+        <!-- Change Throttle -->
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title> 
+              <mat-icon style="margin-right: 8px;">timeline</mat-icon>
+              Update OPS Rate
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+        
+          <!-- Radio Buttons for OPS Rate Selection -->
+          <div class="config-item">
+            <mat-radio-group [(ngModel)]="selectedRateType">
+              <mat-radio-button [value]= "0">OPS Rate</mat-radio-button>
+              <mat-radio-button [value]= "1">Trade OPS Rate</mat-radio-button>
+            </mat-radio-group>
+          </div>
+        
+          <!-- Pod ID Input Field -->
+          <div class="config-item">
+            <label>Pod ID:</label>
+            <input type="text" [(ngModel)]="podIdString" (input)="updatePodIds()" class="config-input advanced-settings" placeholder="Enter Pod ID">
+          </div>
+
+        
+          <!-- OPS Rate Input Field with Validation -->
+          <div class="config-item">
+            <label>OPS Rate:</label>
+            <input type="number" [(ngModel)]="throttleValue" class="config-input advanced-settings" [min]="0"  placeholder="Enter Pod OPS Rate">
+            <div *ngIf="throttleValue < 0 " >
+              <small class="error-text">OPS Rate must be atleast 0.</small>
+            </div>
+          </div>
+        
+          <button mat-button class="styled-button update-throttle-button" (click)="updateThrottle()">Update OPS Rate</button>
+        </mat-expansion-panel>
+        
+
+        <!-- Generate Pattern -->
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <mat-icon style="margin-right: 8px;">pattern</mat-icon>
+              <!-- <i class="material-icons">pattern</i> -->
+              Generate Pattern
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+        
+          <div class="config-item">
+            <label>Select Pattern:</label>
+            <select [(ngModel)]="selectedPattern" (change)="onPatternChange($event)" class="config-select advanced-settings">
+              <option value="stepwave">Step Wave</option>
+              <option value="triangular">Triangular Wave</option>
+              <option value="sawtooth">Sawtooth Wave</option>
+              <option value="square">Square Wave</option>
+              <option value="sine">Sine Wave</option>
+              <option value="random">Random Wave</option>
+            </select>
+          </div>
+          
+          <!-- Pod ID Input Field -->
+          <div class="config-item">
+            <label>Pod ID:</label>
+            <input type="text" [(ngModel)]="podIdString" (input)="updatePatternPods()" class="config-input advanced-settings" placeholder="Enter Pod IDs">
+          </div>
+
+          <!-- Form Controls (Wrap with FormGroup) -->
+          <form [formGroup]="waveForm">
+            <!-- Min Input -->
+            <div class="config-item">
+              <label>Minimum Threshold:</label>
+              <input type="number" formControlName="min" [min]="1" class="config-input advanced-settings" placeholder="Enter Minimum Threshold">
+              <div *ngIf="waveForm.controls['min'].invalid && waveForm.controls['min'].touched" class="error">
+                <span *ngIf="waveForm.controls['min'].errors?.['required']">
+                  <small class="error-text">Min is required.</small>
+                </span>
+                <span *ngIf="waveForm.controls['min'].errors?.['min']">
+                  <small class="error-text">Min must be greater than 0.</small>
+                </span>
+              </div>
+            </div>
+          
+            <!-- Max Input -->
+            <div class="config-item">
+              <label>Maximum Threshold:</label>
+              <input type="number" formControlName="max" [min]="2" class="config-input advanced-settings" placeholder="Enter Maximum Threshold">
+              <div *ngIf="waveForm.controls['max'].invalid && waveForm.controls['max'].touched" class="error">
+                <span *ngIf="waveForm.controls['max'].errors?.['required']">
+                  <small class="error-text">Max is required.</small>
+                </span>
+                <span *ngIf="waveForm.controls['max'].errors?.['min']">
+                  <small class="error-text">Max must be greater than 0.</small>
+                </span>
+              </div>
+            </div>
+          
+            <!-- Min-Max Validation -->
+            <div *ngIf="waveForm.errors?.['minMaxError']" class="error">
+              <small class="error-text">Max must be greater than Min.</small>
+            </div>
+          
+            <!-- Interval Input (for certain wave types) -->
+            <div class="config-item" *ngIf="['square', 'sawtooth', 'triangular', 'stepwave'].includes(selectedPattern)">
+              <label>Interval:</label>
+              <input type="number" formControlName="interval" [min]="1" class="config-input advanced-settings">
+              <div *ngIf="waveForm.errors?.['intervalError']" class="error">
+                <small class="error-text">Interval must be greater than 0 for Triangular Wave.</small>
+              </div>
+              <div *ngIf="waveForm.errors?.['intervalMultipleError']" class="error">
+                <small class="error-text">Min and Max must be multiples of Interval.</small>
+              </div>
+            </div>
+          
+            <!-- Step Input (for Step Wave) -->
+            <div class="config-item" *ngIf="selectedPattern === 'stepwave'">
+              <label>Step:</label>
+              <input type="number" formControlName="step" [min]="1" class="config-input advanced-settings">
+              <div *ngIf="waveForm.errors?.['stepError']" class="error">
+                <small class="error-text">Step must be greater than 0 for Step Wave.</small>                
+              </div>
+              <div *ngIf="waveForm.errors?.['stepMultipleError']" class="error">
+                <small class="error-text">Min and Max must be multiples of Step.</small>
+              </div>
+            </div>
+          
+            <!-- Submit Button -->
+            
+            <button mat-button class="styled-button generate-pattern-button" (click)="submitPattern()" [disabled]="waveForm.invalid">
+              Generate Pattern
+            </button>
+          </form>
+          
+        </mat-expansion-panel>
+
+        <!----- Sliding Price Range ------->
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <mat-icon style="margin-right: 8px;">settings</mat-icon>
+              Add Sliding Price Range
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          
+          <!-- Interval Input -->
+          <div class="config-item">
+            <label>Interval (seconds):</label>
+            <input type="number" [(ngModel)]="interval" class="config-input advanced-settings" [min]="1" placeholder="Enter interval">
+            <div *ngIf="interval < 1">
+              <small class="error-text">Interval must be greater than 0.</small> 
+            </div>
+          </div>
+          
+          
+        
+          <div class="config-panel dynamic-config-panel config-item" style="max-height: 530px; overflow-y: auto;">
+
+            <div *ngFor="let config of pumpingConfigs; let i = index"  >
+              <mat-expansion-panel [expanded]="i === 0 && pumpingConfigs.length === 1" class="config-item" style="margin-top: 15px;">
+                <mat-expansion-panel-header>
+                  <mat-panel-title>{{ config.instId || 'New Configuration' }}</mat-panel-title>
+
+                  <div style="display: flex; justify-content: flex-end; padding: 8px;">
+                    <span (click)="removePumpingConfig(i)" 
+                          matTooltip="Remove Instrument"
+                          style="cursor: pointer; color: red; display: flex; align-items: center;">
+                      <mat-icon style="font-size: 16px; margin-top: 8px;">remove_circle_outline</mat-icon>
+                    </span>
+                  </div>
+                </mat-expansion-panel-header>
+        
+                <!-- Remove Icon Positioned at the Top Right Inside the Panel -->
+              
+        
+                <!-- Pumping Fields -->
+                <div class="config-item">
+                  <label>Inst ID:</label>
+                  <input type="text" [(ngModel)]="config.instId"  class="config-input advanced-settings" placeholder="Enter Instrument Id">
+                </div>
+        
+                <div class="config-item">
+                  <label>Start Min Price:</label>
+                  <input type="number" [(ngModel)]="config.startMinPrice" [min]="1" class="config-input advanced-settings" placeholder="Enter Start Min Price">
+                  <div *ngIf="config.startMinPrice < 1">
+                    <small class="error-text">Start Min Price must be greater than 0.</small> 
+                  </div>
+                </div>
+        
+                <div class="config-item">
+                  <label>Start Max Price:</label>
+                  <input type="number" [(ngModel)]="config.startMaxPrice" [min]="1" class="config-input advanced-settings" placeholder="Enter Start Max Price">
+                  <div *ngIf="(config.startMaxPrice - config.startMinPrice) < 1000">
+                    <small  class="error-text">
+                      Start Max Price must be at least 1000 units greater than Start Min Price.
+                    </small>
+                  </div>
+                </div>
+        
+                <div class="config-item">
+                  <label>End Min Price:</label>
+                  <input type="number" [(ngModel)]="config.endMinPrice" [min]="1" class="config-input advanced-settings" placeholder="Enter End Min Price">
+                  <div *ngIf="config.endMinPrice < 1">
+                    <small class="error-text">End Min Price must be greater than 0.</small> 
+                  </div>
+                </div>
+        
+                <div class="config-item">
+                  <label>End Max Price:</label>
+                  <input type="number" [(ngModel)]="config.endMaxPrice" [min]="1" class="config-input advanced-settings" placeholder="Enter End Max Price">
+                  <div *ngIf="(config.endMaxPrice - config.endMinPrice) < 1000">
+                    <small  class="error-text">
+                      End Max Price must be at least 1000 units greater than End Min Price.
+                    </small>
+                  </div>
+                </div>
+              </mat-expansion-panel>
+            </div>
+          </div>
+
+          <!-- Add Button -->
+           <div class="config-item">
+             <mat-icon  (click)="addPumpingConfig()" matTooltip="Add Instrument" style="cursor: pointer; font-size: 20px;">add_circle_outline</mat-icon>
+             <sup >Add more entries</sup>
+           </div>
+        
+          <!-- Submit Button (Disabled if validation fails) -->
+          <button mat-button class="styled-button submit-button" (click)="submitPumpingConfigs()" 
+                  [disabled]="!isFormValid()">
+            Submit
+          </button>
+        </mat-expansion-panel>
+        
+        
+        <!----- Manage Pods ------->
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <mat-icon style="margin-right: 8px;">swap_horiz</mat-icon>
+              Manage Pods
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+
+          <div class="config-item">
+            <mat-radio-group [(ngModel)]="managePodSelection">
+              <mat-radio-button [value]="1">Add Pod</mat-radio-button>
+              <mat-radio-button [value]="0">Delete Pod</mat-radio-button>
+            </mat-radio-group>
+          </div>
+          
+          <div *ngIf="managePodSelection == 1">
+            <div class="config-item">
+              <label>Pod Count:</label>
+              <input type="number" [(ngModel)]="podCount" class="config-input advanced-settings" [min]="1" [max]="100" placeholder="1 - 100">
+              <div *ngIf="podCount < 1 || podCount > 100">
+              <small class="error-text">Pod count must be between 1 and 100.</small> 
+              </div>
+            </div>
+
+            <button mat-button class="styled-button submit-button" (click)="addPods()" [disabled]="podCount < 1 || podCount > 100">
+              Submit
+            </button>
+          </div>
+
+          <div *ngIf="managePodSelection == 0">
+
+            <!-- Pod ID Input Field -->
+            <div class="config-item">
+              <label>Pod ID:</label>
+              <input type="text" [(ngModel)]="podIdString" (input)="updatePodIds()" class="config-input advanced-settings" placeholder="Enter pod id">
+            </div>
+
+            <button mat-button color="warn" class="styled-button delete-all-button" (click)="deletePods()">Delete Pod</button>
+          </div>
+        
+        </mat-expansion-panel>
+        
+
+
+        <!----- Peak Generator ------->
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <mat-icon style="margin-right: 8px;">trending_up</mat-icon>
+              Peak Generator
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          
+          <div>
+            <form [formGroup]="peakGeneratorForm">
+
+              <div class="config-item">
+                <mat-radio-group formControlName="process_type">
+                  <mat-radio-button [value]="0" >Sync</mat-radio-button>
+                  <mat-radio-button [value]="1" >Async</mat-radio-button>
+                  <mat-radio-button [value]="2" >IOC</mat-radio-button>
+                </mat-radio-group>
+              </div>
+
+              <div *ngIf="peakGeneratorForm.get('process_type')?.value === 1">
+                <div class="config-item">
+                  <label>Application System Vendor:</label>
+                  <input type="text" formControlName="app_system_vendor" class="config-input advanced-settings"  placeholder="Enter System Vendor">
+                </div>
+
+                <div class="config-item">
+                  <label>Application System Version:</label>
+                  <input type="text" formControlName="app_system_version" class="config-input advanced-settings"  placeholder="Enter System Version">
+                </div>
+              </div>
+
+              <div class="config-item">
+                <label>Base OPS Rate:</label>
+                <input type="number" formControlName="base_ops" [min]="1" class="config-input advanced-settings"  placeholder="Enter Base OPS">
+                <div *ngIf="peakGeneratorForm.controls['base_ops'].hasError('min')">
+                  <small class="error-text">Base OPS must be greater than 0.</small> 
+                </div>
+              </div>
+              <div class="config-item">
+                <label>Percentage Rise:</label>
+                <input type="number" formControlName="up_percentage" [min]="1" class="config-input advanced-settings"  placeholder="Enter Percentage Rise">
+                <div *ngIf="peakGeneratorForm.controls['up_percentage'].hasError('min')">
+                  <small class="error-text">Percentage Rise must be greater than 0.</small> 
+                </div>
+              </div>
+              <div class="config-item">
+                <label>Percentage Drop:</label>
+                <input type="number" formControlName="down_percentage" [min]="1" class="config-input advanced-settings"  placeholder="Enter Percentage Drop">
+                <div *ngIf="peakGeneratorForm.controls['down_percentage'].hasError('min')">
+                  <small class="error-text">Percentage Drop must be greater than 0.</small> 
+                </div>
+              </div>
+              <div class="config-item">
+                <label>Min Delay (ms):</label>
+                <input type="number" formControlName="min_delay" [min]="1" class="config-input advanced-settings"  placeholder="Enter Min Delay">
+                <div *ngIf="peakGeneratorForm.controls['min_delay'].hasError('min')">
+                  <small class="error-text">Min Delay must be greater than 0.</small> 
+                </div>
+              </div>
+              <div class="config-item">
+                <label>Max Delay (ms):</label>
+                <input type="number" formControlName="max_delay" [min]="1" class="config-input advanced-settings"  placeholder="Enter Max Delay">
+                <div *ngIf="peakGeneratorForm.controls['max_delay'].hasError('min')">
+                  <small class="error-text">Max Delay must be greater than 0.</small> 
+                </div>
+              </div>
+            </form>
+            <button mat-button class="styled-button submit-button" (click)="generatePeak()" [disabled]="peakGeneratorForm.invalid">Submit</button>
+          </div>
+
+        
+        </mat-expansion-panel>
+        
+      </mat-accordion>
+    </div>    
+</mat-tab>
+</mat-tab-group>
+
+

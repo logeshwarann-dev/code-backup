@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mock-trader
+  labels:
+    app: mock-trader
+spec:
+  serviceName: mock-trader-service 
+  replicas: 0
+  selector:
+    matchLabels:
+      app: mock-trader
+  template:
+    metadata:
+      labels:
+        app: mock-trader
+    spec:
+      containers:
+      - name: mock-trader
+        image: app-sender:v173.01
+        env:
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mock-trader-service
+spec:
+  selector:
+    app: mock-trader
+  ports:
+  - protocol: TCP
+    port: 8080
+    targetPort: 8080

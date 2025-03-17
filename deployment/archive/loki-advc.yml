@@ -1,0 +1,118 @@
+loki:
+  enabled: true
+  image:
+    repository: grafana/loki
+    tag: 2.6.1
+    pullPolicy: IfNotPresent
+
+  isDefault: true
+  url: http://{{(include "loki.serviceName" .)}}:{{ .Values.loki.service.port }}
+
+  mode: "microservices"
+
+  # ---------------- Loki Components ----------------
+  distributor:
+    replicas: 2
+    autoscaling:
+      enabled: true
+      minReplicas: 2
+      maxReplicas: 4
+      targetCPUUtilizationPercentage: 75
+      targetMemoryUtilizationPercentage: 75
+    resources:
+      requests:
+        cpu: "2"
+        memory: "4Gi"
+      limits:
+        cpu: "4"
+        memory: "6Gi"
+
+  ingester:
+    replicas: 2
+    autoscaling:
+      enabled: true
+      minReplicas: 2
+      maxReplicas: 4
+      targetCPUUtilizationPercentage: 80
+      targetMemoryUtilizationPercentage: 80
+    resources:
+      requests:
+        cpu: "2"
+        memory: "4Gi"
+      limits:
+        cpu: "4"
+        memory: "6Gi"
+    chunk_encoding: snappy
+    chunk_target_size: 2097152  
+    chunk_idle_period: 2m
+    chunk_retain_period: 30s
+    lifecycler:
+      ring:
+        kvstore:
+          store: memberlist
+        replication_factor: 3
+      final_sleep: 30s
+
+  querier:
+    replicas: 2
+    parallelism: 20
+    query_timeout: 300s
+    max_outstanding_requests: 500
+    resources:
+      requests:
+        cpu: "2"
+        memory: "4Gi"
+      limits:
+        cpu: "4"
+        memory: "6Gi"
+
+  query_scheduler:
+    enabled: true
+    replicas: 2
+
+  # ---------------- Query Frontend Optimization ----------------
+  frontend:
+    enabled: true
+    replicas: 2
+    parallelism: 15
+    max_outstanding_requests: 500
+    compress_responses: true
+    log_queries_longer_than: 5s
+    resources:
+      requests:
+        cpu: "2"
+        memory: "4Gi"
+      limits:
+        cpu: "4"
+        memory: "6Gi"
+
+  # ---------------- Memcached for Query Caching ----------------
+  memcached:
+    enabled: true
+    replicas: 2
+    maxItemSize: 5m
+    memoryLimit: 6Gi
+    cpuRequest: "2"
+    cpuLimit: "4"
+
+  # ---------------- Storage (2TB Longhorn) ----------------
+  persistence:
+    enabled: true
+    storageClass: "longhorn"
+    accessModes:
+      - ReadWriteOnce
+    size: 50Gi
+
+  # ---------------- Readiness & Liveness Probes ----------------
+  readinessProbe:
+    httpGet:
+      path: /ready
+      port: http-metrics
+    initialDelaySeconds: 30
+    periodSeconds: 10
+  livenessProbe:
+    httpGet:
+      path: /ready
+      port: http-metrics
+    initialDelaySeconds: 30
+    periodSeconds: 10

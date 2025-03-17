@@ -1,0 +1,224 @@
+/* Reset default styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Funnel Display", serif !important;
+  line-height: 1.6;
+  background-color: #0a1929;
+  color: #ffffff;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0d2137;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1a3654;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #234876;
+}
+
+html, body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: "Funnel Display", serif !important;
+}
+
+.mat-mdc-snack-bar-container .mat-mdc-snackbar-surface {
+  /* Override background color */
+  background-color: #1a3654 !important; /* Your custom background color */
+  color: #ffffff !important; /* Ensure text is readable */
+  border-radius: 8px; /* Optional: Rounded corners */
+  padding: 8px; /* Reduced padding to shorten height */
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3); /* Optional: Subtle shadow */
+}
+/* .mat-mdc-snack-bar-container{
+  transform: translateY(-40px);
+} */
+
+.mat-mdc-snack-bar-container .mat-mdc-snackbar-surface {
+  background-color: #1a3654 !important; /* Custom background color */
+  color: #ffffff !important; /* Ensure white text for contrast */
+  border-radius: 8px; /* Rounded corners */
+  /* transform: translateY(-40px); */
+}
+
+.mat-mdc-snack-bar-container{
+  margin: 40px !important;
+}
+
+.mat-mdc-snackbar-surface {
+  height: 50px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+  display: flex; /* Keep original display */
+  align-items: center; /* Center vertically */
+  justify-content: flex-start; /* Keep default alignment */
+  box-sizing: border-box; /* Ensure consistent box sizing */
+  padding: 8px 12px; /* Reduced padding to shorten height */
+  
+  /* transform: translateY(-40px); */
+}
+
+/* Success Snackbar */
+.custom-snackbar-success {
+  background-color: #1a3654 !important; /* Keep the existing background */
+  color: #ffffff !important; /* White text for contrast */
+  border: 5px solid #81c784 !important; /* Light green border for success */
+  border-radius: 8px; /* Rounded corners */
+  padding: 8px; /* Reduced padding to shorten height */
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3); /* Subtle shadow */
+}
+
+/* Error Snackbar */
+.custom-snackbar-error {
+  background-color: #1a3654 !important; /* Keep the existing background */
+  color: #ffffff !important; /* White text for contrast */
+  border: 5px solid #e57373 !important; /* Light red border for error */
+  border-radius: 8px; /* Rounded corners */
+  padding: 8px; /* Reduced padding to shorten height */
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3); /* Subtle shadow */
+  /* transform: translateY(-40px); */
+}
+
+/* Styling the menu panel */
+.mat-mdc-menu-panel {
+  border-radius: 8px; /* Add rounded corners */
+  background-color: #0d2137; /* Background color */
+  color: white; /* Text color */
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.4); /* Add shadow */
+  padding: 10px 0; /* Add padding inside the menu */
+}
+
+/* Styling the menu items */
+.mat-mdc-menu-item {
+  padding: 10px 20px; /* Adjust padding for menu items */
+  font-size: 14px; /* Font size for menu items */
+  color: #00ff9d; /* Text color */
+}
+
+/* Hover effect for menu items */
+.mat-mdc-menu-item:hover {
+  background-color: #163456; /* Background color on hover */
+  color: white; /* Text color on hover */
+}
+
+/* Set custom properties for Angular Material menu */
+:root {
+  --mat-menu-container-color: #1a3654; /* Menu background color */
+  --mat-menu-item-color: #00ff9d; /* Menu item text color */
+  --mat-menu-item-hover-color: #ffffff; /* Hover text color */
+  --mat-menu-item-hover-background: #163456; /* Hover background color */
+  --mat-menu-item-icon-color: #ffffff;
+  --mdc-circular-progress-active-indicator-color: #00ff9d;
+  --mat-menu-item-label-text-font: "Funnel Display", serif;
+  --mat-tab-header-active-label-text-color: #ffffff;
+  --mat-tab-header-inactive-label-text-color: #ffffff;
+  --mat-tab-header-active-focus-label-text-color: #ffffff;
+  --mat-tab-header-active-hover-label-text-color: #ffffff;
+  --mat-tab-header-inactive-focus-label-text-color: #ffffff;
+  --mat-tab-header-inactive-hover-label-text-color: #ffffff;
+  --mat-tab-header-label-text-font: "Funnel Display", serif;
+  --mat-expansion-container-background-color:#1a3654;
+  --mat-expansion-header-text-color: #ffffff;
+  --mat-expansion-container-text-color: #ffffff;
+  --mat-radio-label-text-color:#ffffff;
+  --mat-expansion-header-text-font: "Funnel Display", serif;
+  --mat-radio-label-text-font: "Funnel Display", serif;
+  --mat-expansion-container-text-font: "Funnel Display", serif;
+  --mat-select-enabled-trigger-text-color: #ffffff;
+  --mat-select-trigger-text-font: "Funnel Display", serif;
+  --mat-expansion-header-indicator-color: #ffffff;
+  --mat-select-panel-background-color: #0d2137;
+  --mat-option-label-text-color: #ffffff;
+  --mat-option-label-text-font: "Funnel Display", serif;
+  --mat-icon-color: #ffffff;
+  
+}
+
+/* Styling the menu panel */
+.mat-mdc-menu-panel {
+  min-width: 150px; /* Adjust minimum width */
+  max-width: 300px; /* Adjust maximum width */
+  border-radius: 8px; /* Add rounded corners */
+  background-color: #0d2137; /* Background color */
+  color: white; /* Text color */
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.4); /* Add shadow */
+  padding: 10px 0; /* Add padding inside the menu */
+  
+}
+
+/* Styling the menu items */
+.mat-mdc-menu-item {
+  padding: 10px 20px; /* Adjust padding for menu items */
+  font-size: 14px; /* Font size for menu items */
+  color: #00ff9d; /* Text color */
+}
+
+/* Set text color to white */
+.mat-mdc-menu-item span{
+  color: #ffffff; /* Set text and icon color to white */
+}
+
+/* Hover effect for menu items */
+.mat-mdc-menu-item:hover {
+  background-color: #163456; /* Background color on hover */
+  color: white; /* Text color on hover */
+}
+
+.mat-mdc-menu-item .mat-icon-no-color, .mat-mdc-menu-item .mat-mdc-menu-submenu-icon {
+  color: white;
+}
+
+.p-toast-detail {
+  color: #000000 !important; /* Black text for message detail */
+}
+
+/* Add padding inside the toast box */
+/* Increase the size of the toast box */
+.p-toast {
+  width: 400px !important;  /* Adjust width */
+  font-size: 16px !important; /* Increase text size */
+  padding: 15px !important; /* Add more padding */
+}
+
+/* Increase the size of individual toast messages */
+.p-toast-message {
+  min-height: 60px !important; /* Adjust height */
+  padding: 9px !important;
+}
+
+/* Add spacing between icon and text */
+.p-toast-message-content {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Adjust space between icon and text */
+}
+
+/* Add spacing between title (Success, Error) and message */
+.p-toast-message-text {
+  display: flex;
+  flex-direction: column;
+  /* gap: 5px; Adjust space between title and message */
+}
+
+
+/* Adjust the position of the toast (move it upwards) */
+.p-toast-bottom-right {
+  bottom: 40px !important; /* Move up (default is 20px, increase to move up) */
+  right: 20px !important; /* Adjust right positioning if needed */
+}
+

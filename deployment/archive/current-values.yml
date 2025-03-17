@@ -1,0 +1,64 @@
+
+loki:
+  enabled: true
+  image:
+    repository: grafana/loki
+    tag: 2.6.1
+    pullPolicy: IfNotPresent
+  isDefault: true
+  url: http://{{(include "loki.serviceName" .)}}:{{ .Values.loki.service.port }}
+
+  replication_factor: 2
+  replicas: 2
+  autoscaling:
+    enabled: true
+    minReplicas: 1
+    maxReplicas: 3
+    targetCPUUtilizationPercentage: 90
+    targetMemoryUtilizationPercentage: 90
+
+  # Persistent Storage (100GB)
+  persistence:
+    enabled: true
+    storageClass: "longhorn"  
+    accessModes:
+      - ReadWriteOnce
+    size: 20Gi
+
+  readinessProbe:
+    httpGet:
+      path: /ready
+      port: http-metrics
+    initialDelaySeconds: 45
+  livenessProbe:
+    httpGet:
+      path: /ready
+      port: http-metrics
+    initialDelaySeconds: 45
+  datasource:
+    jsonData: "{}"
+    uid: ""
+
+
+  query_scheduler:
+    enabled: true
+  querier:
+    parallelism: 10  
+    query_timeout: 300s
+  frontend:
+    enabled: true
+    parallelism: 4
+    max_outstanding_requests: 200 
+
+  distributor:
+    replicas: 2
+  ingester:
+    replicas: 4
+    chunk_idle_period: 5m
+    chunk_target_size: 1048576
+    lifecycler:
+      ring:
+        kvstore:
+          store: memberlist
+        replication_factor: 2
+
