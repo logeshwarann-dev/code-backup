@@ -1,0 +1,109 @@
+/* Modal container */
+.modal-container {
+    background-color: #0d2137; /* Matches your sidebar background */
+    border-radius: 8px;
+    padding: 20px;
+    color: #ffffff; 
+    max-width: 90%;
+    margin: auto;
+}
+
+/* Modal title */
+.modal-title {
+    font-size: 1.8em;
+    font-weight: bold;
+    color: #00ff9d;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Table styles */
+.mat-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.mat-header-row, .mat-row {
+    background-color: #1a3654; /* Table row background */
+    color: #ffffff;
+}
+
+.mat-header-cell {
+    font-weight: bold;
+    color: #00ff9d;
+    text-align: left;
+    padding: 12px;
+    border-bottom: 2px solid #163456;
+}
+
+.mat-cell {
+    padding: 12px;
+    border-bottom: 1px solid #163456;
+}
+
+.mat-row:hover {
+    background-color: #163456; /* Hover effect for rows */
+}
+
+/* Button styles */
+.close-button {
+    background-color: #ff4d4d;
+    color: #ffffff;
+    font-weight: bold;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    cursor: pointer;
+    float: right;
+    transition: background-color 0.3s ease;
+}
+
+.close-button:hover {
+    background-color: #cc3c3c;
+}
+
+.apply-button {
+    width: 100%;
+    padding: 10px;
+    background: #00ff9d;
+    border: none;
+    border-radius: 4px;
+    color: #0a1929;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 16px;
+    margin-top: 20px;
+    transition: background-color 0.3s ease;
+}
+
+.apply-button:hover {
+    background: #00cc7d;
+}
+
+/* Helper Text */
+.helper-text {
+    font-size: 0.85em;
+    color: #00ff9d;
+    text-align: center;
+    margin-top: 10px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .modal-container {
+        padding: 15px;
+    }
+
+    .modal-title {
+        font-size: 1.5em;
+    }
+
+    .mat-header-cell, .mat-cell {
+        font-size: 0.9em;
+        padding: 8px;
+    }
+
+    .close-button {
+        padding: 6px 12px;
+    }
+}
