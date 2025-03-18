@@ -303,7 +303,7 @@ func ReadVariableString(buf *bytes.Buffer, maxSize int) (string, error) {
 	}
 	// Read padding to a multiple of 8 bytes
 	_, err := buf.Read(make([]byte, maxSize-int(strLen)))
-	// fmt.Println(data,"REASON")
+	// utils.Printf(static.LOG_FLAG, data,"REASON")
 	return string(data), err
 }
 
