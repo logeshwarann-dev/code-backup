@@ -100,6 +100,7 @@ export class ConfigPanelComponent implements OnInit {
     duration:10000,
     trade_throttle: 100, 
     unique_identifier: false,
+    log_flag: false
   };
 
   throttleValues = [100, 500, 1000, 1500, 2000];
@@ -635,7 +636,8 @@ export class ConfigPanelComponent implements OnInit {
         heartbeat: configData.HeartbeatValue || 60000,
         duration: 10000,
         trade_throttle: 100,
-        unique_identifier: false
+        unique_identifier: false,
+        log_flag: false
       };
     })
   }
@@ -655,6 +657,7 @@ export class ConfigPanelComponent implements OnInit {
       duration: this.config.duration? this.config.duration: 10000,
       trader_ops: this.config.trade_throttle ? this.config.trade_throttle : 100,
       unique_identifier: this.config.unique_identifier ? this.config.unique_identifier : false,
+      log_flag: this.config.log_flag ? false: true,
     };
   }
 

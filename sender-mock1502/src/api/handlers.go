@@ -18,7 +18,7 @@ func HandleOPSRate(c *gin.Context) {
 	var data static.OPSRate
 
 	if err := c.ShouldBindJSON(&data); err != nil {
-		fmt.Println("Error in Api", err)
+		utils.Printf(static.LOG_FLAG, "Error in Api"+err.Error())
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error":   "Invalid request body",
 			"details": err.Error(),
@@ -42,7 +42,7 @@ func HandleOPSRate(c *gin.Context) {
 		static.THROTTLE_VALUE = data.Throttle
 
 		if err := utils.SetOrderPumpingParameters(); err != nil {
-			fmt.Printf("Error in changing order pumping parameters: %v", err)
+			utils.Printf(static.LOG_FLAG, fmt.Sprintf("Error in changing order pumping parameters: %v\n", err.Error()))
 
 			c.JSON(http.StatusInternalServerError, gin.H{
 				"error":   "Failed to update order pumping parameters",
@@ -77,7 +77,7 @@ func UpdateRecords(c *gin.Context) {
 		}
 	}
 
-	fmt.Println("Records recevied: ", data.Records)
+	utils.Printf(static.LOG_FLAG, fmt.Sprintf("Records recevied: %v", data.Records))
 
 	for _, record := range data.Records {
 		instId := record.InstrumentID
@@ -96,7 +96,7 @@ func UpdateRecords(c *gin.Context) {
 		static.Mu.Unlock()
 	}
 
-	fmt.Println("Updated RECORDS array: ", static.RECORDS)
+	utils.Printf(static.LOG_FLAG, fmt.Sprintf("Updated RECORDS array: %v", static.RECORDS))
 
 	c.JSON(http.StatusOK, gin.H{
 		"message": "Data appended successfully",
@@ -112,7 +112,7 @@ func DeleteOrders(c *gin.Context) {
 	data.InstrumentID = 2147483647
 
 	if err := c.ShouldBindJSON(&data); err != nil {
-		fmt.Println("Error in Api", err)
+		utils.Printf(static.LOG_FLAG, "Error in Api"+err.Error())
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error":   "Invalid request body",
 			"details": err.Error(),
@@ -187,7 +187,7 @@ func GeneratePattern(c *gin.Context) {
 	var data static.GraphPattern
 
 	if err := c.ShouldBindJSON(&data); err != nil {
-		fmt.Println("Error binding: ", err.Error())
+		utils.Printf(static.LOG_FLAG, fmt.Sprintf("Error binding: "+err.Error()))
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error":   "Invalid request body",
 			"details": err.Error(),
@@ -196,7 +196,7 @@ func GeneratePattern(c *gin.Context) {
 	}
 
 	if err := utils.ValidatePattern(data); err != nil {
-		fmt.Println("error validation pattern: ", err.Error())
+		utils.Printf(static.LOG_FLAG, "error validation pattern: "+err.Error())
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error":   "Validation error",
 			"details": err.Error(),
@@ -204,8 +204,8 @@ func GeneratePattern(c *gin.Context) {
 		return
 	}
 
-	fmt.Println("Payload: ", data)
-	fmt.Println("TYpe: ", data.Type)
+	utils.Printf(static.LOG_FLAG, fmt.Sprintf("Payload: %v", data))
+	utils.Printf(static.LOG_FLAG, fmt.Sprintf("TYpe: %v ", data.Type))
 
 	static.PATTERN_GENERATOR = true
 	static.PATTERN_TYPE = data.Type
@@ -228,7 +228,7 @@ func GeneratePattern(c *gin.Context) {
 	case static.PEAK_GENERATOR:
 		static.PATTERN = []int{}
 		static.PEAK_GENERATOR_DETAILS = static.PeakGeneratorParameters{Min: data.Min, Max: data.Max, DelayMin: data.DelayMin, DelayMax: data.DelayMax}
-		fmt.Println("Peak Generator Details: ", static.PEAK_GENERATOR_DETAILS)
+		utils.Printf(static.LOG_FLAG, fmt.Sprintf("Peak Generator Details: %v", static.PEAK_GENERATOR_DETAILS))
 	}
 
 	c.JSON(http.StatusOK, gin.H{
@@ -308,7 +308,7 @@ func SetConfig(c *gin.Context) {
 	var configData static.Config
 
 	if err := c.ShouldBindJSON(&configData); err != nil {
-		fmt.Println("Error in Config Data Format: ", err.Error(), "Request body: ", configData)
+		utils.Printf(static.LOG_FLAG, fmt.Sprintf("Error in Config Data Format: %v Request body: %v", err.Error(), configData))
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "config data not in proper format",
 		})
@@ -316,44 +316,45 @@ func SetConfig(c *gin.Context) {
 	}
 
 	if configData.TraderCount < 0 || configData.TraderCount > 651 {
-		fmt.Println("Error in Config Data Format: Traders must be between 1 and 651")
+		utils.Printf(static.LOG_FLAG, "Error in Config Data Format: Traders must be between 1 and 651")
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Traders must be between 1 and 651"})
 		return
 	}
 	if configData.ThrottleValue < 0 {
-		fmt.Println("Error in Config Data Format: Throttle must be greater than 0")
+		utils.Printf(static.LOG_FLAG, "Error in Config Data Format: Throttle must be greater than 0")
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Throttle must be greater than 0"})
 		return
 	}
 	if configData.TargetEnv < 0 || configData.TargetEnv > 2 {
-		fmt.Println("Error in Config Data Format: Environment must be 0, 1, or 2")
+		utils.Printf(static.LOG_FLAG, "Error in Config Data Format: Environment must be 0, 1, or 2")
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Environment must be 0, 1, or 2"})
 		return
 	}
 	if configData.FileType < 0 || configData.FileType > 1 {
-		fmt.Println("Error in Config Data Format: EnvFile must be 0 or 1")
+		utils.Printf(static.LOG_FLAG, "Error in Config Data Format: EnvFile must be 0 or 1")
 		c.JSON(http.StatusBadRequest, gin.H{"error": "EnvFile must be 0 or 1"})
 		return
 	}
 	if configData.CancelPercent < 0 || configData.CancelPercent > 101 {
-		fmt.Println("Error in Config Data Format: CancelPercent must be between 0 and 100")
+		utils.Printf(static.LOG_FLAG, "Error in Config Data Format: CancelPercent must be between 0 and 100")
 		c.JSON(http.StatusBadRequest, gin.H{"error": "CancelPercent must be between 0 and 100"})
 		return
 	}
 	if configData.ModifyPercent < 0 || configData.ModifyPercent > 101 {
-		fmt.Println("Error in Config Data Format: ModifyPercent must be between 0 and 100")
+		utils.Printf(static.LOG_FLAG, "Error in Config Data Format: ModifyPercent must be between 0 and 100")
 		c.JSON(http.StatusBadRequest, gin.H{"error": "ModifyPercent must be between 0 and 100"})
 		return
 	}
 
 	if configData.ProcessType < 0 || configData.ProcessType > 2 {
-		fmt.Println("Error in Config Data Format: order pumping type must be between 0 and 2")
+		utils.Printf(static.LOG_FLAG, "Error in Config Data Format: order pumping type must be between 0 and 2")
 		c.JSON(http.StatusBadRequest, gin.H{"error": "order pumping type must be between 0 and 2"})
 		return
 	}
 
-	fmt.Println("UniqClID: ", configData.UniqueClientIdentifier)
-	fmt.Println("Config Data: ", configData)
+	fmt.Println("Log Flag: ", configData.LogFlag)
+	utils.Printf(static.LOG_FLAG, fmt.Sprintf("UniqClID: %v", configData.UniqueClientIdentifier))
+	utils.Printf(static.LOG_FLAG, fmt.Sprintf("Config Data: %v", configData))
 
 	static.TRADERCOUNT = configData.TraderCount
 	static.TRADER_COUNT = configData.TraderCount
@@ -365,6 +366,7 @@ func SetConfig(c *gin.Context) {
 	static.MODIFY_PERCENT = configData.ModifyPercent
 	static.HEARTBEAT_VALUE = configData.HeartbeatValue
 	static.UNIQUE_CLIENT_IDENTIFIER = configData.UniqueClientIdentifier
+	static.LOG_FLAG = configData.LogFlag
 
 	switch configData.ProcessType {
 	case static.SYNC_ORDER_PUMPING_TYPE:
@@ -394,7 +396,7 @@ func SetConfig(c *gin.Context) {
 	static.TRADERS = append(static.TRADERS, configData.Traders...)
 	static.TOTAL_ORDER_COUNT = configData.TraderCount * configData.Duration * configData.ThrottleValue
 
-	fmt.Println("Trader count: ", static.TRADERCOUNT, "| Throttle value: ", static.THROTTLE_VALUE, "| Target Env: ", static.TARGET_ENV, "| file type: ", static.FILE_TYPE, "| Cancel percent: ", static.CANCEL_PERCENT, "| Mod Percent: ", static.MODIFY_PERCENT, "| HEARTBEAT_VALUE: ", static.HEARTBEAT_VALUE, "| ", "DURATION: ", static.DURATION, "| TRADERS: ", static.TRADERS, "| TOTAL_ORDER_COUNT: ", static.TOTAL_ORDER_COUNT)
+	// utils.Printf(static.LOG_FLAG, "Trader count: ", static.TRADERCOUNT, "| Throttle value: ", static.THROTTLE_VALUE, "| Target Env: ", static.TARGET_ENV, "| file type: ", static.FILE_TYPE, "| Cancel percent: ", static.CANCEL_PERCENT, "| Mod Percent: ", static.MODIFY_PERCENT, "| HEARTBEAT_VALUE: ", static.HEARTBEAT_VALUE, "| ", "DURATION: ", static.DURATION, "| TRADERS: ", static.TRADERS, "| TOTAL_ORDER_COUNT: ", static.TOTAL_ORDER_COUNT)
 
 	c.JSON(http.StatusOK, gin.H{
 		"message": "Configuration updated successfully",
@@ -421,11 +423,11 @@ func SetRecords(c *gin.Context) {
 		}
 	}
 
-	fmt.Println("Records recevied: ", data.Records)
+	// utils.Printf(static.LOG_FLAG, "Records recevied: ", data.Records)
 
 	static.RECORDS = append(static.RECORDS, data.Records...)
 
-	fmt.Println("Updated RECORDS array: ", static.RECORDS)
+	utils.Printf(static.LOG_FLAG, fmt.Sprintf("Updated RECORDS array: %v", static.RECORDS))
 
 	c.JSON(http.StatusOK, gin.H{
 		"message": "Records appended successfully",
@@ -434,7 +436,7 @@ func SetRecords(c *gin.Context) {
 	if !static.ORDERPUMPINGSTATUS {
 		go core.Start()
 	} else {
-		fmt.Println("Orderpumping already active.")
+		utils.Printf(static.LOG_FLAG, "Orderpumping already active.")
 	}
 
 }
@@ -442,7 +444,7 @@ func SetRecords(c *gin.Context) {
 func HealthCheck(c *gin.Context) {
 	podName := os.Getenv("POD_NAME")
 	statusMsg := fmt.Sprintf("%s is healthy", podName)
-	fmt.Println(statusMsg)
+	utils.Printf(static.LOG_FLAG, statusMsg)
 	c.JSON(http.StatusOK, gin.H{"pod_status": statusMsg})
 }
 

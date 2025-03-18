@@ -37,6 +37,7 @@ export interface PartitionData {
     trade_throttle: number;
     [key: string]: any;
     unique_identifier:boolean;
+    log_flag:boolean;
   }
   
 

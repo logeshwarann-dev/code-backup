@@ -649,6 +649,7 @@ func SetConfigInSenderPods(data static.Config, senderPodMap map[string]string, r
 			ProcessType:            data.ProcessType,
 			AppSystemVendorName:    data.AppSystemVendorName,
 			AppSystemVersion:       data.AppSystemVersion,
+			LogFlag:                data.LogFlag,
 		}
 
 		reqMsg, err := json.Marshal(msg)
@@ -778,6 +779,7 @@ func SetConfigInTraderPods(data static.Config, traderPodMap map[string]string, r
 			ProcessType:            data.ProcessType,
 			AppSystemVendorName:    data.AppSystemVendorName,
 			AppSystemVersion:       data.AppSystemVersion,
+			LogFlag:                data.LogFlag,
 		}
 
 		reqMsg, err := json.Marshal(msg)

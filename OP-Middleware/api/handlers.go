@@ -809,6 +809,7 @@ func SetConfig(c *gin.Context) {
 
 	static.TARGETENV = static.ConfigData.TargetEnv
 	static.ConfigData.ProcessType = 0
+	fmt.Println("Log Flag: ", static.ConfigData.LogFlag)
 
 	clientset, err := utils.GetK8sClientset()
 	if err != nil {

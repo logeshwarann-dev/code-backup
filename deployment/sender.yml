@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: mock-sender
-        image: app-sender:v173.01
+        image: app-sender:v1803.02
         env:
             - name: POD_NAME
               valueFrom:

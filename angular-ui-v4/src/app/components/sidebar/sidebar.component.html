@@ -156,6 +156,15 @@
           >
         </div>
       </div>
+
+
+      <div class="config-item">
+        <input
+          type="checkbox"
+          [(ngModel)]="config.log_flag"
+          >
+        <label style="margin-left: 5px;">Disable Logging</label>
+      </div>
     
       <!-- MARKET REPLAY FIELDS -->
       <div class="config-section" *ngIf="config.marketReplay">

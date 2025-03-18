@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"fmt"
 	"log"
 	"os"
 	"time"
@@ -33,4 +34,10 @@ func Init123() error {
 
 	Logger = log.New(logFile, "", log.LstdFlags|log.Lmicroseconds)
 	return nil
+}
+
+func Printf(flag bool, statement string) {
+	if flag {
+		fmt.Printf(statement)
+	}
 }

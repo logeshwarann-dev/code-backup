@@ -13,6 +13,7 @@ import (
 	"strconv"
 	"strings"
 	"time"
+	"unicode"
 )
 
 func ReadConfig(filename string) error {
@@ -29,7 +30,7 @@ func ReadConfig(filename string) error {
 		line := scanner.Text()
 		entries := strings.Split(line, ",")
 		if len(entries) < 1 {
-			fmt.Println("[ERR] Invalid line:", line)
+			Printf(static.LOG_FLAG, "[ERR] Invalid line:"+line)
 			continue
 		}
 
@@ -49,7 +50,7 @@ func ReadConfig(filename string) error {
 		static.AssignSessionMap()
 
 		if err0 != nil || err1 != nil || err2 != nil || err3 != nil || err4 != nil || err5 != nil || err6 != nil || err7 != nil || err8 != nil || err9 != nil || err10 != nil {
-			fmt.Println("[ERR] Error parsing limits: ")
+			Printf(static.LOG_FLAG, "[ERR] Error parsing limits: ")
 			continue
 		}
 
@@ -92,17 +93,17 @@ func ReadConfig(filename string) error {
 
 		static.DATA_CHANNEL_LENGTH = 2 * static.THROTTLE_VALUE * static.TRADER_COUNT
 
-		fmt.Println("[INFO] Total No. of Traders :", static.TRADER_COUNT)
-		fmt.Println("[INFO] Total No. of Orders :", static.TOTAL_ORDER_COUNT)
-		fmt.Println("[INFO] Throttle Value:", static.THROTTLE_VALUE)
-		fmt.Println("[INFO] Run time (seconds) :", configs.RunTimeLimit)
-		fmt.Println("[INFO] Modify Order Percentage :", static.MODIFY_PERCENT)
-		fmt.Println("[INFO] Cancel Order Percentage :", static.CANCEL_PERCENT)
-		fmt.Println("[INFO] HeartBeat value :", static.HEARTBEAT_VALUE)
-		fmt.Println("[INFO] Data Channel Length :", static.DATA_CHANNEL_LENGTH)
-		fmt.Println("[INFO] static.DURATION :", static.DURATION)
-		fmt.Println("[INFO] Trade Throttle :", static.TRADE_THROTTLE)
-		fmt.Println("[INFO] Order Pumping Type :", static.ORDER_PUMPING_TYPE)
+		Printf(static.LOG_FLAG, fmt.Sprintf("[INFO] Total No. of Traders :%v", static.TRADER_COUNT))
+		Printf(static.LOG_FLAG, fmt.Sprintf("[INFO] Total No. of Orders :%v", static.TOTAL_ORDER_COUNT))
+		Printf(static.LOG_FLAG, fmt.Sprintf("[INFO] Throttle Value:%v", static.THROTTLE_VALUE))
+		Printf(static.LOG_FLAG, fmt.Sprintf("[INFO] Run time (seconds) :%v", configs.RunTimeLimit))
+		Printf(static.LOG_FLAG, fmt.Sprintf("[INFO] Modify Order Percentage :%v", static.MODIFY_PERCENT))
+		Printf(static.LOG_FLAG, fmt.Sprintf("[INFO] Cancel Order Percentage :%v", static.CANCEL_PERCENT))
+		Printf(static.LOG_FLAG, fmt.Sprintf("[INFO] HeartBeat value :%v", static.HEARTBEAT_VALUE))
+		Printf(static.LOG_FLAG, fmt.Sprintf("[INFO] Data Channel Length :%v", static.DATA_CHANNEL_LENGTH))
+		Printf(static.LOG_FLAG, fmt.Sprintf("[INFO] static.DURATION :%v", static.DURATION))
+		Printf(static.LOG_FLAG, fmt.Sprintf("[INFO] Trade Throttle :%v", static.TRADE_THROTTLE))
+		Printf(static.LOG_FLAG, fmt.Sprintf("[INFO] Order Pumping Type :%v", static.ORDER_PUMPING_TYPE))
 	}
 
 	if err := scanner.Err(); err != nil {
@@ -127,7 +128,7 @@ func ReadRecords(filename string) error {
 		entries := strings.Split(line, ",")
 
 		if len(entries) < 9 {
-			fmt.Println("[ERR] Invalid line:", line)
+			Printf(static.LOG_FLAG, "[ERR] Invalid line:"+line)
 			continue
 		}
 
@@ -140,10 +141,10 @@ func ReadRecords(filename string) error {
 		product_id, err6 := strconv.Atoi(entries[10])
 		partition_id, err7 := strconv.Atoi(entries[11])
 
-		fmt.Printf("[INFO] Instrument ID: %v | Bid Interval: %v | MaxTrdQty: %v |  MinLot value: %v | Product ID: %v | Partition ID : %v\n", instrumentID, bidIntrvl, maxTrdQty, minLot, product_id, partition_id)
+		Printf(static.LOG_FLAG, fmt.Sprintf("[INFO] Instrument ID: %v | Bid Interval: %v | MaxTrdQty: %v |  MinLot value: %v | Product ID: %v | Partition ID : %v\n", instrumentID, bidIntrvl, maxTrdQty, minLot, product_id, partition_id))
 
 		if err0 != nil || err1 != nil || err2 != nil || err3 != nil || err4 != nil || err5 != nil || err6 != nil || err7 != nil {
-			fmt.Println("[ERR] Error parsing limits:", err0, err1, err2, err3, err4, err5, err6, err7)
+			// Printf(static.LOG_FLAG, "[ERR] Error parsing limits:%v", err0, err1, err2, err3, err4, err5, err6, err7)
 			continue
 		}
 
@@ -298,11 +299,11 @@ func SetOrderPumpingParameters() error {
 
 	static.DATA_CHANNEL_LENGTH = 2 * static.THROTTLE_VALUE * static.TRADER_COUNT
 
-	fmt.Println("Batch Size :", static.THROTTLE_VALUE)
-	fmt.Println("Total Order Entry Count :", static.ORDER_ENTRY_COUNT)
-	fmt.Println("Total Mod Count :", static.SEND_MOD_COUNT, "Mods/order count :", static.MOD_PER_ORDER)
-	fmt.Println("Total Cancel Count: ", static.CANCEL_ORDER_COUNT)
-	fmt.Println("Data Channel Length :", static.DATA_CHANNEL_LENGTH)
+	Printf(static.LOG_FLAG, fmt.Sprintf("Batch Size : %v", static.THROTTLE_VALUE))
+	Printf(static.LOG_FLAG, fmt.Sprintf("Total Order Entry Count : %v", static.ORDER_ENTRY_COUNT))
+	Printf(static.LOG_FLAG, fmt.Sprintf("Total Mod Count : %v Mods/order count :%v", static.SEND_MOD_COUNT, static.MOD_PER_ORDER))
+	Printf(static.LOG_FLAG, fmt.Sprintf("Total Cancel Count: %v ", static.CANCEL_ORDER_COUNT))
+	Printf(static.LOG_FLAG, fmt.Sprintf("Data Channel Length : %v", static.DATA_CHANNEL_LENGTH))
 
 	return nil
 }
@@ -357,7 +358,7 @@ func GenerateSquareWave(min, max, interval int) []int {
 		pattern[i+interval] = max
 	}
 
-	fmt.Println("Square Wave Pattern:", pattern)
+	Printf(static.LOG_FLAG, fmt.Sprintf("Square Wave Pattern: %v", pattern))
 	result := CalculatePatternThrottle(pattern)
 
 	return result
@@ -372,7 +373,7 @@ func GenerateSawtoothWave(min, max, interval int) []int {
 		pattern[i] = min + i*step
 	}
 
-	fmt.Println("Sawtooth Wave Pattern:", pattern)
+	Printf(static.LOG_FLAG, fmt.Sprintf("Sawtooth Wave Pattern: %v", pattern))
 	result := CalculatePatternThrottle(pattern)
 
 	return result
@@ -389,7 +390,7 @@ func GenerateSineWave(min, max int) []int {
 		pattern[i] = values[i]
 	}
 
-	fmt.Println("Sine Wave Pattern:", pattern)
+	Printf(static.LOG_FLAG, fmt.Sprintf("Sine Wave Pattern: %v", pattern))
 	result := CalculatePatternThrottle(pattern)
 
 	return result
@@ -411,7 +412,7 @@ func GenerateStepWave(min, max, step, interval int) []int {
 		}
 	}
 
-	fmt.Println("Step Wave Pattern:", pattern)
+	Printf(static.LOG_FLAG, fmt.Sprintf("Step Wave Pattern: %v", pattern))
 	result := CalculatePatternThrottle(pattern)
 
 	return result
@@ -430,7 +431,7 @@ func GenerateTriangleWave(min, max, interval int) []int {
 		pattern[interval+i-1] = max - i*step
 	}
 
-	fmt.Println("Triangle Wave Pattern:", pattern[:len(pattern)-1])
+	Printf(static.LOG_FLAG, fmt.Sprintf("Triangle Wave Pattern: %v", pattern[:len(pattern)-1]))
 	result := CalculatePatternThrottle(pattern)
 
 	return result
@@ -459,7 +460,7 @@ func PatternThrottle() {
 						value = (rand.Intn(static.RANDOM_WAVE_DETAILS.Max-static.RANDOM_WAVE_DETAILS.Min+1) + static.RANDOM_WAVE_DETAILS.Min) / static.TRADER_COUNT
 					case static.PEAK_GENERATOR:
 						value = (rand.Intn(static.PEAK_GENERATOR_DETAILS.Max-static.PEAK_GENERATOR_DETAILS.Min+1) + static.PEAK_GENERATOR_DETAILS.Min) / static.TRADER_COUNT
-						fmt.Println("PEAK GENERATOR THROTTLE VALUE:", value)
+						Printf(static.LOG_FLAG, fmt.Sprintf("PEAK GENERATOR THROTTLE VALUE: %v", value))
 					}
 				}
 
@@ -484,18 +485,18 @@ loop:
 		// 		select {
 		// 		case data := <-static.ConnThrottleChan:
 		// 			static.THROTTLE_VALUE = data
-		// 			fmt.Println("Throttle Value in pattern generator :", static.THROTTLE_VALUE)
+		// 			Printf(static.LOG_FLAG, "Throttle Value in pattern generator :%v", static.THROTTLE_VALUE)
 
 		// 			err := setOrderPumpingParameters()
 		// 			if err != nil {
-		// 				fmt.Println("Error in setting Order Pumping Parameters.")
+		// 				Printf(static.LOG_FLAG, "Error in setting Order Pumping Parameters.")
 		// 			}
 		// 		default:
-		// 			fmt.Println("No data available in static.ConnThrottleChan")
+		// 			Printf(static.LOG_FLAG, "No data available in static.ConnThrottleChan")
 		// 		}
 
 		// 		if !static.PATTERN_GENERATOR {
-		// 			fmt.Println("Breaking out of Pattern Generator")
+		// 			Printf(static.LOG_FLAG, "Breaking out of Pattern Generator")
 		// 			break loop
 		// 		}
 		// 	}
@@ -509,18 +510,18 @@ loop:
 			data, ok := <-static.ConnThrottleChan
 			if ok {
 				static.THROTTLE_VALUE = data
-				fmt.Println("Throttle Value in pattern generator :", static.THROTTLE_VALUE)
+				Printf(static.LOG_FLAG, fmt.Sprintf("Throttle Value in pattern generator: %v", static.THROTTLE_VALUE))
 
 				if err := SetOrderPumpingParameters(); err != nil {
-					fmt.Println("Error in setting Order Pumping Parameters.")
+					Printf(static.LOG_FLAG, "Error in setting Order Pumping Parameters.")
 
 				}
 			} else {
-				fmt.Println("No data available in static.ConnThrottleChan")
+				Printf(static.LOG_FLAG, "No data available in static.ConnThrottleChan")
 			}
 
 			if !static.PATTERN_GENERATOR {
-				fmt.Println("Breaking out of Pattern Generator")
+				Printf(static.LOG_FLAG, "Breaking out of Pattern Generator")
 				break loop
 			}
 		}
@@ -543,7 +544,7 @@ func ApplyPriceRangeChange(data static.PriceRangeChangeDetails) {
 	ticker := time.NewTicker(1 * time.Second)
 	defer ticker.Stop()
 
-	fmt.Println("Sliding price range update started!")
+	Printf(static.LOG_FLAG, "Sliding price range update started!")
 
 	for second := 0; second < data.Interval; second++ {
 		if !static.SLIDING_PRICE {
@@ -595,7 +596,7 @@ func EmptyChannel() {
 		}
 	}
 
-	fmt.Println("Total items removed from channel :", count)
+	Printf(static.LOG_FLAG, fmt.Sprintf("Total items removed from channel : %v", count))
 	static.SWITCH_CH = false
 }
 
@@ -608,7 +609,7 @@ func ChangeDelay() {
 		for {
 			<-ticker.C
 			static.DELAY_TIME = (rand.Intn(static.PEAK_GENERATOR_DETAILS.DelayMax-static.PEAK_GENERATOR_DETAILS.DelayMin+1) + static.PEAK_GENERATOR_DETAILS.DelayMin)
-			fmt.Println("DELAY TIME :", static.DELAY_TIME)
+			Printf(static.LOG_FLAG, fmt.Sprintf("DELAY TIME : %v", static.DELAY_TIME))
 			if !static.PATTERN_GENERATOR || static.PATTERN_TYPE != static.PEAK_GENERATOR {
 				break
 			}
@@ -621,6 +622,38 @@ func CheckRejectedSessions() {
 	defer ticker.Stop()
 	for {
 		<-ticker.C
-		fmt.Println("Total no. of sessions facing rejection :", len(static.ORDERS_REJECTION))
+		Printf(static.LOG_FLAG, fmt.Sprintf("Total no. of sessions facing rejection : %v", len(static.ORDERS_REJECTION)))
+	}
+}
+
+func CheckSessionLogon(interval time.Duration) {
+	ticker := time.NewTicker(interval)
+	defer ticker.Stop()
+	for range 100 {
+		<-ticker.C
+		length := len(static.SessionConn)
+		fmt.Println("[INFO] Session Logon: ", length)
+		if length >= 100 { // after all sessions are connected, print session count every 2 minutes.
+			// Change interval to 2 minutes
+			ticker.Stop()
+			CheckSessionLogon(2 * time.Minute)
+			return
+		}
+	}
+
+}
+
+func VerifyRejectedMsg(msg string, sessionId string, instId string) {
+	isValid := func(string) bool {
+		for _, r := range msg {
+			if !unicode.IsPrint(r) || unicode.IsSymbol(r) || unicode.IsPunct(r) {
+				return false
+			}
+		}
+		return true
+	}(msg)
+
+	if isValid {
+		fmt.Printf("[ERR] ORDER REJECTED|%v|instId:%v|msg:%v\n", sessionId, instId, msg)
 	}
 }

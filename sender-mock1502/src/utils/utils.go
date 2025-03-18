@@ -84,28 +84,28 @@ func ConnectionGatewayResponse(data []byte) (*static.GW_Response, error) {
 		return nil, fmt.Errorf("error reading GW 1: %w", err)
 	} else {
 		res.GW1 = val
-		fmt.Println(val, "Primary gateway IP")
+		Printf(static.LOG_FLAG, fmt.Sprintf(" %v Primary gateway IP", val))
 	}
 
 	if val, err := ReadUnsignedInt(buff, 4, true); err != nil {
 		return nil, fmt.Errorf("error reading Port 1: %w", err)
 	} else {
 		res.Port1 = uint32(val)
-		fmt.Println(val, "Primary gateway Port")
+		Printf(static.LOG_FLAG, fmt.Sprintf(" %v Primary gateway Port", val))
 	}
 
 	if val, err := ByteToIP(buff.Next(4)); err != nil {
 		return nil, fmt.Errorf("error reading GW 2: %w", err)
 	} else {
 		res.GW2 = val
-		fmt.Println(val, "Secondary gateway IP")
+		Printf(static.LOG_FLAG, fmt.Sprintf(" %v Secondary gateway IP", val))
 	}
 
 	if val, err := ReadUnsignedInt(buff, 4, true); err != nil {
 		return nil, fmt.Errorf("error reading Port 2: %w", err)
 	} else {
 		res.Port2 = uint32(val)
-		fmt.Println(val, "Secondary gateway Port")
+		Printf(static.LOG_FLAG, fmt.Sprintf(" %v Secondary gateway Port", val))
 	}
 
 	buff.Next(2)
@@ -114,14 +114,14 @@ func ConnectionGatewayResponse(data []byte) (*static.GW_Response, error) {
 		return nil, fmt.Errorf("error reading Sec Key: %w", err)
 	} else {
 		res.SecKey = sec_key
-		fmt.Println(sec_key, "Key")
+		Printf(static.LOG_FLAG, fmt.Sprintf(" %v Key", sec_key))
 	}
 
 	if iv, err := ReadFixedString(buff, 16); err != nil {
 		return nil, fmt.Errorf("error reading IV: %w", err)
 	} else {
 		res.IV = iv
-		fmt.Println(iv, "IV")
+		Printf(static.LOG_FLAG, iv+"IV")
 	}
 
 	return res, nil
@@ -226,7 +226,7 @@ func CreateSessionLogonRequest(memberId, traderId, msg_seq int, password, key, i
 
 	// 7. heartBeat: 4-byte unsigned integer
 	// heartBeat := uint32(1000)
-	//fmt.Println("HeartBeat value is set to - ", HEARTBEAT_VALUE)
+	//Printf(static.LOG_FLAG, "HeartBeat value is set to - ", HEARTBEAT_VALUE)
 	if err := ParseUnsignedInt(buf, uint64(static.HEARTBEAT_VALUE), 4); err != nil {
 		return nil, fmt.Errorf("error parsing BodyLen: %w", err)
 	}
@@ -300,7 +300,7 @@ func CreateSessionLogonRequest(memberId, traderId, msg_seq int, password, key, i
 			applicationSystemVersion = static.PROD_DISABLED_ACTIVITY_SYSTEM_VERSION
 		}
 	}
-	fmt.Println("AppSystemVersion: ", applicationSystemVersion)
+	Printf(static.LOG_FLAG, "AppSystemVersion: "+applicationSystemVersion)
 	if err := ParseFixedStringTerminable(buf, applicationSystemVersion, 30); err != nil {
 		return nil, fmt.Errorf("error parsing applicationSystemVersion: %w", err)
 	}
@@ -310,7 +310,7 @@ func CreateSessionLogonRequest(memberId, traderId, msg_seq int, password, key, i
 	if static.ORDER_PUMPING_TYPE == static.ASYNC_ORDER_PUMPING_OEOMOC_TYPE {
 		applicationSystemVendor = static.DISABLED_ACTIVITY_SYSTEM_VENDOR
 	}
-	fmt.Println("AppSystemVendor: ", applicationSystemVendor)
+	Printf(static.LOG_FLAG, "AppSystemVendor: "+applicationSystemVendor)
 	if err := ParseFixedStringTerminable(buf, applicationSystemVendor, 30); err != nil {
 		return nil, fmt.Errorf("error parsing applicationSystemVendor: %w", err)
 	}
@@ -869,7 +869,7 @@ func SingleLegLeanOrderResponse(data []byte, CTX *aes.CipherContext) (uint64, ui
 		return 0, 0, fmt.Errorf("MSG SEQ: %w", err)
 	}
 
-	fmt.Println("[INFO] Message Sequence Number: ", msg_seq)
+	Printf(static.LOG_FLAG, fmt.Sprintf("[INFO] Message Sequence Number: %v", msg_seq))
 
 	buff.Next(4)
 
@@ -879,7 +879,7 @@ func SingleLegLeanOrderResponse(data []byte, CTX *aes.CipherContext) (uint64, ui
 		return 0, 0, fmt.Errorf("order Id: %w", err)
 	}
 
-	fmt.Println(order_id, "ORDER ID LEAN ORDER")
+	Printf(static.LOG_FLAG, fmt.Sprintf(" %v ORDER ID LEAN ORDER", order_id))
 
 	buff.Next(48)
 	activity_time, err := ReadUTCTimestamp(buff, true)
@@ -887,7 +887,7 @@ func SingleLegLeanOrderResponse(data []byte, CTX *aes.CipherContext) (uint64, ui
 		return 0, 0, fmt.Errorf("order Id: %w", err)
 	}
 
-	fmt.Println(activity_time, "ACT TIME")
+	Printf(static.LOG_FLAG, fmt.Sprintf(" %v ACT TIME", activity_time))
 
 	return order_id, activity_time, nil
 }
@@ -1083,7 +1083,7 @@ func SingleLegLeanOrderModifiedResponse(data []byte, CTX *aes.CipherContext) (ui
 		return 0, 0, fmt.Errorf("MSG SEQ: %w", err)
 	}
 
-	fmt.Println("[INFO] Message Sequence Number: ", msg_seq)
+	Printf(static.LOG_FLAG, fmt.Sprintf("[INFO] Message Sequence Number: %v", msg_seq))
 
 	buff.Next(4)
 
@@ -1175,7 +1175,7 @@ func CancelSingleLegOrderRequest(memberId, traderId, msg_seq, inst_id, product_i
 
 	// 11. MessageTag: 4-byte unsigned integer
 	if err := ParseSignedInt(buf, int64(1234), 4); err != nil {
-		fmt.Println("Error : ", err)
+		Printf(static.LOG_FLAG, "Error : "+err.Error())
 		return nil, err
 	}
 
@@ -1183,7 +1183,7 @@ func CancelSingleLegOrderRequest(memberId, traderId, msg_seq, inst_id, product_i
 	// marketSegmentID := product_id
 	marketSegmentID := -2147483648
 	if err := ParseSignedInt(buf, int64(marketSegmentID), 4); err != nil {
-		fmt.Println("Error : ", err)
+		Printf(static.LOG_FLAG, "Error : "+err.Error())
 		return nil, err
 	}
 
@@ -1196,14 +1196,14 @@ func CancelSingleLegOrderRequest(memberId, traderId, msg_seq, inst_id, product_i
 	// 14. TargetPartyIDSessionID: 4-byte unsigned integer
 	targetPartyIdSessionId := uint32((memberId * 100000) + traderId)
 	if err := ParseUnsignedInt(buf, uint64(targetPartyIdSessionId), 4); err != nil {
-		fmt.Println("error : ", err)
+		Printf(static.LOG_FLAG, "error : "+err.Error())
 		return nil, err
 	}
 
 	// 15. RegulatoryID: 4-byte unsigned integer
 	regulatoryID := 1234
 	if err := ParseUnsignedInt(buf, uint64(regulatoryID), 4); err != nil {
-		fmt.Println("Error ", err)
+		Printf(static.LOG_FLAG, "Error "+err.Error())
 		return nil, err
 	}
 
@@ -1244,7 +1244,7 @@ func CancelSingleLegOrderResponse(data []byte, CTX *aes.CipherContext) (uint64, 
 		return 0, 0, "", fmt.Errorf("MSG SEQ: %w", err)
 	}
 
-	fmt.Println("[INFO] Message Sequence Number: ", msg_seq)
+	Printf(static.LOG_FLAG, fmt.Sprintf("[INFO] Message Sequence Number: %v", msg_seq))
 
 	buff.Next(4)
 
@@ -1314,7 +1314,7 @@ func ImmediateExecutionResponse(data []byte) (uint64, uint64, string, error) {
 		return 0, 0, "", fmt.Errorf("MSG SEQ: %w", err)
 	}
 
-	fmt.Println("[INFO] Message Sequence Number: ", msg_seq)
+	Printf(static.LOG_FLAG, fmt.Sprintf("[INFO] Message Sequence Number: %v", msg_seq))
 
 	buff.Next(20)
 
@@ -1435,14 +1435,14 @@ func DeleteAllOrderComplexRequest(instrument_id, product_id, memberId, traderId,
 	// 10. TargetPartyIDSessionID: 4-byte unsigned integer
 	targetPartyIdSessionId := uint32((memberId * 100000) + traderId)
 	if err := ParseUnsignedInt(buf, uint64(targetPartyIdSessionId), 4); err != nil {
-		fmt.Println("error : ", err)
+		Printf(static.LOG_FLAG, "error : "+err.Error())
 		return nil, err
 	}
 
 	// 11. TargetPartyIDExecutingTrader: 4 byte unsigned integer
 	targetPartyIDExecutingTrader := uint32((memberId * 100000) + traderId)
 	if err := ParseUnsignedInt(buf, uint64(targetPartyIDExecutingTrader), 4); err != nil {
-		fmt.Println("error : ", err)
+		Printf(static.LOG_FLAG, "error : "+err.Error())
 		return nil, err
 	}
 

@@ -193,4 +193,5 @@ type Config struct {
 	ProcessType            int      `json:"process_type"`
 	AppSystemVendorName    string   `json:"app_system_vendor"`
 	AppSystemVersion       string   `json:"app_system_version"`
+	LogFlag                bool     `json:"log_flag"`
 }

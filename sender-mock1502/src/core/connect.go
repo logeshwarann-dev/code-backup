@@ -14,11 +14,14 @@ import (
 	"strconv"
 	"strings"
 	"sync"
+	"sync/atomic"
 	"syscall"
 	"time"
 )
 
 var (
+	OPSCounter       uint64
+	RejectionCounter uint64
 
 // members          []Member
 // recordFile       string
@@ -39,7 +42,7 @@ func StartOld() {
 
 	err := ReadConfig(CONFIG_FILE_PATH)
 	if err != nil {
-		fmt.Println("[ERR] Error reading config file.")
+		utils.Printf(static.LOG_FLAG, "[ERR] Error reading config file.")
 	}
 
 	switch TARGET_ENV {
@@ -49,21 +52,21 @@ func StartOld() {
 		if FILE_TYPE == 0 {
 			recordFile = PRODUCTION_RECORDS_FILE
 		}
-		fmt.Println("[INFO] Environment : PRODUCTION")
+		utils.Printf(static.LOG_FLAG, "[INFO] Environment : PRODUCTION")
 	case LAB_ENV:
 		members = SessionIdSets[SESSIONSETVALUE]
 		recordFile = PRODUCTION_MOCK_RECORDS
 		if FILE_TYPE == 0 {
 			recordFile = LAB_RECORDS_FILE
 		}
-		fmt.Println("[INFO] Environment : LAB")
+		utils.Printf(static.LOG_FLAG, "[INFO] Environment : LAB")
 	case SIMULATION_ENV:
 		members = SIMULATION_ENV_ID
 		recordFile = SIMULATION_RECORDS1_FILE
 		if FILE_TYPE == 0 {
 			recordFile = SIMULATION_RECORDS_FILE
 		}
-		fmt.Println("[INFO] Environment : SIMULATION")
+		utils.Printf(static.LOG_FLAG, "[INFO] Environment : SIMULATION")
 	}
 
 	var wg sync.WaitGroup
@@ -73,7 +76,7 @@ func StartOld() {
 
 	err = ReadRecords(recordFile)
 	if err != nil {
-		fmt.Println("[ERR] Error reading records:", err)
+		utils.Printf(static.LOG_FLAG, "[ERR] Error reading records:", err)
 		return
 	}
 
@@ -97,15 +100,15 @@ func StartOld() {
 				for retry := 0; retry < 10; retry++ {
 					err := t.establishConnection(retryAttempt)
 					if err == nil {
-						fmt.Println("[SUCCESS] Goroutine completes processing. Exiting now.")
+						utils.Printf(static.LOG_FLAG, "[SUCCESS] Goroutine completes processing. Exiting now.")
 						break
 					} else if strings.Contains(err.Error(), "[ERR] Error in rejected message parser") {
 						break
 					} else if strings.Contains(err.Error(), "An existing connection was forcibly closed by the remote host") {
-						fmt.Println("[WARN] Retrying Connection: ", err.Error())
+						utils.Printf(static.LOG_FLAG, "[WARN] Retrying Connection: ", err.Error())
 						continue
 					} else {
-						fmt.Printf("[ERR] In Main Goroutine, Error establishing connection for Trader %d_%d: %v", t.MID, t.TID, err)
+						utils.Printf(static.LOG_FLAG, fmt.Sprintf("[ERR] In Main Goroutine, Error establishing connection for Trader %d_%d: %v", t.MID, t.TID, err)
 						continue
 					}
 				}
@@ -119,9 +122,12 @@ func StartOld() {
 func Start() {
 
 	var wg sync.WaitGroup
+
 	static.DataChan = make(chan static.DataPacket, static.DATA_CHANNEL_LENGTH)
 	static.RecordsChan = make(chan []static.DataPacket, static.DATA_CHANNEL_LENGTH)
 	static.ConnThrottleChan = make(chan int, static.PATTERN_CHANNEL_LENGTH)
+
+	static.SessionConn = make(chan int, static.DEFAULT_SESSION_COUNT)
 
 	// ORDER_PUMPING_TYPE = SYNC_ORDER_PUMPING_TYPE //Sync order pumping
 
@@ -145,20 +151,22 @@ func Start() {
 			for retry := 0; retry < 10; retry++ {
 				err := t.establishConnection(retryAttempt)
 				if err == nil {
-					fmt.Println("[SUCCESS] Goroutine completes processing. Exiting now.")
+					utils.Printf(static.LOG_FLAG, "[SUCCESS] Goroutine completes processing. Exiting now.\n")
 					break
 				} else if strings.Contains(err.Error(), "[ERR] Error in rejected message parser") {
 					break
 				} else if strings.Contains(err.Error(), "An existing connection was forcibly closed by the remote host") {
-					fmt.Println("[WARN] Retrying Connection: ", err.Error())
+					utils.Printf(static.LOG_FLAG, "[WARN] Retrying Connection: "+err.Error())
 					continue
 				} else {
-					fmt.Printf("[ERR] In Main Goroutine, Error establishing connection for Trader %d_%d: %v\n", t.MID, t.TID, err)
+					utils.Printf(static.LOG_FLAG, fmt.Sprintf("[ERR] In Main Goroutine, Error establishing connection for Trader %d_%d: %v\n", t.MID, t.TID, err))
 					continue
 				}
 			}
 		}(trader)
 	}
+	go utils.CheckSessionLogon(20 * time.Second) // print session count every 20 seconds.
+	go StartOPSCounter()
 	wg.Wait()
 
 }
@@ -166,13 +174,37 @@ func Start() {
 func PumpData() {
 	for i := 0; i < static.TOTAL_ORDER_COUNT; i++ {
 		record := static.RECORDS[i%len(static.RECORDS)]
-		// fmt.Println("Record: ", record)
+		utils.Printf(static.LOG_FLAG, fmt.Sprintf("Record: %v", record))
 		static.DataChan <- static.DataPacket{InstrumentId: record.InstrumentID, Price: record.LowerLimit, MaxPrice: record.UpperLimit, ProductId: record.Product_ID, Qty: record.MinLot, BidIntrvl: record.BidInterval, MaxOrderQty: record.MaxTrdQty}
 	}
 }
 
+func StartOPSCounter() {
+	ticker := time.NewTicker(1 * time.Second)
+	defer ticker.Stop()
+
+	for range ticker.C {
+		count := atomic.LoadUint64(&OPSCounter)
+		fmt.Printf("[INFO] Orders per second: %d\n", count)
+		atomic.StoreUint64(&OPSCounter, 0)
+	}
+}
+
+func StartRejectionCounter() {
+	ticker := time.NewTicker(1 * time.Minute)
+	defer ticker.Stop()
+
+	for range ticker.C {
+		count := atomic.LoadUint64(&RejectionCounter)
+		if count > 0 {
+			fmt.Printf("[INFO] Orders rejected: %d\n", count)
+		}
+		// atomic.StoreUint64(&RejectionCounter, 0)
+	}
+}
+
 func PumpRecords() {
-	fmt.Println("In PUMP static.RECORDS...")
+	utils.Printf(static.LOG_FLAG, "In PUMP static.RECORDS...")
 	for i := 0; i < static.TOTAL_ORDER_COUNT; i++ {
 		var dataPackets []static.DataPacket
 
@@ -188,7 +220,7 @@ func PumpRecords() {
 			})
 		}
 
-		// fmt.Println("Data packets: ", dataPackets)
+		// utils.Printf(static.LOG_FLAG, "Data packets: ", dataPackets)
 
 		static.RecordsChan <- dataPackets
 	}
@@ -202,7 +234,7 @@ func (t Traders) establishConnection(attempt int) error {
 	t.Session_id = (t.MID * 100000) + t.TID
 	t.Msg_seq = 1
 
-	// fmt.Println("Order Pumping Type: ", static.ORDER_PUMPING_TYPE, "| System Vendor: ", static.DISABLED_ACTIVITY_SYSTEM_VENDOR, "| System Version: ", static.LAB_DISABLED_ACTIVITY_SYSTEM_VERSION, "| ", static.PROD_DISABLED_ACTIVITY_SYSTEM_VERSION)
+	// utils.Printf(static.LOG_FLAG, "Order Pumping Type: ", static.ORDER_PUMPING_TYPE, "| System Vendor: ", static.DISABLED_ACTIVITY_SYSTEM_VENDOR, "| System Version: ", static.LAB_DISABLED_ACTIVITY_SYSTEM_VERSION, "| ", static.PROD_DISABLED_ACTIVITY_SYSTEM_VERSION)
 	sslConn, err := t.createConnectionTLS()
 	if err != nil {
 		return err
@@ -214,7 +246,7 @@ func (t Traders) establishConnection(attempt int) error {
 	}
 
 	sslConn.Close()
-	fmt.Println("[INFO] SSL Connection Closed for session id :", t.Session_id)
+	utils.Printf(static.LOG_FLAG, fmt.Sprintf("[INFO] SSL Connection Closed for session id : %d", t.Session_id))
 
 	conn, err := t.createConnection()
 	if err != nil {
@@ -225,7 +257,7 @@ func (t Traders) establishConnection(attempt int) error {
 	// Initialize the CipherContext
 	cipherCtx, err := aes.NewCipherContext([]byte(t.CGW_Res.SecKey), []byte(t.CGW_Res.IV))
 	if err != nil {
-		fmt.Printf("[ERR] Error initializing CipherContext: %v", err)
+		utils.Printf(static.LOG_FLAG, fmt.Sprintf("[ERR] Error initializing CipherContext: %v", err))
 	}
 	t.CTX = cipherCtx
 
@@ -246,6 +278,8 @@ func (t Traders) establishConnection(attempt int) error {
 		return err
 	}
 	t.Msg_seq++
+
+	static.SessionConn <- 1 // counting session logon
 
 	if static.TRADE {
 		if err := t.handleOrderEntryTrade(); err != nil {
@@ -283,7 +317,7 @@ func (t Traders) establishConnection(attempt int) error {
 	t.Msg_seq++
 
 	time.Sleep(1000 * time.Millisecond)
-	fmt.Printf("[INFO] Ack received by session id  : %v  is %v. \n", t.Session_id, t.AckCount)
+	utils.Printf(static.LOG_FLAG, fmt.Sprintf("[INFO] Ack received by session id  : %v  is %v. \n", t.Session_id, t.AckCount))
 
 	return nil
 }
@@ -315,11 +349,11 @@ func (t Traders) createConnectionTLS() (*tls.Conn, error) {
 					return sslConn, fmt.Errorf("failed to set socket buffer sizes: %v", err)
 				}
 			} else {
-				fmt.Println("[ERR] Failed to get TCP Conn.")
+				utils.Printf(static.LOG_FLAG, "[ERR] Failed to get TCP Conn.")
 			}
 			return sslConn, nil
 		}
-		fmt.Printf("[ERR] Trader %v Failed TLS connection (attempt %d/%d): %v\n", t.TID, try, retryConn, err)
+		utils.Printf(static.LOG_FLAG, fmt.Sprintf("[ERR] Trader %v Failed TLS connection (attempt %d/%d): %v\n", t.TID, try, retryConn, err))
 		time.Sleep(500 * time.Millisecond)
 
 	}
@@ -331,7 +365,7 @@ func (t Traders) createConnection() (net.Conn, error) {
 	sendBufferSize := 64 * 1024 * 1024
 	recvBufferSize := 64 * 1024 * 1024
 
-	fmt.Println("[INFO] Primary GW IP and Port: ", t.CGW_Res.GW1, t.CGW_Res.Port1)
+	utils.Printf(static.LOG_FLAG, fmt.Sprintf("[INFO] Primary GW IP and Port: %v %v ", t.CGW_Res.GW1, t.CGW_Res.Port1))
 	address := net.JoinHostPort(t.CGW_Res.GW1, strconv.FormatUint(uint64(t.CGW_Res.Port1), 10))
 
 	conn, err := net.Dial("tcp", address)
@@ -349,9 +383,9 @@ func (t Traders) createConnection() (net.Conn, error) {
 		// if err != nil {
 		// 	return conn, fmt.Errorf("failed to set TCP No Delay: %v", err)
 		// }
-		fmt.Println("")
+		// utils.Printf(static.LOG_FLAG, "")
 	} else {
-		fmt.Println("[ERR] Failed to get TCP Conn.")
+		utils.Printf(static.LOG_FLAG, "[ERR] Failed to get TCP Conn.")
 	}
 	return conn, nil
 }
@@ -378,17 +412,17 @@ func (t Traders) handleConnectionRequest(sslConn *tls.Conn) error {
 
 	val, err := utils.GetTemplateID(response)
 	if err != nil {
-		fmt.Println("[ERR] error in template id parser in connection gateway response :", err)
+		utils.Printf(static.LOG_FLAG, "[ERR] error in template id parser in connection gateway response :"+err.Error())
 		return nil
 	}
 
 	if val == static.REJECTED {
 		rejectedMsg, err := utils.ReadRejectedMsgNonDecrypted(response)
 		if err != nil {
-			fmt.Println("[ERR] Error in rejected message parser connection gateway response:", err)
+			utils.Printf(static.LOG_FLAG, "[ERR] Error in rejected message parser connection gateway response"+err.Error())
 			return nil
 		}
-		fmt.Printf("[ERR] Connection Gateway Response for session id %v  has been rejected.\n", t.Session_id)
+		utils.Printf(static.LOG_FLAG, fmt.Sprintf("[ERR] %v | Connection Gateway Rejected: '%v'\n", t.Session_id, rejectedMsg))
 		return fmt.Errorf("reason: %v", rejectedMsg)
 	}
 
@@ -399,7 +433,7 @@ func (t Traders) handleConnectionRequest(sslConn *tls.Conn) error {
 
 	t.CGW_Res = *gatewayResponse
 
-	fmt.Println("[INFO] Gateway Connected Successfully for session id: ", t.Session_id)
+	utils.Printf(static.LOG_FLAG, fmt.Sprintf("[INFO] Gateway Connected Successfully for session id: %v", t.Session_id))
 	return nil
 }
 
@@ -495,21 +529,21 @@ func (t Traders) handleSessionRegistration() error {
 
 	val, err := utils.GetTemplateID(response)
 	if err != nil {
-		fmt.Println("[ERR] Error in template id parser in session registration :", err)
+		utils.Printf(static.LOG_FLAG, "[ERR] Error in template id parser in session registration "+err.Error())
 		return nil
 	}
 
 	if val == static.REJECTED {
 		rejectedMsg, err := utils.ReadRejectedMsgNonDecrypted(response)
 		if err != nil {
-			fmt.Println("[ERR] Error in rejected message parser:", err)
+			utils.Printf(static.LOG_FLAG, "[ERR] Error in rejected message parser"+err.Error())
 			return nil
 		}
-		fmt.Printf("[ERR] Session Registration for session id %v  has been rejected.\n", t.Session_id)
+		utils.Printf(static.LOG_FLAG, fmt.Sprintf("[ERR]  %v | Session Registration Rejected: '%v'\n", t.Session_id, rejectedMsg))
 		return fmt.Errorf("reason: %v", rejectedMsg)
 	}
 
-	fmt.Println("[INFO] Session Registration Completed Successfully for session id:", t.Session_id)
+	utils.Printf(static.LOG_FLAG, fmt.Sprintf("[INFO] Session Registration Completed Successfully for session id: %v", t.Session_id))
 	return nil
 }
 
@@ -535,23 +569,23 @@ func (t Traders) handleSessionLogon() error {
 
 	val, err := utils.GetTemplateID(response)
 	if err != nil {
-		fmt.Println("[ERR] Error in template id parser :", err)
+		utils.Printf(static.LOG_FLAG, "[ERR] Error in template id parser:"+err.Error())
 		return nil
 	}
 
 	if val == static.REJECTED {
 		rejectedMsg, err := utils.ReadRejectedMsg(response, t.CTX)
 		if err != nil {
-			fmt.Println("[ERR] Error in rejected message parser in session logon:", err)
+			utils.Printf(static.LOG_FLAG, "[ERR] Error in rejected message parser in session logo:"+err.Error())
 			return nil
 		}
-		fmt.Printf("[ERR] Session Logon for session id %v  has been rejected.\n", t.Session_id)
+		utils.Printf(static.LOG_FLAG, fmt.Sprintf("[ERR] %v | Session Logon Rejected: '%v'\n", t.Session_id, rejectedMsg))
 		return fmt.Errorf("reason: %v", rejectedMsg)
 	}
 
 	session_res, err := utils.DecryptData(response, t.CGW_Res.SecKey, t.CGW_Res.IV, t.CTX)
 	if err != nil {
-		fmt.Println("[ERR] Error in decrypting session logon response :", err)
+		utils.Printf(static.LOG_FLAG, "[ERR] Error in decrypting session logon response :"+err.Error())
 		return nil
 	}
 
@@ -561,7 +595,7 @@ func (t Traders) handleSessionLogon() error {
 	}
 	t.Throttle = sessionLogonResponse
 
-	fmt.Println("[INFO] Session Logon Completed Successfully for Session id:", t.Session_id)
+	utils.Printf(static.LOG_FLAG, fmt.Sprintf("[INFO] Session Logon Completed Successfully for Session id: %v", t.Session_id))
 	return nil
 }
 
@@ -586,27 +620,27 @@ func (t Traders) handleUserLogin() error {
 	response := buffer[:n]
 	val, err := utils.GetTemplateID(response)
 	if err != nil {
-		fmt.Println("[ERR] Error in template id parser :", err)
+		utils.Printf(static.LOG_FLAG, "[ERR] Error in template id parser :"+err.Error())
 		return nil
 	}
 
 	if val == static.REJECTED {
 		rejectedMsg, err := utils.ReadRejectedMsg(response, t.CTX)
 		if err != nil {
-			fmt.Println("[ERR] Error in rejected message parser:", err)
+			utils.Printf(static.LOG_FLAG, "[ERR] Error in rejected message parser:"+err.Error())
 			return nil
 		}
-		fmt.Printf("[ERR] User Logon rejected | session id %v | Reason: %v\n", t.Session_id, rejectedMsg)
+		utils.Printf(static.LOG_FLAG, fmt.Sprintf("[ERR] %v | User Logon Rejected: '%v'\n", t.Session_id, rejectedMsg))
 		return fmt.Errorf("reason: %v", rejectedMsg)
 	}
 
 	_, err = utils.DecryptData(response, t.CGW_Res.SecKey, t.CGW_Res.IV, t.CTX)
 	if err != nil {
-		fmt.Println("[ERR] Error in response user logon parser :", err)
+		utils.Printf(static.LOG_FLAG, "[ERR] Error in response user logon parser :"+err.Error())
 		return nil
 	}
 
-	fmt.Println("[SUCCESS] User Logon Completed | session id:", t.Session_id)
+	utils.Printf(static.LOG_FLAG, fmt.Sprintf("[SUCCESS] User Logon Completed | session id: %d", t.Session_id))
 	return nil
 }
 
@@ -614,7 +648,7 @@ func (t Traders) sendDataToServer(order []byte) error {
 
 	_, err := t.Conn.Write(order)
 	if err != nil {
-		fmt.Printf("[ERR] Error sending data with session id %d: %v", t.Session_id, err)
+		utils.Printf(static.LOG_FLAG, fmt.Sprintf("[ERR] Error sending data with session id %d: %v", t.Session_id, err.Error()))
 	}
 
 	return nil
@@ -626,11 +660,13 @@ func (t Traders) readReceivedResponse(val uint16, inst_id int, response []byte) 
 	case static.REJECTED:
 		rejectedMsg, err := utils.ReadRejectedMsg(response, t.CTX)
 		if err != nil {
-			fmt.Println("[ERR] Error in rejected message parser:", err)
+			utils.Printf(static.LOG_FLAG, "[ERR] Error in rejected message parser:"+err.Error())
 			return 0, err
 		}
 		t.AckCount++
-		fmt.Printf("[ERR] Order static.REJECTED | session id %v | instrument id - %v | Reason: %v \n", t.Session_id, inst_id, rejectedMsg)
+		utils.Printf(static.LOG_FLAG, fmt.Sprintf("[ERR] ORDER REJECTED|sId-%v|instId-%v|msg:'%v'\n", t.Session_id, inst_id, rejectedMsg))
+		atomic.AddUint64(&RejectionCounter, 1)                                                  // Rejection Counter
+		utils.VerifyRejectedMsg(rejectedMsg, strconv.Itoa(t.Session_id), strconv.Itoa(inst_id)) // check the rejected msg contains invalid characters and print only if its valid.
 		return static.REJECTED, nil
 
 	case static.STANDARD_ORDER, static.LEAN_ORDER:
@@ -638,49 +674,52 @@ func (t Traders) readReceivedResponse(val uint16, inst_id int, response []byte) 
 		if val == static.LEAN_ORDER {
 			orderType = "Lean Order"
 		}
-		fmt.Printf("[SUCCESS] Order Entry | session id %v | instrument id - %v (%s)\n", t.Session_id, inst_id, orderType)
+		utils.Printf(static.LOG_FLAG, fmt.Sprintf("[PASS] ORDER ENTRY|sId-%v|instId-%v|(%s)\n", t.Session_id, inst_id, orderType))
+		atomic.AddUint64(&OPSCounter, 1) // OPS Counter
 		t.AckCount++
 		return static.LEAN_ORDER, nil
 
 	case static.HEARTBEAT:
-		fmt.Println("[INFO] HeartBeat | session id:", t.Session_id)
+		utils.Printf(static.LOG_FLAG, fmt.Sprintf("[INFO] HEARTBEAT|sId-%v\n", t.Session_id))
 		return static.HEARTBEAT, nil
 
 	case static.ORDER_CONFIRMATION:
 		_, err := utils.DecryptData(response, t.CGW_Res.SecKey, t.CGW_Res.IV, t.CTX)
 		if err != nil {
-			fmt.Println("[ERR] Error in decrypting order confirmation :", err)
+			utils.Printf(static.LOG_FLAG, "[ERR] Error in decrypting order confirmation :"+err.Error())
 			return 0, err
 		}
 		return static.ORDER_CONFIRMATION, nil
 
 	case static.MODIFY_LEAN_ORDER:
-		fmt.Printf("[SUCCESS] Order Modify | session id %v | instrument id - %v (Lean Order).\n", t.Session_id, inst_id)
+		utils.Printf(static.LOG_FLAG, fmt.Sprintf("[PASS] ORDER MODIFY|sId-%v|instId-%v|(Lean Order)\n", t.Session_id, inst_id))
+		atomic.AddUint64(&OPSCounter, 1) // OPS Counter
 		t.AckCount++
 		return static.MODIFY_LEAN_ORDER, nil
 
 	case static.CANCEL_LEAN_ORDER:
-		fmt.Printf("[SUCCESS] Order Cancel | session id %v | instrument id - %v (Lean Order)\n", t.Session_id, inst_id)
+		utils.Printf(static.LOG_FLAG, fmt.Sprintf("[PASS] ORDER CANCEL|sId-%v|instId-%v|(Lean Order)\n", t.Session_id, inst_id))
+		atomic.AddUint64(&OPSCounter, 1) // OPS Counter
 		t.AckCount++
 		return static.CANCEL_LEAN_ORDER, nil
 	case static.IMMEDIATE_EXECUTION:
-		fmt.Printf("[SUCCESS] IMMEDIATE EXECUTION | session id %v\n", t.Session_id)
+		utils.Printf(static.LOG_FLAG, fmt.Sprintf("[PASS] IMMEDIATE EXECUTION|sId-%vn", t.Session_id))
 		t.AckCount++
 		return static.IMMEDIATE_EXECUTION, nil
 	case static.ORDER_BOOK_EXECUTION:
-		fmt.Printf("[SUCCESS] ORDER BOOK EXECUTION | session id %v\n", t.Session_id)
+		utils.Printf(static.LOG_FLAG, fmt.Sprintf("[PASS] ORDER BOOK EXECUTION|sId-%v\n", t.Session_id))
 		t.AckCount++
 		return static.ORDER_BOOK_EXECUTION, nil
 	case static.TRADING_SESSION_EVENT:
-		fmt.Printf("[SUCCESS] static.TRADING_SESSION_EVENT | session id %v\n", t.Session_id)
+		utils.Printf(static.LOG_FLAG, fmt.Sprintf("[PASS] TRADING_SESSION_EVENT|sId-%v\n", t.Session_id))
 		t.AckCount++
 		return static.TRADING_SESSION_EVENT, nil
 	case static.DELETE_ALL_ORDERS:
-		fmt.Printf("[SUCCESS] static.DELETE_ALL_ORDERS | session id %v\n", t.Session_id)
+		utils.Printf(static.LOG_FLAG, fmt.Sprintf("[PASS] DELETE_ALL_ORDERS|sId-%v\n", t.Session_id))
 		t.AckCount++
 		return static.DELETE_ALL_ORDERS, nil
 	case static.DELETE_ALL_ORDERS_NO_HITS:
-		fmt.Printf("[SUCCESS] static.DELETE_ALL_ORDERS_NO_HITS | session id %v\n", t.Session_id)
+		utils.Printf(static.LOG_FLAG, fmt.Sprintf("[PASS] DELETE_ALL_ORDERS_NO_HITS|sId-%v\n", t.Session_id))
 		t.AckCount++
 		return static.DELETE_ALL_ORDERS_NO_HITS, nil
 
@@ -693,7 +732,7 @@ func (t Traders) heartBeatListener() error {
 	for {
 		_, _, order_template, err := t.NewOrderResponseListner(static.DUMMY_ID)
 		if err != nil {
-			fmt.Println("[ERR] Error in reading received response :", err)
+			utils.Printf(static.LOG_FLAG, "[ERR] Error in reading received response: "+err.Error())
 		}
 
 		if order_template == static.HEARTBEAT {
@@ -705,7 +744,7 @@ func (t Traders) heartBeatListener() error {
 			t.sendDataToServer(heartbeat)
 
 			if static.THROTTLE_VALUE > 0 {
-				fmt.Println("[INFO] Throttle value is updated. Exiting heartbeat case ")
+				utils.Printf(static.LOG_FLAG, "[INFO] Throttle value is updated. Exiting heartbeat case ")
 				return nil
 			}
 		}
@@ -716,7 +755,7 @@ func (t Traders) sendOrderModify(inst_id, price, qty, order_type int, order_id, 
 
 	modified_data, err := utils.ModifyLeanOrder(t.MID, t.TID, t.Msg_seq, inst_id, price, qty, order_type, order_id, act_time, t.CTX, t.ClOrdID, order_id)
 	if err != nil {
-		fmt.Println("[ERR] Error in order modify parser :", err)
+		utils.Printf(static.LOG_FLAG, "[ERR] Error in order modify parser :"+err.Error())
 		// return nil
 		return 0, 0, 0, nil
 	}
@@ -724,14 +763,14 @@ func (t Traders) sendOrderModify(inst_id, price, qty, order_type int, order_id, 
 	modOrderTime := time.Now()
 	err = t.sendDataToServer(modified_data)
 	if err != nil {
-		fmt.Printf("[ERR] Error sending data for session id %d: %v", t.Session_id, err)
+		utils.Printf(static.LOG_FLAG, fmt.Sprintf("[ERR] Error sending data for session id %d: %v", t.Session_id, err))
 		return 0, 0, 0, nil
 	}
 
 	order_id, act_time, order_template, err := t.NewOrderResponseListner(inst_id)
-	fmt.Println("[INFO] Mod Order Request RTT: ", time.Since(modOrderTime))
+	utils.Printf(static.LOG_FLAG, fmt.Sprintf("[INFO] OM RTT: %v", time.Since(modOrderTime)))
 	if err != nil {
-		fmt.Println("[ERR] Error in reading received response :", err)
+		utils.Printf(static.LOG_FLAG, "[ERR] Error in reading received response :"+err.Error())
 	}
 
 	return order_id, act_time, order_template, nil
@@ -741,20 +780,20 @@ func (t Traders) sendOrderCancel(inst_id, product_id int, order_id uint64) error
 
 	cancelOrder, err := utils.CancelSingleLegOrderRequest(t.MID, t.TID, t.Msg_seq, inst_id, product_id, order_id, t.CTX, t.ClOrdID, order_id)
 	if err != nil {
-		fmt.Println("[ERR] Error in cancel order", err)
+		utils.Printf(static.LOG_FLAG, "[ERR] Error in cancel order"+err.Error())
 	}
 
 	cancelOrderTime := time.Now()
 	err = t.sendDataToServer(cancelOrder)
 	if err != nil {
-		fmt.Printf("[ERR] Error sending cancel order for session id %d: %v", t.Session_id, err)
+		utils.Printf(static.LOG_FLAG, fmt.Sprintf("[ERR] Error sending cancel order for session id %d: %v", t.Session_id, err))
 		return err
 	}
 
 	_, _, _, err = t.NewOrderResponseListner(inst_id)
-	fmt.Println("[INFO] Cancel Order Request RTT: ", time.Since(cancelOrderTime))
+	utils.Printf(static.LOG_FLAG, fmt.Sprintf("[INFO] OC RTT: %v", time.Since(cancelOrderTime)))
 	if err != nil {
-		fmt.Println("[ERR] Error in reading received response :", err)
+		utils.Printf(static.LOG_FLAG, "[ERR] Error in reading received response :"+err.Error())
 	}
 
 	return nil
@@ -764,20 +803,20 @@ func (t Traders) sendOrderDelete(inst_id, product_id int) error {
 
 	deleteOrder, err := utils.DeleteAllOrderComplexRequest(inst_id, product_id, t.MID, t.TID, t.Msg_seq, t.CTX)
 	if err != nil {
-		fmt.Println("[ERR] Error in Delete order", err)
+		utils.Printf(static.LOG_FLAG, "[ERR] Error in Delete order"+err.Error())
 	}
 
 	deleteOrderTime := time.Now()
 	err = t.sendDataToServer(deleteOrder)
 	if err != nil {
-		fmt.Printf("[ERR] Error sending Delete order for session id %d: %v", t.Session_id, err)
+		utils.Printf(static.LOG_FLAG, fmt.Sprintf("[ERR] Error sending Delete order for session id %d: %v", t.Session_id, err))
 		return err
 	}
 
 	_, _, _, err = t.NewOrderResponseListner(inst_id)
-	fmt.Println("[INFO] Delete Order Request RTT: ", time.Since(deleteOrderTime))
+	utils.Printf(static.LOG_FLAG, fmt.Sprintf("[INFO] Delete Order RTT: %v", time.Since(deleteOrderTime)))
 	if err != nil {
-		fmt.Println("[ERR] Error in reading received response :", err)
+		utils.Printf(static.LOG_FLAG, "[ERR] Error in reading received response :"+err.Error())
 	}
 
 	return nil
@@ -821,7 +860,7 @@ func (t Traders) DeleteOrdersByType() error {
 			t.OrderMap = make(map[uint64]static.OrderResponse)
 
 		default:
-			fmt.Println("DELETE ORDERS BY TYPE NO CASE MATCHED:", static.DELETE_ORDERS_DETAILS.Type)
+			utils.Printf(static.LOG_FLAG, fmt.Sprintf("DELETE ORDERS BY TYPE NO CASE MATCHED: %v", static.DELETE_ORDERS_DETAILS.Type))
 		}
 	}
 
@@ -836,10 +875,11 @@ func (t Traders) NewOrderResponseListner(inst_id int) (uint64, uint64, uint16, e
 		n, err := reader.Read(buffer)
 		if err != nil {
 			if err == io.EOF {
-				fmt.Printf("[INFO] Connection closed for session id %d: %v\n", t.Session_id, err)
+				utils.Printf(static.LOG_FLAG, fmt.Sprintf("[INFO] Connection closed for session id %d: %v\n", t.Session_id, err))
+				<-static.SessionConn
 				return 0, 0, 0, err
 			}
-			fmt.Printf("[ERR] Error reading responses for session id %d: %v", t.Session_id, err)
+			utils.Printf(static.LOG_FLAG, fmt.Sprintf("[ERR] Error reading responses for session id %d: %v", t.Session_id, err))
 			return 0, 0, 0, nil
 		}
 
@@ -847,7 +887,7 @@ func (t Traders) NewOrderResponseListner(inst_id int) (uint64, uint64, uint16, e
 
 		responseLength := len(responseBuf)
 		if responseLength == 0 {
-			fmt.Println("Response len is 0.")
+			utils.Printf(static.LOG_FLAG, "Response len is 0.")
 			return 0, 0, 0, nil
 		}
 
@@ -859,14 +899,14 @@ func (t Traders) NewOrderResponseListner(inst_id int) (uint64, uint64, uint16, e
 			count++
 
 			if len(responseBuf) < 4 {
-				fmt.Println("[ERR] Response buffer too short to read size")
+				utils.Printf(static.LOG_FLAG, "[ERR] Response buffer too short to read size")
 				return 0, 0, 0, fmt.Errorf("response buffer too short")
 			}
 
 			size := int(binary.LittleEndian.Uint32(responseBuf[:4]))
 			if len(responseBuf) < size {
 
-				fmt.Println("[ERR] Response buffer too short for the indicated size")
+				utils.Printf(static.LOG_FLAG, "[ERR] Response buffer too short for the indicated size")
 				return 0, 0, 0, fmt.Errorf("response buffer too short for indicated size")
 			}
 
@@ -882,16 +922,16 @@ func (t Traders) NewOrderResponseListner(inst_id int) (uint64, uint64, uint16, e
 
 			val, err := utils.GetTemplateID(response)
 			if err != nil {
-				fmt.Println("[ERR] Error in template id parser :", err)
+				utils.Printf(static.LOG_FLAG, "[ERR] Error in template id parser :"+err.Error())
 			}
 
 			read_response, err := t.readReceivedResponse(val, inst_id, response)
 			if err != nil {
-				fmt.Println("[ERR] Error in reading received response :", err)
+				utils.Printf(static.LOG_FLAG, "[ERR] Error in reading received response :"+err.Error())
 			}
 
 			if read_response == static.ORDER_CONFIRMATION {
-				fmt.Println("[PASS] Order Confirmation Received for session id:", t.Session_id)
+				utils.Printf(static.LOG_FLAG, fmt.Sprintf("[PASS] Order Confirmation Received for session id: %v", t.Session_id))
 				continue
 			}
 
@@ -899,19 +939,20 @@ func (t Traders) NewOrderResponseListner(inst_id int) (uint64, uint64, uint16, e
 			case static.LEAN_ORDER:
 				order_res, err := utils.DecryptData(response, t.CGW_Res.SecKey, t.CGW_Res.IV, t.CTX)
 				if err != nil {
-					fmt.Println("[ERR] Error in decryption for order response parser :", err)
+					utils.Printf(static.LOG_FLAG, "[ERR] Error in decryption for order response parser :"+err.Error())
 				}
 
 				server_res, err1 := utils.GetTimestamps(order_res)
 				if err1 != nil {
-					fmt.Println("[ERR] Error while getting timestamps")
+					utils.Printf(static.LOG_FLAG, "[ERR] Error while getting timestamps")
 				} else {
-					fmt.Printf("[INFO] Order Entry Server Processing Time(T6-T1):  %v microseconds\n", (server_res.GW_Res_Out-server_res.GW_Req_In)/1000)
+					// utils.Printf(static.LOG_FLAG, fmt.Sprintf("[INFO] %v|OE T6-T1:  %v μs\n", t.Session_id, (server_res.GW_Res_Out-server_res.GW_Req_In)/1000))
+					fmt.Printf("[INFO] %v|OE T6-T1:  %v μs\n", t.Session_id, (server_res.GW_Res_Out-server_res.GW_Req_In)/1000)
 				}
 
 				order_id, act_time, err := utils.SingleLegLeanOrderResponse(order_res, t.CTX)
 				if err != nil {
-					fmt.Println("[ERR] Error in lean order response parser :", err)
+					utils.Printf(static.LOG_FLAG, "[ERR] Error in lean order response parser :"+err.Error())
 				}
 
 				if i == len(responseArr)-1 {
@@ -920,14 +961,14 @@ func (t Traders) NewOrderResponseListner(inst_id int) (uint64, uint64, uint16, e
 			case static.CANCEL_LEAN_ORDER:
 				order_res, err := utils.DecryptData(response, t.CGW_Res.SecKey, t.CGW_Res.IV, t.CTX)
 				if err != nil {
-					fmt.Println("[ERR] Error in decryption for order response parser :", err)
+					utils.Printf(static.LOG_FLAG, "[ERR] Error in decryption for order response parser :"+err.Error())
 				}
 
 				server_res, err1 := utils.GetTimestamps(order_res)
 				if err1 != nil {
-					fmt.Println("[ERR] Error while getting timestamps")
+					utils.Printf(static.LOG_FLAG, "[ERR] Error while getting timestamps")
 				} else {
-					fmt.Printf("[INFO] Order Cancel Server Processing Time(T6-T1):  %v microseconds\n", (server_res.GW_Res_Out-server_res.GW_Req_In)/1000)
+					utils.Printf(static.LOG_FLAG, fmt.Sprintf("[INFO] %v | OC T6-T1:  %v μs\n", t.Session_id, (server_res.GW_Res_Out-server_res.GW_Req_In)/1000))
 				}
 
 				if i == len(responseArr)-1 {
@@ -936,19 +977,19 @@ func (t Traders) NewOrderResponseListner(inst_id int) (uint64, uint64, uint16, e
 			case static.MODIFY_LEAN_ORDER:
 				order_res, err := utils.DecryptData(response, t.CGW_Res.SecKey, t.CGW_Res.IV, t.CTX)
 				if err != nil {
-					fmt.Println("[ERR] Error in decryption for order response parser :", err)
+					utils.Printf(static.LOG_FLAG, "[ERR] Error in decryption for order response parser :"+err.Error())
 				}
 
 				server_res, err1 := utils.GetTimestamps(order_res)
 				if err1 != nil {
-					fmt.Println("[ERR] Error while getting timestamps")
+					utils.Printf(static.LOG_FLAG, "[ERR] Error while getting timestamps")
 				} else {
-					fmt.Printf("[INFO] Order Mod Server Processing Time(T6-T1):  %v microseconds\n", (server_res.GW_Res_Out-server_res.GW_Req_In)/1000)
+					utils.Printf(static.LOG_FLAG, fmt.Sprintf("[INFO] OM T6-T1:  %v μs\n", (server_res.GW_Res_Out-server_res.GW_Req_In)/1000))
 				}
 
 				order_id, act_time, err := utils.SingleLegLeanOrderModifiedResponse(order_res, t.CTX)
 				if err != nil {
-					fmt.Println("[ERR] Error in lean order response parser :", err)
+					utils.Printf(static.LOG_FLAG, "[ERR] Error in lean order response parser :"+err.Error())
 				}
 
 				if i == len(responseArr)-1 {
@@ -957,7 +998,7 @@ func (t Traders) NewOrderResponseListner(inst_id int) (uint64, uint64, uint16, e
 			case static.HEARTBEAT:
 				_, err := utils.DecryptData(response, t.CGW_Res.SecKey, t.CGW_Res.IV, t.CTX)
 				if err != nil {
-					fmt.Println("[ERR] Error in decryption for order response parser :", err)
+					utils.Printf(static.LOG_FLAG, "[ERR] Error in decryption for order response parser :"+err.Error())
 				}
 
 				if i == len(responseArr)-1 {
@@ -970,7 +1011,7 @@ func (t Traders) NewOrderResponseListner(inst_id int) (uint64, uint64, uint16, e
 			case static.IMMEDIATE_EXECUTION:
 				_, err := utils.DecryptData(response, t.CGW_Res.SecKey, t.CGW_Res.IV, t.CTX)
 				if err != nil {
-					fmt.Println("[ERR] Error in decryption for order response parser :", err)
+					utils.Printf(static.LOG_FLAG, "[ERR] Error in decryption for order response parser :"+err.Error())
 				}
 
 				if i == len(responseArr)-1 {
@@ -979,7 +1020,7 @@ func (t Traders) NewOrderResponseListner(inst_id int) (uint64, uint64, uint16, e
 			case static.ORDER_BOOK_EXECUTION:
 				_, err := utils.DecryptData(response, t.CGW_Res.SecKey, t.CGW_Res.IV, t.CTX)
 				if err != nil {
-					fmt.Println("[ERR] Error in decryption for order response parser :", err)
+					utils.Printf(static.LOG_FLAG, "[ERR] Error in decryption for order response parser :"+err.Error())
 				}
 
 				if i == len(responseArr)-1 {
@@ -988,7 +1029,7 @@ func (t Traders) NewOrderResponseListner(inst_id int) (uint64, uint64, uint16, e
 			case static.TRADING_SESSION_EVENT:
 				_, err := utils.DecryptData(response, t.CGW_Res.SecKey, t.CGW_Res.IV, t.CTX)
 				if err != nil {
-					fmt.Println("[ERR] Error in decryption for order response parser :", err)
+					utils.Printf(static.LOG_FLAG, "[ERR] Error in decryption for order response parser :"+err.Error())
 				}
 
 				if i == len(responseArr)-1 {
@@ -998,7 +1039,7 @@ func (t Traders) NewOrderResponseListner(inst_id int) (uint64, uint64, uint16, e
 			case static.DELETE_ALL_ORDERS:
 				_, err := utils.DecryptData(response, t.CGW_Res.SecKey, t.CGW_Res.IV, t.CTX)
 				if err != nil {
-					fmt.Println("[ERR] Error in decryption for order response parser :", err)
+					utils.Printf(static.LOG_FLAG, "[ERR] Error in decryption for order response parser :"+err.Error())
 				}
 
 				if i == len(responseArr)-1 {
@@ -1008,14 +1049,14 @@ func (t Traders) NewOrderResponseListner(inst_id int) (uint64, uint64, uint16, e
 			case static.DELETE_ALL_ORDERS_NO_HITS:
 				_, err := utils.DecryptData(response, t.CGW_Res.SecKey, t.CGW_Res.IV, t.CTX)
 				if err != nil {
-					fmt.Println("[ERR] Error in decryption for order response parser :", err)
+					utils.Printf(static.LOG_FLAG, "[ERR] Error in decryption for order response parser :"+err.Error())
 				}
 
 				if i == len(responseArr)-1 {
 					return 0, 0, static.DELETE_ALL_ORDERS_NO_HITS, nil
 				}
 			default:
-				fmt.Println("Other Template ID: ", read_response)
+				utils.Printf(static.LOG_FLAG, fmt.Sprintf("[INFO] Other Template ID: %v ", read_response))
 				if i == len(responseArr)-1 {
 					return 0, 0, 0, nil
 				}
@@ -1040,16 +1081,16 @@ func (t Traders) handleOrderEntryTrade() error {
 
 				if packetCount >= static.TRADE_THROTTLE || elapsedTime >= time.Second {
 					if packetCount >= static.TRADE_THROTTLE && elapsedTime < time.Second {
-						fmt.Printf("Session id %d , sleeping for %v\n", t.Session_id, time.Second-elapsedTime)
+						utils.Printf(static.LOG_FLAG, fmt.Sprintf("[INFO] Session id %d , sleeping for %v\n", t.Session_id, time.Second-elapsedTime))
 						time.Sleep(time.Second - elapsedTime)
 					}
-					fmt.Printf("Session id %d sent %d packets.\n", t.Session_id, packetCount)
+					utils.Printf(static.LOG_FLAG, fmt.Sprintf("[INFO] Session id %d sent %d packets.\n", t.Session_id, packetCount))
 					startTime = time.Now()
 					packetCount = 0
 				}
 
 				if static.TRADE_THROTTLE == 0 {
-					fmt.Println("Exiting Trade Channel as trade throttle is set to zero and msg seq is", t.Msg_seq)
+					utils.Printf(static.LOG_FLAG, fmt.Sprintf("Exiting Trade Channel as trade throttle is set to zero and msg seq is %v", t.Msg_seq))
 					break traderChanLoop
 				}
 
@@ -1079,7 +1120,7 @@ func (t Traders) handleOrderEntryTrade() error {
 				}
 
 				if err := t.sendDataToServer(orderRequest); err != nil {
-					fmt.Printf("Error sending data with session id %d: %v", t.Session_id, err)
+					utils.Printf(static.LOG_FLAG, fmt.Sprintf("[ERR] Error sending data with session id %d: %v", t.Session_id, err))
 				}
 
 				_, _, _, err = t.NewOrderResponseListner(data.InstrumentId)
@@ -1093,12 +1134,12 @@ func (t Traders) handleOrderEntryTrade() error {
 				count++
 
 				if len(static.DataChan) == 0 && !static.SWITCH_CH {
-					fmt.Printf("Session id %d took total time: %v and sent packets: %v\n", t.Session_id, time.Since(totalTime), totalPacketCount)
+					utils.Printf(static.LOG_FLAG, fmt.Sprintf("[INFO] Session id %d took total time: %v and sent packets: %v\n", t.Session_id, time.Since(totalTime), totalPacketCount))
 					return nil
 				}
 			}
 		} else {
-			fmt.Println(" Trade Throttle is 0 and Heartbeat started!")
+			utils.Printf(static.LOG_FLAG, " Trade Throttle is 0 and Heartbeat started!")
 			if err := t.heartBeatListener(); err != nil {
 				return fmt.Errorf("HeartBeat err: %v ", err)
 			}
@@ -1116,7 +1157,7 @@ func (t Traders) NewHandleOrderEntryRecords() error {
 
 	err := utils.SetOrderPumpingParameters()
 	if err != nil {
-		fmt.Println("Error in setting Order Pumping Parameters.")
+		utils.Printf(static.LOG_FLAG, "[ERR] Error in setting Order Pumping Parameters.")
 	}
 
 	for {
@@ -1127,11 +1168,11 @@ func (t Traders) NewHandleOrderEntryRecords() error {
 				throttleRate := static.THROTTLE_VALUE
 
 				if err := t.DeleteOrdersByType(); err != nil {
-					fmt.Printf("Delete all orders Error for session id %d: %v", t.Session_id, err)
+					utils.Printf(static.LOG_FLAG, fmt.Sprintf("[INFO] Delete all orders Error for session id %d: %v", t.Session_id, err))
 				}
 
 				if static.THROTTLE_VALUE == 0 {
-					fmt.Println("1. Exiting Data Channel as throttle is set to zero and msg seq is", t.Msg_seq)
+					utils.Printf(static.LOG_FLAG, fmt.Sprintf("1. Exiting Data Channel as throtstle is set to zero and msg seq is %v", t.Msg_seq))
 					t.OrderMap = make(map[uint64]static.OrderResponse)
 					t.UiOrderMap = make(map[uint64]static.UiOrderResponse)
 					break dataChanLoop
@@ -1167,23 +1208,23 @@ func (t Traders) NewHandleOrderEntryRecords() error {
 					if packetCount >= static.THROTTLE_VALUE || elapsedTime >= maxInterval {
 
 						if static.THROTTLE_VALUE == 0 {
-							fmt.Println("2. Exiting Data Channel as throttle is set to zero and msg seq is", t.Msg_seq)
+							utils.Printf(static.LOG_FLAG, fmt.Sprintf("2. Exiting Data Channel as throttle is set to zero and msg seq is %v", t.Msg_seq))
 							t.OrderMap = make(map[uint64]static.OrderResponse)
 							t.UiOrderMap = make(map[uint64]static.UiOrderResponse)
 							break dataChanLoop
 						} else if packetCount >= static.THROTTLE_VALUE && elapsedTime < maxInterval {
 
 							if static.PATTERN_GENERATOR && static.PATTERN_TYPE == static.PEAK_GENERATOR {
-								fmt.Printf("1. OE Session id %d , sleeping for %v (peak generator)\n", t.Session_id, time.Duration(static.DELAY_TIME)*time.Millisecond)
+								utils.Printf(static.LOG_FLAG, fmt.Sprintf("[INFO] 1. OE Session id %d , sleeping for %v (peak generator)\n", t.Session_id, time.Duration(static.DELAY_TIME)*time.Millisecond))
 								time.Sleep(time.Duration(static.DELAY_TIME) * time.Millisecond)
 							} else {
-								fmt.Printf("2. OE Session id %d , sleeping for %v\n", t.Session_id, 1000*time.Millisecond-elapsedTime)
+								utils.Printf(static.LOG_FLAG, fmt.Sprintf("[INFO] 2. OE Session id %d , sleeping for %v\n", t.Session_id, 1000*time.Millisecond-elapsedTime))
 								time.Sleep(time.Second - elapsedTime)
 							}
 
 						}
 
-						fmt.Printf("3. OE Session id %d sent %d packets.\n", t.Session_id, packetCount)
+						utils.Printf(static.LOG_FLAG, fmt.Sprintf("[INFO] 3. OE Session id %d sent %d packets.\n", t.Session_id, packetCount))
 
 						startTime = time.Now()
 						packetCount = 0
@@ -1197,7 +1238,7 @@ func (t Traders) NewHandleOrderEntryRecords() error {
 					}
 
 					if throttleRate != static.THROTTLE_VALUE && static.PATTERN_TYPE != static.PEAK_GENERATOR {
-						fmt.Println("1. Throttle value changed, execution will begin from start!")
+						utils.Printf(static.LOG_FLAG, "1. Throttle value changed, execution will begin from start!")
 						t.OrderMap = make(map[uint64]static.OrderResponse)
 						t.UiOrderMap = make(map[uint64]static.UiOrderResponse)
 						break
@@ -1229,14 +1270,15 @@ func (t Traders) NewHandleOrderEntryRecords() error {
 					orderEntryRTT := time.Now()
 
 					if err := t.sendDataToServer(orderRequest); err != nil {
-						fmt.Printf("Error sending record with session id %d: %v", t.Session_id, err)
+						utils.Printf(static.LOG_FLAG, fmt.Sprintf("[ERR] Error sending record with session id %d: %v", t.Session_id, err))
 					}
 
 					OrderID, ActTime, template, err := t.NewOrderResponseListner(record.InstrumentId)
 					if err != nil {
 						return fmt.Errorf("response Error for session id %d: %v", t.Session_id, err)
 					}
-					fmt.Println("[INFO] Order Entry Request RTT: ", time.Since(orderEntryRTT))
+					// utils.Printf(static.LOG_FLAG, fmt.Sprintf("[INFO] OE RTT: %v", time.Since(orderEntryRTT)))
+					fmt.Printf("[INFO] %v|OE RTT: %v\n", t.Session_id, time.Since(orderEntryRTT))
 
 					if template == static.LEAN_ORDER {
 						if static.UNIQUE_CLIENT_IDENTIFIER {
@@ -1270,7 +1312,7 @@ func (t Traders) NewHandleOrderEntryRecords() error {
 								t.ClOrdID++
 
 								if throttleRate != static.THROTTLE_VALUE && static.PATTERN_TYPE != static.PEAK_GENERATOR {
-									fmt.Println("2. Throttle value changed, execution will begin from start!")
+									utils.Printf(static.LOG_FLAG, "[INFO] 2. Throttle value changed, execution will begin from start!")
 									t.UiOrderMap = make(map[uint64]static.UiOrderResponse)
 									break outerLoopMod
 								}
@@ -1291,7 +1333,7 @@ func (t Traders) NewHandleOrderEntryRecords() error {
 
 								_, ActTime, template, err := t.sendOrderModify(order_map.InstrumentID, price, qty, order_type, order_map.OrigClOrdID, order_map.ActTime)
 								if err != nil {
-									fmt.Printf("Modify Error for session id %d: %v", t.Session_id, err)
+									utils.Printf(static.LOG_FLAG, fmt.Sprintf("[ERR] Modify Error for session id %d: %v", t.Session_id, err.Error()))
 								}
 
 								if template == static.MODIFY_LEAN_ORDER {
@@ -1319,7 +1361,7 @@ func (t Traders) NewHandleOrderEntryRecords() error {
 
 								if packetCount >= static.THROTTLE_VALUE || elapsedTime >= maxInterval {
 									if static.THROTTLE_VALUE == 0 {
-										fmt.Println("3. Exiting Data Channel as throttle is set to zero and msg seq is", t.Msg_seq)
+										utils.Printf(static.LOG_FLAG, fmt.Sprintf("[INFO] 3. Exiting Data Channel as throttle is set to zero and msg seq is %v\n", t.Msg_seq))
 										t.OrderMap = make(map[uint64]static.OrderResponse)
 										t.UiOrderMap = make(map[uint64]static.UiOrderResponse)
 										break dataChanLoop
@@ -1327,7 +1369,7 @@ func (t Traders) NewHandleOrderEntryRecords() error {
 										oldPacketCount := packetCount
 
 										if err := t.handleCancelOrders(&packetCount, &totalPacketCount); err != nil {
-											fmt.Printf("Cancel Error for session id %d: %v", t.Session_id, err)
+											utils.Printf(static.LOG_FLAG, fmt.Sprintf("[ERR] Cancel Error for session id %d: %v", t.Session_id, err))
 										}
 
 										packetCount = oldPacketCount
@@ -1335,21 +1377,21 @@ func (t Traders) NewHandleOrderEntryRecords() error {
 									} else if packetCount >= static.THROTTLE_VALUE && elapsedTime < maxInterval {
 
 										if static.PATTERN_GENERATOR && static.PATTERN_TYPE == static.PEAK_GENERATOR {
-											fmt.Printf("OM Session id %d , sleeping for %v (peak generator)\n", t.Session_id, time.Duration(static.DELAY_TIME)*time.Millisecond)
+											utils.Printf(static.LOG_FLAG, fmt.Sprintf("[INFO] OM Session id %d , sleeping for %v (peak generator)\n", t.Session_id, time.Duration(static.DELAY_TIME)*time.Millisecond))
 											time.Sleep(time.Duration(static.DELAY_TIME) * time.Millisecond)
 										} else {
-											fmt.Printf("OM Session id %d , sleeping for %v\n", t.Session_id, 1000*time.Millisecond-elapsedTime)
+											utils.Printf(static.LOG_FLAG, fmt.Sprintf("[INFO] OM Session id %d , sleeping for %v\n", t.Session_id, 1000*time.Millisecond-elapsedTime))
 											time.Sleep(time.Second - elapsedTime)
 										}
 
 									}
 
-									fmt.Printf("OM Session id %d sent %d packets.\n", t.Session_id, packetCount)
+									utils.Printf(static.LOG_FLAG, fmt.Sprintf("[INFO] OM Session id %d sent %d packets.\n", t.Session_id, packetCount))
 									t.UiOrderMap = make(map[uint64]static.UiOrderResponse)
 									startTime = time.Now()
 									packetCount = 0
 
-									fmt.Println("Exiting Mod for loop!", len(t.UiOrderMap))
+									utils.Printf(static.LOG_FLAG, fmt.Sprintf("[INFO] Exiting Mod for loop! %v ", len(t.UiOrderMap)))
 									break outerLoopMod
 								}
 							}
@@ -1358,7 +1400,7 @@ func (t Traders) NewHandleOrderEntryRecords() error {
 							for _, order_map := range t.OrderMap {
 
 								if throttleRate != static.THROTTLE_VALUE && static.PATTERN_TYPE != static.PEAK_GENERATOR {
-									fmt.Println("2. Throttle value changed, execution will begin from start!")
+									utils.Printf(static.LOG_FLAG, "[INFO] 2. Throttle value changed, execution will begin from start!")
 									t.OrderMap = make(map[uint64]static.OrderResponse)
 									break outerLoopMod
 								}
@@ -1379,7 +1421,7 @@ func (t Traders) NewHandleOrderEntryRecords() error {
 
 								OrderID, ActTime, template, err := t.sendOrderModify(order_map.InstrumentID, price, qty, order_type, order_map.OrderID, order_map.ActTime)
 								if err != nil {
-									fmt.Printf("Modify Error for session id %d: %v", t.Session_id, err)
+									utils.Printf(static.LOG_FLAG, fmt.Sprintf("[ERR] Modify Error for session id %d: %v", t.Session_id, err))
 								}
 
 								if template == static.MODIFY_LEAN_ORDER {
@@ -1405,7 +1447,7 @@ func (t Traders) NewHandleOrderEntryRecords() error {
 
 								if packetCount >= static.THROTTLE_VALUE || elapsedTime >= maxInterval {
 									if static.THROTTLE_VALUE == 0 {
-										fmt.Println("3. Exiting Data Channel as throttle is set to zero and msg seq is", t.Msg_seq)
+										utils.Printf(static.LOG_FLAG, fmt.Sprintf("[INFO] 3. Exiting Data Channel as throttle is set to zero and msg seq is %v", t.Msg_seq))
 										t.OrderMap = make(map[uint64]static.OrderResponse)
 										t.UiOrderMap = make(map[uint64]static.UiOrderResponse)
 										break dataChanLoop
@@ -1413,7 +1455,7 @@ func (t Traders) NewHandleOrderEntryRecords() error {
 										oldPacketCount := packetCount
 
 										if err := t.handleCancelOrders(&packetCount, &totalPacketCount); err != nil {
-											fmt.Printf("Cancel Error for session id %d: %v", t.Session_id, err)
+											utils.Printf(static.LOG_FLAG, fmt.Sprintf("[ERR] Cancel Error for session id %d: %v", t.Session_id, err))
 										}
 
 										packetCount = oldPacketCount
@@ -1421,21 +1463,21 @@ func (t Traders) NewHandleOrderEntryRecords() error {
 									} else if packetCount >= static.THROTTLE_VALUE && elapsedTime < maxInterval {
 
 										if static.PATTERN_GENERATOR && static.PATTERN_TYPE == static.PEAK_GENERATOR {
-											fmt.Printf("OM Session id %d , sleeping for %v (peak generator)\n", t.Session_id, time.Duration(static.DELAY_TIME)*time.Millisecond)
+											utils.Printf(static.LOG_FLAG, fmt.Sprintf("[INFO] OM Session id %d , sleeping for %v (peak generator)\n", t.Session_id, time.Duration(static.DELAY_TIME)*time.Millisecond))
 											time.Sleep(time.Duration(static.DELAY_TIME) * time.Millisecond)
 										} else {
-											fmt.Printf("OM Session id %d , sleeping for %v\n", t.Session_id, 1000*time.Millisecond-elapsedTime)
+											utils.Printf(static.LOG_FLAG, fmt.Sprintf("[INFO] OM Session id %d , sleeping for %v\n", t.Session_id, 1000*time.Millisecond-elapsedTime))
 											time.Sleep(time.Second - elapsedTime)
 										}
 									}
 
-									fmt.Printf("OM Session id %d sent %d packets.\n", t.Session_id, packetCount)
+									utils.Printf(static.LOG_FLAG, fmt.Sprintf("OM Session id %d sent %d packets.\n", t.Session_id, packetCount))
 
 									startTime = time.Now()
 									packetCount = 0
 									t.OrderMap = make(map[uint64]static.OrderResponse)
 
-									fmt.Println("Exiting Mod for loop!", len(t.OrderMap))
+									utils.Printf(static.LOG_FLAG, fmt.Sprintf("Exiting Mod for loop! %v", len(t.OrderMap)))
 									break outerLoopMod
 								}
 							}
@@ -1444,7 +1486,7 @@ func (t Traders) NewHandleOrderEntryRecords() error {
 				}
 
 				if err := t.handleCancelOrders(&packetCount, &totalPacketCount); err != nil {
-					fmt.Printf("Cancel Error for session id %d: %v", t.Session_id, err)
+					utils.Printf(static.LOG_FLAG, fmt.Sprintf("Cancel Error for session id %d: %v", t.Session_id, err))
 				}
 
 				t.OrderMap = make(map[uint64]static.OrderResponse)
@@ -1454,14 +1496,14 @@ func (t Traders) NewHandleOrderEntryRecords() error {
 
 					static.PATTERN_GENERATOR = false
 
-					fmt.Printf("Session id %d took total time: %v and sent packets: %v\n", t.Session_id, time.Since(totalTime), totalPacketCount)
+					utils.Printf(static.LOG_FLAG, fmt.Sprintf("Session id %d took total time: %v and sent packets: %v\n", t.Session_id, time.Since(totalTime), totalPacketCount))
 					return nil
 				}
 			}
 		} else {
 			static.PATTERN_GENERATOR = false
 
-			fmt.Println("Throttle is 0 and Heartbeat started!")
+			utils.Printf(static.LOG_FLAG, "Throttle is 0 and Heartbeat started!")
 			if err := t.heartBeatListener(); err != nil {
 				return fmt.Errorf("HeartBeat err: %v ", err)
 			}
@@ -1480,12 +1522,12 @@ func (t Traders) handleCancelOrders(packetCount, totalPacketCount *int) error {
 			for _, order_map := range t.UiOrderMap {
 				if cancel_count == static.CANCEL_ORDER_COUNT {
 					t.UiOrderMap = make(map[uint64]static.UiOrderResponse)
-					fmt.Println("Exiting cancel loop and cancel order count:", cancel_count)
+					utils.Printf(static.LOG_FLAG, fmt.Sprintf("Exiting cancel loop and cancel order count: %v", cancel_count))
 					break
 				}
 				t.ClOrdID++
 				if err := t.sendOrderCancel(order_map.InstrumentID, order_map.ProductID, order_map.OrigClOrdID); err != nil {
-					fmt.Printf("[ERR] Cancel Error for session id %d: %v", t.Session_id, err)
+					utils.Printf(static.LOG_FLAG, fmt.Sprintf("[ERR] Cancel Error for session id %d: %v", t.Session_id, err))
 					// return err
 				}
 				delete(t.UiOrderMap, order_map.OrigClOrdID)
@@ -1498,11 +1540,11 @@ func (t Traders) handleCancelOrders(packetCount, totalPacketCount *int) error {
 			for _, order_map := range t.OrderMap {
 				if cancel_count == static.CANCEL_ORDER_COUNT {
 					t.OrderMap = make(map[uint64]static.OrderResponse)
-					fmt.Println("Exiting cancel loop and cancel order count:", cancel_count)
+					utils.Printf(static.LOG_FLAG, fmt.Sprintf("Exiting cancel loop and cancel order count: %v", cancel_count))
 					break
 				}
 				if err := t.sendOrderCancel(order_map.InstrumentID, order_map.ProductID, order_map.OrderID); err != nil {
-					fmt.Printf("[ERR] Cancel Error for session id %d: %v", t.Session_id, err)
+					utils.Printf(static.LOG_FLAG, fmt.Sprintf("[ERR] Cancel Error for session id %d: %v", t.Session_id, err))
 					// return err
 				}
 				delete(t.OrderMap, order_map.OrderID)
@@ -1529,7 +1571,7 @@ func (t Traders) NewHandleOrderEntryRecordsAsync() error {
 
 	err := utils.SetOrderPumpingParameters()
 	if err != nil {
-		fmt.Println("Error in setting Order Pumping Parameters.")
+		utils.Printf(static.LOG_FLAG, "Error in setting Order Pumping Parameters.")
 	}
 
 	for {
@@ -1540,11 +1582,11 @@ func (t Traders) NewHandleOrderEntryRecordsAsync() error {
 				throttleRate := static.THROTTLE_VALUE
 
 				if err := t.DeleteOrdersByType(); err != nil {
-					fmt.Printf("Delete all orders Error for session id %d: %v", t.Session_id, err)
+					utils.Printf(static.LOG_FLAG, fmt.Sprintf("Delete all orders Error for session id %d: %v", t.Session_id, err))
 				}
 
 				if static.THROTTLE_VALUE == 0 {
-					fmt.Println("1. Exiting Data Channel as throttle is set to zero and msg seq is", t.Msg_seq)
+					utils.Printf(static.LOG_FLAG, fmt.Sprintf("1. Exiting Data Channel as throttle is set to zero and msg seq is %v", t.Msg_seq))
 					t.UiOrderMap = make(map[uint64]static.UiOrderResponse)
 					break dataChanLoop
 				}
@@ -1578,20 +1620,20 @@ func (t Traders) NewHandleOrderEntryRecordsAsync() error {
 					if packetCount >= static.THROTTLE_VALUE || elapsedTime >= maxInterval {
 
 						if static.THROTTLE_VALUE == 0 {
-							fmt.Println("2. Exiting Data Channel as throttle is set to zero and msg seq is", t.Msg_seq)
+							utils.Printf(static.LOG_FLAG, fmt.Sprintf("2. Exiting Data Channel as throttle is set to zero and msg seq is %v\n", t.Msg_seq))
 							t.UiOrderMap = make(map[uint64]static.UiOrderResponse)
 							break dataChanLoop
 						} else if packetCount >= static.THROTTLE_VALUE && elapsedTime < maxInterval {
 							if static.PATTERN_GENERATOR && static.PATTERN_TYPE == static.PEAK_GENERATOR {
-								fmt.Printf("Session id %d , sleeping for %v\n", t.Session_id, time.Duration(static.DELAY_TIME)*time.Millisecond)
+								utils.Printf(static.LOG_FLAG, fmt.Sprintf("Session id %d , sleeping for %v\n", t.Session_id, time.Duration(static.DELAY_TIME)*time.Millisecond))
 								time.Sleep(time.Duration(static.DELAY_TIME) * time.Millisecond)
 							} else {
-								fmt.Printf("Session id %d , sleeping for %v\n", t.Session_id, 1000*time.Millisecond-elapsedTime)
+								utils.Printf(static.LOG_FLAG, fmt.Sprintf("Session id %d , sleeping for %v\n", t.Session_id, 1000*time.Millisecond-elapsedTime))
 								time.Sleep(time.Second - elapsedTime)
 							}
 						}
 
-						fmt.Printf("Session id %d sent %d packets.\n", t.Session_id, packetCount)
+						utils.Printf(static.LOG_FLAG, fmt.Sprintf("Session id %d sent %d packets.\n", t.Session_id, packetCount))
 
 						startTime = time.Now()
 						packetCount = 0
@@ -1602,7 +1644,7 @@ func (t Traders) NewHandleOrderEntryRecordsAsync() error {
 					t.ClOrdID++
 
 					if throttleRate != static.THROTTLE_VALUE && static.PATTERN_TYPE != static.PEAK_GENERATOR {
-						fmt.Println("1. Throttle value changed, execution will begin from start!")
+						utils.Printf(static.LOG_FLAG, "1. Throttle value changed, execution will begin from start!")
 						t.UiOrderMap = make(map[uint64]static.UiOrderResponse)
 						break
 					}
@@ -1631,7 +1673,7 @@ func (t Traders) NewHandleOrderEntryRecordsAsync() error {
 					}
 
 					if err := t.sendDataToServer(orderRequest); err != nil {
-						fmt.Printf("Error sending record with session id %d: %v", t.Session_id, err)
+						utils.Printf(static.LOG_FLAG, fmt.Sprintf("Error sending record with session id %d: %v", t.Session_id, err))
 					}
 
 					if static.UNIQUE_CLIENT_IDENTIFIER {
@@ -1663,7 +1705,7 @@ func (t Traders) NewHandleOrderEntryRecordsAsync() error {
 								count_order++
 
 								if throttleRate != static.THROTTLE_VALUE && static.PATTERN_TYPE != static.PEAK_GENERATOR {
-									fmt.Println("2. Throttle value changed, execution will begin from start!")
+									utils.Printf(static.LOG_FLAG, "2. Throttle value changed, execution will begin from start!")
 									t.UiOrderMap = make(map[uint64]static.UiOrderResponse)
 
 									break outerLoopMod
@@ -1685,7 +1727,7 @@ func (t Traders) NewHandleOrderEntryRecordsAsync() error {
 
 								t.sendOrderModifyAsync(order_map.InstrumentID, price, qty, order_type, order_map.OrigClOrdID, order_map.ActTime)
 								if err != nil {
-									fmt.Printf("Modify Error for session id %d: %v", t.Session_id, err)
+									utils.Printf(static.LOG_FLAG, fmt.Sprintf("Modify Error for session id %d: %v", t.Session_id, err))
 								}
 
 								oMap := t.UiOrderMap[order_map.OrigClOrdID]
@@ -1704,37 +1746,37 @@ func (t Traders) NewHandleOrderEntryRecordsAsync() error {
 								elapsedTime = time.Since(startTime)
 
 								if packetCount >= static.THROTTLE_VALUE || elapsedTime >= maxInterval {
-									fmt.Println("Satisfied case:  Packet count greater =>", packetCount >= static.THROTTLE_VALUE, "Elapsed time greater =>", elapsedTime >= maxInterval)
+									// utils.Printf(static.LOG_FLAG, "Satisfied case:  Packet count greater =>", packetCount >= static.THROTTLE_VALUE, "Elapsed time greater =>", elapsedTime >= maxInterval)
 									if static.THROTTLE_VALUE == 0 {
-										fmt.Println("3. Exiting Data Channel as throttle is set to zero and msg seq is", t.Msg_seq)
+										utils.Printf(static.LOG_FLAG, fmt.Sprintf("3. Exiting Data Channel as throttle is set to zero and msg seq is %v", t.Msg_seq))
 										t.UiOrderMap = make(map[uint64]static.UiOrderResponse)
 
 										break dataChanLoop
 									} else if elapsedTime >= maxInterval {
 										oldPacketCount := packetCount
-										fmt.Println("1. LENGTH OF UIMAP:", len(t.UiOrderMap))
+										utils.Printf(static.LOG_FLAG, fmt.Sprintf("1. LENGTH OF UIMAP: %v", len(t.UiOrderMap)))
 										if err := t.handleCancelOrdersAsync(&packetCount, &totalPacketCount); err != nil {
-											fmt.Printf("Cancel Error for session id %d: %v", t.Session_id, err)
+											utils.Printf(static.LOG_FLAG, fmt.Sprintf("Cancel Error for session id %d: %v", t.Session_id, err))
 										}
 
 										packetCount = oldPacketCount
 									} else if packetCount >= static.THROTTLE_VALUE && elapsedTime < maxInterval {
 										if static.PATTERN_GENERATOR && static.PATTERN_TYPE == static.PEAK_GENERATOR {
-											fmt.Printf("Session id %d , sleeping for %v\n", t.Session_id, time.Duration(static.DELAY_TIME)*time.Millisecond)
+											utils.Printf(static.LOG_FLAG, fmt.Sprintf("Session id %d , sleeping for %v\n", t.Session_id, time.Duration(static.DELAY_TIME)*time.Millisecond))
 											time.Sleep(time.Duration(static.DELAY_TIME) * time.Millisecond)
 										} else {
-											fmt.Printf("Session id %d , sleeping for %v\n", t.Session_id, 1000*time.Millisecond-elapsedTime)
+											utils.Printf(static.LOG_FLAG, fmt.Sprintf("Session id %d , sleeping for %v\n", t.Session_id, 1000*time.Millisecond-elapsedTime))
 											time.Sleep(time.Second - elapsedTime)
 										}
 									}
 
-									fmt.Printf("Session id %d sent %d packets.\n", t.Session_id, packetCount)
+									utils.Printf(static.LOG_FLAG, fmt.Sprintf("Session id %d sent %d packets.\n", t.Session_id, packetCount))
 
 									startTime = time.Now()
 									packetCount = 0
 									t.UiOrderMap = make(map[uint64]static.UiOrderResponse)
 
-									fmt.Println("Exiting Mod for loop!", len(t.UiOrderMap))
+									utils.Printf(static.LOG_FLAG, fmt.Sprintf("Exiting Mod for loop! %v", len(t.UiOrderMap)))
 									break outerLoopMod
 								}
 							}
@@ -1744,7 +1786,7 @@ func (t Traders) NewHandleOrderEntryRecordsAsync() error {
 				}
 
 				if err := t.handleCancelOrdersAsync(&packetCount, &totalPacketCount); err != nil {
-					fmt.Printf("Cancel Error for session id %d: %v", t.Session_id, err)
+					utils.Printf(static.LOG_FLAG, fmt.Sprintf("Cancel Error for session id %d: %v", t.Session_id, err))
 				}
 
 				t.UiOrderMap = make(map[uint64]static.UiOrderResponse)
@@ -1753,14 +1795,14 @@ func (t Traders) NewHandleOrderEntryRecordsAsync() error {
 
 					static.PATTERN_GENERATOR = false
 
-					fmt.Printf("Session id %d took total time: %v and sent packets: %v\n", t.Session_id, time.Since(totalTime), totalPacketCount)
+					utils.Printf(static.LOG_FLAG, fmt.Sprintf("Session id %d took total time: %v and sent packets: %v\n", t.Session_id, time.Since(totalTime), totalPacketCount))
 					return nil
 				}
 			}
 		} else {
 			static.PATTERN_GENERATOR = false
 
-			fmt.Println("Throttle is 0 and Heartbeat started!")
+			utils.Printf(static.LOG_FLAG, "Throttle is 0 and Heartbeat started!")
 			if err := t.heartBeatListener(); err != nil {
 				return fmt.Errorf("HeartBeat err: %v ", err)
 			}
@@ -1772,13 +1814,13 @@ func (t Traders) sendOrderModifyAsync(inst_id, price, qty, order_type int, order
 
 	modified_data, err := utils.ModifyLeanOrder(t.MID, t.TID, t.Msg_seq, inst_id, price, qty, order_type, order_id, act_time, t.CTX, t.ClOrdID, order_id)
 	if err != nil {
-		fmt.Println("[ERR] Error in order modify parser :", err)
+		utils.Printf(static.LOG_FLAG, "[ERR] Error in order modify parser :"+err.Error())
 		return
 	}
 
 	err = t.sendDataToServer(modified_data)
 	if err != nil {
-		fmt.Printf("[ERR] Error sending data for session id %d: %v", t.Session_id, err)
+		utils.Printf(static.LOG_FLAG, fmt.Sprintf("[ERR] Error sending data for session id %d: %v", t.Session_id, err))
 		return
 	}
 }
@@ -1787,12 +1829,12 @@ func (t Traders) sendOrderCancelAsync(inst_id, product_id int, order_id uint64) 
 
 	cancelOrder, err := utils.CancelSingleLegOrderRequest(t.MID, t.TID, t.Msg_seq, inst_id, product_id, order_id, t.CTX, t.ClOrdID, order_id)
 	if err != nil {
-		fmt.Println("[ERR] Error in cancel order", err)
+		utils.Printf(static.LOG_FLAG, "[ERR] Error in cancel order"+err.Error())
 	}
 
 	err = t.sendDataToServer(cancelOrder)
 	if err != nil {
-		fmt.Printf("[ERR] Error sending cancel order for session id %d: %v", t.Session_id, err)
+		utils.Printf(static.LOG_FLAG, fmt.Sprintf("[ERR] Error sending cancel order for session id %d: %v", t.Session_id, err))
 	}
 }
 
@@ -1805,10 +1847,10 @@ func (t Traders) NewOrderResponseListnerAsync(quit chan struct{}, inst_id int) {
 		n, err := reader.Read(buffer)
 		if err != nil {
 			if err == io.EOF {
-				fmt.Printf("[INFO] Connection closed for session id %d: %v\n", t.Session_id, err)
+				utils.Printf(static.LOG_FLAG, fmt.Sprintf("[INFO] Connection closed for session id %d: %v\n", t.Session_id, err))
 				return
 			}
-			fmt.Printf("[ERR] Error reading responses for session id %d: %v", t.Session_id, err)
+			utils.Printf(static.LOG_FLAG, fmt.Sprintf("[ERR] Error reading responses for session id %d: %v", t.Session_id, err))
 			return
 		}
 
@@ -1816,7 +1858,7 @@ func (t Traders) NewOrderResponseListnerAsync(quit chan struct{}, inst_id int) {
 
 		responseLength := len(responseBuf)
 		if responseLength == 0 {
-			fmt.Println("Response len is 0.")
+			utils.Printf(static.LOG_FLAG, "Response len is 0.")
 			return
 		}
 
@@ -1828,14 +1870,14 @@ func (t Traders) NewOrderResponseListnerAsync(quit chan struct{}, inst_id int) {
 			count++
 
 			if len(responseBuf) < 4 {
-				fmt.Println("[ERR] Response buffer too short to read size")
+				utils.Printf(static.LOG_FLAG, "[ERR] Response buffer too short to read size")
 				// return
 			}
 
 			size := int(binary.LittleEndian.Uint32(responseBuf[:4]))
 			if len(responseBuf) < size {
-				fmt.Println(" Length Response Buf", len(responseBuf), size)
-				fmt.Println("[ERR] Response buffer too short for the indicated size")
+				utils.Printf(static.LOG_FLAG, fmt.Sprintf(" Length Response Buf %v %v", len(responseBuf), size))
+				utils.Printf(static.LOG_FLAG, "[ERR] Response buffer too short for the indicated size")
 				// return
 				break
 			}
@@ -1853,16 +1895,16 @@ func (t Traders) NewOrderResponseListnerAsync(quit chan struct{}, inst_id int) {
 
 			val, err := utils.GetTemplateID(response)
 			if err != nil {
-				fmt.Println("[ERR] Error in template id parser :", err)
+				utils.Printf(static.LOG_FLAG, "[ERR] Error in template id parser :"+err.Error())
 			}
 
 			read_response, err := t.readReceivedResponse(val, inst_id, response)
 			if err != nil {
-				fmt.Println("[ERR] Error in reading received response :", err)
+				utils.Printf(static.LOG_FLAG, "[ERR] Error in reading received response :"+err.Error())
 			}
 
 			if read_response == static.ORDER_CONFIRMATION {
-				fmt.Println("[PASS] Order Confirmation Received for session id:", t.Session_id)
+				utils.Printf(static.LOG_FLAG, fmt.Sprintf("[PASS] Order Confirmation Received for session id: %v", t.Session_id))
 				continue
 			}
 
@@ -1870,95 +1912,95 @@ func (t Traders) NewOrderResponseListnerAsync(quit chan struct{}, inst_id int) {
 			case static.LEAN_ORDER:
 				order_res, err := utils.DecryptData(response, t.CGW_Res.SecKey, t.CGW_Res.IV, t.CTX)
 				if err != nil {
-					fmt.Println("[ERR] Error in decryption for order response parser :", err)
+					utils.Printf(static.LOG_FLAG, "[ERR] Error in decryption for order response parser :"+err.Error())
 				}
 
 				server_res, err1 := utils.GetTimestamps(order_res)
 				if err1 != nil {
-					fmt.Println("[ERR] Error while getting timestamps")
+					utils.Printf(static.LOG_FLAG, "[ERR] Error while getting timestamps")
 				} else {
-					fmt.Printf("[INFO] Order Entry Server Processing Time(T6-T1):  %v microseconds\n", (server_res.GW_Res_Out-server_res.GW_Req_In)/1000)
+					utils.Printf(static.LOG_FLAG, fmt.Sprintf("[INFO] Order Entry Server Processing Time(T6-T1):  %v microseconds\n", (server_res.GW_Res_Out-server_res.GW_Req_In)/1000))
 				}
 
 				_, _, err = utils.SingleLegLeanOrderResponse(order_res, t.CTX)
 				if err != nil {
-					fmt.Println("[ERR] Error in lean order response parser :", err)
+					utils.Printf(static.LOG_FLAG, "[ERR] Error in lean order response parser :"+err.Error())
 				}
 
 			case static.CANCEL_LEAN_ORDER:
 				order_res, err := utils.DecryptData(response, t.CGW_Res.SecKey, t.CGW_Res.IV, t.CTX)
 				if err != nil {
-					fmt.Println("[ERR] Error in decryption for order response parser :", err)
+					utils.Printf(static.LOG_FLAG, "[ERR] Error in decryption for order response parser :"+err.Error())
 				}
 
 				server_res, err1 := utils.GetTimestamps(order_res)
 				if err1 != nil {
-					fmt.Println("[ERR] Error while getting timestamps")
+					utils.Printf(static.LOG_FLAG, "[ERR] Error while getting timestamps")
 				} else {
-					fmt.Printf("[INFO] Order Cancel Server Processing Time(T6-T1):  %v microseconds\n", (server_res.GW_Res_Out-server_res.GW_Req_In)/1000)
+					utils.Printf(static.LOG_FLAG, fmt.Sprintf("[INFO] Order Cancel Server Processing Time(T6-T1):  %v microseconds\n", (server_res.GW_Res_Out-server_res.GW_Req_In)/1000))
 
 				}
 
 			case static.MODIFY_LEAN_ORDER:
 				order_res, err := utils.DecryptData(response, t.CGW_Res.SecKey, t.CGW_Res.IV, t.CTX)
 				if err != nil {
-					fmt.Println("[ERR] Error in decryption for order response parser :", err)
+					utils.Printf(static.LOG_FLAG, "[ERR] Error in decryption for order response parser :"+err.Error())
 				}
 
 				server_res, err1 := utils.GetTimestamps(order_res)
 
 				if err1 != nil {
-					fmt.Println("[ERR] Error while getting timestamps")
+					utils.Printf(static.LOG_FLAG, "[ERR] Error while getting timestamps")
 				} else {
-					fmt.Printf("[INFO] Order Mod Server Processing Time(T6-T1):  %v microseconds\n", (server_res.GW_Res_Out-server_res.GW_Req_In)/1000)
+					utils.Printf(static.LOG_FLAG, fmt.Sprintf("[INFO] Order Mod Server Processing Time(T6-T1):  %v microseconds\n", (server_res.GW_Res_Out-server_res.GW_Req_In)/1000))
 				}
 
 				_, _, err = utils.SingleLegLeanOrderModifiedResponse(order_res, t.CTX)
 
 				if err != nil {
-					fmt.Println("[ERR] Error in lean order response parser :", err)
+					utils.Printf(static.LOG_FLAG, "[ERR] Error in lean order response parser :"+err.Error())
 				}
 
 			case static.HEARTBEAT:
 				_, err := utils.DecryptData(response, t.CGW_Res.SecKey, t.CGW_Res.IV, t.CTX)
 				if err != nil {
-					fmt.Println("[ERR] Error in decryption for order response parser :", err)
+					utils.Printf(static.LOG_FLAG, "[ERR] Error in decryption for order response parser :"+err.Error())
 				}
 
 			case static.REJECTED:
-				fmt.Println("Rejected case!!")
+				utils.Printf(static.LOG_FLAG, "Rejected case!!")
 			case static.IMMEDIATE_EXECUTION:
 				_, err := utils.DecryptData(response, t.CGW_Res.SecKey, t.CGW_Res.IV, t.CTX)
 				if err != nil {
-					fmt.Println("[ERR] Error in decryption for order response parser :", err)
+					utils.Printf(static.LOG_FLAG, "[ERR] Error in decryption for order response parser :"+err.Error())
 				}
 
 			case static.ORDER_BOOK_EXECUTION:
 				_, err := utils.DecryptData(response, t.CGW_Res.SecKey, t.CGW_Res.IV, t.CTX)
 				if err != nil {
-					fmt.Println("[ERR] Error in decryption for order response parser :", err)
+					utils.Printf(static.LOG_FLAG, "[ERR] Error in decryption for order response parser :"+err.Error())
 				}
 
 			case static.TRADING_SESSION_EVENT:
 				_, err := utils.DecryptData(response, t.CGW_Res.SecKey, t.CGW_Res.IV, t.CTX)
 				if err != nil {
-					fmt.Println("[ERR] Error in decryption for order response parser :", err)
+					utils.Printf(static.LOG_FLAG, "[ERR] Error in decryption for order response parser :"+err.Error())
 				}
 
 			case static.DELETE_ALL_ORDERS:
 				_, err := utils.DecryptData(response, t.CGW_Res.SecKey, t.CGW_Res.IV, t.CTX)
 				if err != nil {
-					fmt.Println("[ERR] Error in decryption for order response parser :", err)
+					utils.Printf(static.LOG_FLAG, "[ERR] Error in decryption for order response parser :"+err.Error())
 				}
 
 			case static.DELETE_ALL_ORDERS_NO_HITS:
 				_, err := utils.DecryptData(response, t.CGW_Res.SecKey, t.CGW_Res.IV, t.CTX)
 				if err != nil {
-					fmt.Println("[ERR] Error in decryption for order response parser :", err)
+					utils.Printf(static.LOG_FLAG, "[ERR] Error in decryption for order response parser :"+err.Error())
 				}
 
 			default:
-				fmt.Println("Other Template ID: ", read_response)
+				utils.Printf(static.LOG_FLAG, fmt.Sprintf("Other Template ID: %v", read_response))
 			}
 
 			if i == len(responseArr)-1 {
@@ -1983,7 +2025,7 @@ func (t Traders) handleCancelOrdersAsync(packetCount, totalPacketCount *int) err
 			if cancel_count == static.CANCEL_ORDER_COUNT {
 				t.UiOrderMap = make(map[uint64]static.UiOrderResponse)
 
-				fmt.Println("Exiting cancel loop and cancel order count:", cancel_count)
+				utils.Printf(static.LOG_FLAG, fmt.Sprintf("Exiting cancel loop and cancel order count: %v", cancel_count))
 				break
 			}
 			t.ClOrdID++
@@ -2009,7 +2051,7 @@ func (t Traders) AsyncHandleOrderEntryRecordsOE() error {
 
 	err := utils.SetOrderPumpingParameters()
 	if err != nil {
-		fmt.Println("Error in setting Order Pumping Parameters.")
+		utils.Printf(static.LOG_FLAG, "Error in setting Order Pumping Parameters.")
 	}
 
 	for {
@@ -2020,11 +2062,11 @@ func (t Traders) AsyncHandleOrderEntryRecordsOE() error {
 				throttleRate := static.THROTTLE_VALUE
 
 				if err := t.DeleteOrdersByType(); err != nil {
-					fmt.Printf("Delete all orders Error for session id %d: %v", t.Session_id, err)
+					utils.Printf(static.LOG_FLAG, fmt.Sprintf("Delete all orders Error for session id %d: %v", t.Session_id, err))
 				}
 
 				if static.THROTTLE_VALUE == 0 {
-					fmt.Println("1. Exiting Data Channel as throttle is set to zero and msg seq is", t.Msg_seq)
+					utils.Printf(static.LOG_FLAG, fmt.Sprintf("1. Exiting Data Channel as throttle is set to zero and msg seq is %v", t.Msg_seq))
 					t.OrderMap = make(map[uint64]static.OrderResponse)
 					t.UiOrderMap = make(map[uint64]static.UiOrderResponse)
 					break dataChanLoop
@@ -2060,21 +2102,21 @@ func (t Traders) AsyncHandleOrderEntryRecordsOE() error {
 
 					if packetCount >= static.THROTTLE_VALUE || elapsedTime >= maxInterval {
 						if static.THROTTLE_VALUE == 0 {
-							fmt.Println("2. Exiting Data Channel as throttle is set to zero and msg seq is", t.Msg_seq)
+							utils.Printf(static.LOG_FLAG, fmt.Sprintf("2. Exiting Data Channel as throttle is set to zero and msg seq is %v", t.Msg_seq))
 							t.OrderMap = make(map[uint64]static.OrderResponse)
 							t.UiOrderMap = make(map[uint64]static.UiOrderResponse)
 							break dataChanLoop
 						} else if packetCount >= static.THROTTLE_VALUE && elapsedTime < maxInterval {
 
 							if static.PATTERN_GENERATOR && static.PATTERN_TYPE == static.PEAK_GENERATOR {
-								fmt.Printf("Session id %d , sleeping for %v\n", t.Session_id, time.Duration(static.DELAY_TIME)*time.Millisecond)
+								utils.Printf(static.LOG_FLAG, fmt.Sprintf("Session id %d , sleeping for %v\n", t.Session_id, time.Duration(static.DELAY_TIME)*time.Millisecond))
 								time.Sleep(time.Duration(static.DELAY_TIME) * time.Millisecond)
 							} else {
-								fmt.Printf("Session id %d , sleeping for %v\n", t.Session_id, 1000*time.Millisecond-elapsedTime)
+								utils.Printf(static.LOG_FLAG, fmt.Sprintf("Session id %d , sleeping for %v\n", t.Session_id, 1000*time.Millisecond-elapsedTime))
 								time.Sleep(time.Second - elapsedTime)
 							}
 						}
-						fmt.Printf("Session id %d sent %d packets.\n", t.Session_id, packetCount)
+						utils.Printf(static.LOG_FLAG, fmt.Sprintf("Session id %d sent %d packets.\n", t.Session_id, packetCount))
 						startTime = time.Now()
 						packetCount = 0
 						static.SEND_MOD = true
@@ -2087,7 +2129,7 @@ func (t Traders) AsyncHandleOrderEntryRecordsOE() error {
 					}
 
 					if throttleRate != static.THROTTLE_VALUE && static.PATTERN_TYPE != static.PEAK_GENERATOR {
-						fmt.Println("1. Throttle value changed, execution will begin from start!")
+						utils.Printf(static.LOG_FLAG, "1. Throttle value changed, execution will begin from start!")
 						t.OrderMap = make(map[uint64]static.OrderResponse)
 						t.UiOrderMap = make(map[uint64]static.UiOrderResponse)
 						break
@@ -2115,7 +2157,7 @@ func (t Traders) AsyncHandleOrderEntryRecordsOE() error {
 					}
 
 					if err := t.sendDataToServer(orderRequest); err != nil {
-						fmt.Printf("Error sending record with session id %d: %v", t.Session_id, err)
+						utils.Printf(static.LOG_FLAG, fmt.Sprintf("Error sending record with session id %d: %v", t.Session_id, err))
 					}
 
 					t.Msg_seq++
@@ -2129,13 +2171,13 @@ func (t Traders) AsyncHandleOrderEntryRecordsOE() error {
 
 				if len(static.RecordsChan) == 0 && !static.SWITCH_CH {
 					static.PATTERN_GENERATOR = false
-					fmt.Printf("Session id %d took total time: %v and sent packets: %v\n", t.Session_id, time.Since(totalTime), totalPacketCount)
+					utils.Printf(static.LOG_FLAG, fmt.Sprintf("Session id %d took total time: %v and sent packets: %v\n", t.Session_id, time.Since(totalTime), totalPacketCount))
 					return nil
 				}
 			}
 		} else {
 			static.PATTERN_GENERATOR = false
-			fmt.Println("Throttle is 0 and Heartbeat started!")
+			utils.Printf(static.LOG_FLAG, "Throttle is 0 and Heartbeat started!")
 			if err := t.heartBeatListener(); err != nil {
 				return fmt.Errorf("HeartBeat err: %v ", err)
 			}

@@ -10,37 +10,37 @@ package utils
 
 // 		// if err != nil {
 // 		// 	if err == io.EOF {
-// 		// 		fmt.Println("[ERR] Received EOF")
+// 		// 		utils.Printf(static.LOG_FLAG, "[ERR] Received EOF")
 // 		// 		return err
 // 		// 	}
-// 		// 	fmt.Println("[ERR] Error reading:", err)
+// 		// 	utils.Printf(static.LOG_FLAG, "[ERR] Error reading:", err)
 // 		// 	return err
 // 		// }
 
 // 		// response := buffer[:n]
 
-// 		// fmt.Println("From Socket :", response, "length of response :", len(response))
+// 		// utils.Printf(static.LOG_FLAG, "From Socket :", response, "length of response :", len(response))
 
 // 		// val, err := GetTemplateID(response)
 // 		// if err != nil {
-// 		// 	fmt.Println("[ERR] Error in template id parser :", err)
+// 		// 	utils.Printf(static.LOG_FLAG, "[ERR] Error in template id parser :", err)
 // 		// 	// return
 // 		// }
 
 // 		// read_response, err := t.readReceivedResponse(val, 0, response)
 // 		// if err != nil {
-// 		// 	fmt.Println("[ERR] Error in reading received response :", err)
+// 		// 	utils.Printf(static.LOG_FLAG, "[ERR] Error in reading received response :", err)
 // 		// }
 
 // 		// _, err := DecryptData(response, t.CGW_Res.SecKey, t.CGW_Res.IV, t.CTX)
 // 		// if err != nil {
-// 		// 	fmt.Println("[ERR] Error in decryption for order response parser :", err)
+// 		// 	utils.Printf(static.LOG_FLAG, "[ERR] Error in decryption for order response parser :", err)
 // 		// }
 
 // 		_, _, order_template, err := t.NewOrderResponseListner(11)
-// 		// fmt.Println("[INFO] Delete Order Request RTT: ", time.Since(deleteOrderTime))
+// 		// utils.Printf(static.LOG_FLAG, "[INFO] Delete Order Request RTT: ", time.Since(deleteOrderTime))
 // 		if err != nil {
-// 			fmt.Println("[ERR] Error in reading received response :", err)
+// 			utils.Printf(static.LOG_FLAG, "[ERR] Error in reading received response :", err)
 // 		}
 
 // 		if order_template == HEARTBEAT {
@@ -52,7 +52,7 @@ package utils
 // 			t.sendDataToServer(heartbeat)
 
 // 			if THROTTLE_VALUE > 0 {
-// 				fmt.Println("[INFO] Throttle value is updated. Exiting heartbeat case ")
+// 				utils.Printf(static.LOG_FLAG, "[INFO] Throttle value is updated. Exiting heartbeat case ")
 // 				return nil
 // 			}
 // 			//return nil
@@ -62,30 +62,30 @@ package utils
 // }
 
 // func (t *Trader) NewCheckSocketBuffer(inst_id int) (uint64, uint64, uint16, error) {
-// 	fmt.Printf("For session ID %v, Checking socket in checkSocketBuffer()\n", t.session_id)
+// 	utils.Printf(static.LOG_FLAG, fmt.Sprintf("For session ID %v, Checking socket in checkSocketBuffer()\n", t.session_id)
 // 	order_id := uint64(0)
 // 	act_time := uint64(0)
 // 	template_type := uint16(0)
 // 	reader := bufio.NewReader(t.conn)
 // 	if reader.Buffered() == 0 {
-// 		fmt.Println("In socket, size is 0")
+// 		utils.Printf(static.LOG_FLAG, "In socket, size is 0")
 // 		return order_id, act_time, template_type, nil
 // 	}
-// 	fmt.Println("In socket, some data is present!")
+// 	utils.Printf(static.LOG_FLAG, "In socket, some data is present!")
 // 	buffer := make([]byte, 16*1024*1024)
 // 	n, err := reader.Read(buffer)
 // 	if err != nil {
 // 		if err == io.EOF {
-// 			fmt.Printf("[INFO] Connection closed for session id %d: %v\n", t.session_id, err)
+// 			utils.Printf(static.LOG_FLAG, fmt.Sprintf("[INFO] Connection closed for session id %d: %v\n", t.session_id, err)
 // 			return 0, 0, 0, err
 // 		}
-// 		fmt.Printf("[ERR] Error reading responses for session id %d: %v", t.session_id, err)
+// 		utils.Printf(static.LOG_FLAG, fmt.Sprintf("[ERR] Error reading responses for session id %d: %v\n", t.session_id, err)
 // 		return 0, 0, 0, nil
 // 	}
 // 	responseBuf := buffer[:n]
 // 	responseLength := len(responseBuf)
 // 	if responseLength == 0 {
-// 		fmt.Println("In CheckSocketBuffer(), No response is present in Socket buffer.")
+// 		utils.Printf(static.LOG_FLAG, "In CheckSocketBuffer(), No response is present in Socket buffer.")
 // 		return order_id, act_time, 0, nil
 // 	}
 // 	var responseArr [][]byte
@@ -93,59 +93,59 @@ package utils
 // 	for len(responseBuf) > 0 {
 // 		count++
 // 		if len(responseBuf) < 4 {
-// 			fmt.Println("[ERR] Response buffer too short to read size")
+// 			utils.Printf(static.LOG_FLAG, "[ERR] Response buffer too short to read size")
 // 			return 0, 0, 0, fmt.Errorf("response buffer too short")
 // 		}
 // 		size := int(binary.LittleEndian.Uint32(responseBuf[:4]))
-// 		fmt.Println("size: ", size)
+// 		utils.Printf(static.LOG_FLAG, "size: ", size)
 // 		if len(responseBuf) < size {
-// 			fmt.Println("[ERR] Response buffer too short for the indicated size")
+// 			utils.Printf(static.LOG_FLAG, "[ERR] Response buffer too short for the indicated size")
 // 			return 0, 0, 0, fmt.Errorf("response buffer too short for indicated size")
 // 		}
 // 		responseArr = append(responseArr, responseBuf[:size])
 // 		responseBuf = responseBuf[size:]
 // 	}
-// 	fmt.Println("Len of response array: ", len(responseArr))
+// 	utils.Printf(static.LOG_FLAG, "Len of response array: ", len(responseArr))
 // 	for _, response := range responseArr {
 // 		if len(response) == 0 {
 // 			break
 // 		}
 // 		val, err := GetTemplateID(response)
 // 		if err != nil {
-// 			fmt.Println("[ERR] Error in template id parser :", err)
+// 			utils.Printf(static.LOG_FLAG, "[ERR] Error in template id parser :", err)
 // 		}
-// 		fmt.Printf("In CheckSockerBuffer(), for Session ID %v, TEMPLATE ID: %v ", t.session_id, val)
+// 		utils.Printf(static.LOG_FLAG, fmt.Sprintf("In CheckSockerBuffer(), for Session ID %v, TEMPLATE ID: %v ", t.session_id, val)
 // 		read_response, err := t.readReceivedResponse(val, inst_id, response)
 // 		if err != nil {
-// 			fmt.Println("[ERR] Error in reading received response :", err)
+// 			utils.Printf(static.LOG_FLAG, "[ERR] Error in reading received response :", err)
 // 		}
 // 		switch read_response {
 // 		case LEAN_ORDER:
 // 			order_res, err := DecryptData(response, t.CGW_Res.SecKey, t.CGW_Res.IV, t.CTX)
 // 			if err != nil {
-// 				fmt.Println("[ERR] Error in decryption for order response parser :", err)
+// 				utils.Printf(static.LOG_FLAG, "[ERR] Error in decryption for order response parser :", err)
 // 			}
 // 			server_res, err1 := GetTimestamps(order_res)
 // 			if err1 != nil {
-// 				fmt.Println("[ERR] Error while getting timestamps")
+// 				utils.Printf(static.LOG_FLAG, "[ERR] Error while getting timestamps")
 // 			} else {
-// 				fmt.Printf("[INFO] Order Entry Server Processing Time(T6-T1):  %v microseconds\n", (server_res.GW_Res_Out-server_res.GW_Req_In)/1000)
+// 				utils.Printf(static.LOG_FLAG, fmt.Sprintf("[INFO] Order Entry Server Processing Time(T6-T1):  %v microseconds\n", (server_res.GW_Res_Out-server_res.GW_Req_In)/1000)
 // 			}
 // 			order_id, act_time, err = SingleLegLeanOrderResponse(order_res, t.CTX)
 // 			if err != nil {
-// 				fmt.Println("[ERR] Error in lean order response parser :", err)
+// 				utils.Printf(static.LOG_FLAG, "[ERR] Error in lean order response parser :", err)
 // 			}
 // 			template_type = LEAN_ORDER
 // 		case CANCEL_LEAN_ORDER:
 // 			order_res, err := DecryptData(response, t.CGW_Res.SecKey, t.CGW_Res.IV, t.CTX)
 // 			if err != nil {
-// 				fmt.Println("[ERR] Error in decryption for order response parser :", err)
+// 				utils.Printf(static.LOG_FLAG, "[ERR] Error in decryption for order response parser :", err)
 // 			}
 // 			server_res, err1 := GetTimestamps(order_res)
 // 			if err1 != nil {
-// 				fmt.Println("[ERR] Error while getting timestamps")
+// 				utils.Printf(static.LOG_FLAG, "[ERR] Error while getting timestamps")
 // 			} else {
-// 				fmt.Printf("[INFO] Order Cancel Server Processing Time(T6-T1):  %v microseconds\n", (server_res.GW_Res_Out-server_res.GW_Req_In)/1000)
+// 				utils.Printf(static.LOG_FLAG, fmt.Sprintf("[INFO] Order Cancel Server Processing Time(T6-T1):  %v microseconds\n", (server_res.GW_Res_Out-server_res.GW_Req_In)/1000)
 // 			}
 // 			order_id = uint64(0)
 // 			act_time = uint64(0)
@@ -153,29 +153,29 @@ package utils
 // 		case MODIFY_LEAN_ORDER:
 // 			order_res, err := DecryptData(response, t.CGW_Res.SecKey, t.CGW_Res.IV, t.CTX)
 // 			if err != nil {
-// 				fmt.Println("[ERR] Error in decryption for order response parser :", err)
+// 				utils.Printf(static.LOG_FLAG, "[ERR] Error in decryption for order response parser :", err)
 // 			}
 // 			server_res, err1 := GetTimestamps(order_res)
 // 			if err1 != nil {
-// 				fmt.Println("[ERR] Error while getting timestamps")
+// 				utils.Printf(static.LOG_FLAG, "[ERR] Error while getting timestamps")
 // 			} else {
-// 				fmt.Printf("[INFO] Order Mod Server Processing Time(T6-T1):  %v microseconds\n", (server_res.GW_Res_Out-server_res.GW_Req_In)/1000)
+// 				utils.Printf(static.LOG_FLAG, fmt.Sprintf("[INFO] Order Mod Server Processing Time(T6-T1):  %v microseconds\n", (server_res.GW_Res_Out-server_res.GW_Req_In)/1000)
 // 			}
 // 			order_id, act_time, err = SingleLegLeanOrderModifiedResponse(order_res, t.CTX)
 // 			if err != nil {
-// 				fmt.Println("[ERR] Error in lean order response parser :", err)
+// 				utils.Printf(static.LOG_FLAG, "[ERR] Error in lean order response parser :", err)
 // 			}
 // 			template_type = MODIFY_LEAN_ORDER
 // 		case DELETE_ALL_ORDERS:
 // 			order_res, err := DecryptData(response, t.CGW_Res.SecKey, t.CGW_Res.IV, t.CTX)
 // 			if err != nil {
-// 				fmt.Println("[ERR] Error in decryption for order response parser :", err)
+// 				utils.Printf(static.LOG_FLAG, "[ERR] Error in decryption for order response parser :", err)
 // 			}
 // 			server_res, err1 := GetTimestamps(order_res)
 // 			if err1 != nil {
-// 				fmt.Println("[ERR] Error while getting timestamps")
+// 				utils.Printf(static.LOG_FLAG, "[ERR] Error while getting timestamps")
 // 			} else {
-// 				fmt.Printf("[INFO] Order Delete All Orders Server Processing Time(T6-T1):  %v microseconds\n", (server_res.GW_Res_Out-server_res.GW_Req_In)/1000)
+// 				utils.Printf(static.LOG_FLAG, fmt.Sprintf("[INFO] Order Delete All Orders Server Processing Time(T6-T1):  %v microseconds\n", (server_res.GW_Res_Out-server_res.GW_Req_In)/1000)
 // 			}
 // 			order_id = uint64(0)
 // 			act_time = uint64(0)
@@ -183,13 +183,13 @@ package utils
 // 		case DELETE_ALL_ORDERS_NO_HITS:
 // 			order_res, err := DecryptData(response, t.CGW_Res.SecKey, t.CGW_Res.IV, t.CTX)
 // 			if err != nil {
-// 				fmt.Println("[ERR] Error in decryption for order response parser :", err)
+// 				utils.Printf(static.LOG_FLAG, "[ERR] Error in decryption for order response parser :", err)
 // 			}
 // 			server_res, err1 := GetTimestamps(order_res)
 // 			if err1 != nil {
-// 				fmt.Println("[ERR] Error while getting timestamps")
+// 				utils.Printf(static.LOG_FLAG, "[ERR] Error while getting timestamps")
 // 			} else {
-// 				fmt.Printf("[INFO] Order Delete All Orders Server Processing Time(T6-T1):  %v microseconds\n", (server_res.GW_Res_Out-server_res.GW_Req_In)/1000)
+// 				utils.Printf(static.LOG_FLAG, fmt.Sprintf("[INFO] Order Delete All Orders Server Processing Time(T6-T1):  %v microseconds\n", (server_res.GW_Res_Out-server_res.GW_Req_In)/1000)
 // 			}
 // 			order_id = uint64(0)
 // 			act_time = uint64(0)
@@ -197,7 +197,7 @@ package utils
 // 		case HEARTBEAT:
 // 			_, err := DecryptData(response, t.CGW_Res.SecKey, t.CGW_Res.IV, t.CTX)
 // 			if err != nil {
-// 				fmt.Println("[ERR] Error in decryption for order response parser :", err)
+// 				utils.Printf(static.LOG_FLAG, "[ERR] Error in decryption for order response parser :", err)
 // 			}
 // 			order_id = uint64(0)
 // 			act_time = uint64(0)
@@ -206,7 +206,7 @@ package utils
 // 			order_id = uint64(0)
 // 			act_time = uint64(0)
 // 			template_type = ORDER_CONFIRMATION
-// 			fmt.Println("[PASS] Order Confirmation Received for session id:", t.session_id)
+// 			utils.Printf(static.LOG_FLAG, "[PASS] Order Confirmation Received for session id:", t.session_id)
 // 		case REJECTED:
 // 			order_id = uint64(0)
 // 			act_time = uint64(0)
@@ -214,7 +214,7 @@ package utils
 // 		case IMMEDIATE_EXECUTION:
 // 			_, err := DecryptData(response, t.CGW_Res.SecKey, t.CGW_Res.IV, t.CTX)
 // 			if err != nil {
-// 				fmt.Println("[ERR] Error in decryption for order response parser :", err)
+// 				utils.Printf(static.LOG_FLAG, "[ERR] Error in decryption for order response parser :", err)
 // 			}
 // 			order_id = uint64(0)
 // 			act_time = uint64(0)
@@ -222,7 +222,7 @@ package utils
 // 		case ORDER_BOOK_EXECUTION:
 // 			_, err := DecryptData(response, t.CGW_Res.SecKey, t.CGW_Res.IV, t.CTX)
 // 			if err != nil {
-// 				fmt.Println("[ERR] Error in decryption for order response parser :", err)
+// 				utils.Printf(static.LOG_FLAG, "[ERR] Error in decryption for order response parser :", err)
 // 			}
 // 			order_id = uint64(0)
 // 			act_time = uint64(0)
@@ -233,12 +233,12 @@ package utils
 // 			template_type = uint16(0)
 // 		}
 // 	}
-// 	fmt.Println("Response of checkbuffer => Order Id: ", order_id, "Act time:", act_time, "Template Id:", template_type)
+// 	utils.Printf(static.LOG_FLAG, "Response of checkbuffer => Order Id: ", order_id, "Act time:", act_time, "Template Id:", template_type)
 // 	return order_id, act_time, template_type, nil
 // }
 
 // func (t *Trader) CheckSocketBuffer(inst_id int) (uint64, uint64, uint16, error) {
-// 	fmt.Printf("FOr session ID %v, Checking socket in checkSocketBuffer()\n", t.session_id)
+// 	utils.Printf(static.LOG_FLAG, fmt.Sprintf("FOr session ID %v, Checking socket in checkSocketBuffer()\n", t.session_id)
 // 	order_id := uint64(0)
 // 	act_time := uint64(0)
 // 	template_type := uint16(0)
@@ -246,11 +246,11 @@ package utils
 
 // 	if reader.Buffered() == 0 {
 
-// 		fmt.Println("In socket, size is 0")
+// 		utils.Printf(static.LOG_FLAG, "In socket, size is 0")
 // 		return order_id, act_time, template_type, nil
 // 	}
 
-// 	fmt.Println("In socket, some data is present!")
+// 	utils.Printf(static.LOG_FLAG, "In socket, some data is present!")
 
 // 	// t.conn.SetReadDeadline(time.Now().Add(100* time.Millisecond))
 // 	buffer := make([]byte, 16*1024*1024)
@@ -259,10 +259,10 @@ package utils
 
 // 	if err != nil {
 // 		if err == io.EOF {
-// 			fmt.Printf("[INFO] Connection closed for session id %d: %v\n", t.session_id, err)
+// 			utils.Printf(static.LOG_FLAG, fmt.Sprintf("[INFO] Connection closed for session id %d: %v\n", t.session_id, err)
 // 			return 0, 0, 0, err
 // 		}
-// 		fmt.Printf("[ERR] Error reading responses for session id %d: %v", t.session_id, err)
+// 		utils.Printf(static.LOG_FLAG, fmt.Sprintf("[ERR] Error reading responses for session id %d: %v\n", t.session_id, err)
 // 		return 0, 0, 0, nil
 // 	}
 
@@ -270,9 +270,9 @@ package utils
 
 // 	responseLength := len(responseBuf)
 
-// 	// fmt.Println("Len of Response: ", responseLength)
+// 	// utils.Printf(static.LOG_FLAG, "Len of Response: ", responseLength)
 // 	if responseLength == 0 {
-// 		fmt.Println("In CheckSocketBuffer(), No response is present in Socket buffer.")
+// 		utils.Printf(static.LOG_FLAG, "In CheckSocketBuffer(), No response is present in Socket buffer.")
 // 		return order_id, act_time, 0, nil
 // 	}
 
@@ -281,23 +281,23 @@ package utils
 // 	for len(responseBuf) > 0 {
 // 		count++
 // 		if len(responseBuf) < 4 {
-// 			fmt.Println("[ERR] Response buffer too short to read size")
+// 			utils.Printf(static.LOG_FLAG, "[ERR] Response buffer too short to read size")
 // 			return 0, 0, 0, fmt.Errorf("response buffer too short")
 // 		}
 // 		size := int(binary.LittleEndian.Uint32(responseBuf[:4]))
-// 		fmt.Println("size: ", size)
+// 		utils.Printf(static.LOG_FLAG, "size: ", size)
 // 		if len(responseBuf) < size {
-// 			fmt.Println("[ERR] Response buffer too short for the indicated size")
+// 			utils.Printf(static.LOG_FLAG, "[ERR] Response buffer too short for the indicated size")
 // 			return 0, 0, 0, fmt.Errorf("response buffer too short for indicated size")
 // 		}
 
 // 		responseArr = append(responseArr, responseBuf[:size])
 
 // 		responseBuf = responseBuf[size:]
-// 		// fmt.Println("COunt: ", count)
+// 		// utils.Printf(static.LOG_FLAG, "COunt: ", count)
 // 	}
 
-// 	// fmt.Println("Len of response buf: ", len(responseArr))
+// 	// utils.Printf(static.LOG_FLAG, "Len of response buf: ", len(responseArr))
 
 // 	for _, response := range responseArr {
 
@@ -307,35 +307,35 @@ package utils
 
 // 		val, err := GetTemplateID(response)
 // 		if err != nil {
-// 			fmt.Println("[ERR] Error in template id parser :", err)
+// 			utils.Printf(static.LOG_FLAG, "[ERR] Error in template id parser :", err)
 // 			// return
 // 		}
 
-// 		fmt.Printf("In CheckSockerBuffer(), for Session ID %v, TEMPLATE ID: %v ", t.session_id, val)
+// 		utils.Printf(static.LOG_FLAG, fmt.Sprintf("In CheckSockerBuffer(), for Session ID %v, TEMPLATE ID: %v ", t.session_id, val)
 // 		read_response, err := t.readReceivedResponse(val, inst_id, response)
 // 		if err != nil {
-// 			fmt.Println("[ERR] Error in reading received response :", err)
+// 			utils.Printf(static.LOG_FLAG, "[ERR] Error in reading received response :", err)
 // 		}
 
 // 		if read_response == LEAN_ORDER {
 // 			order_res, err := DecryptData(response, t.CGW_Res.SecKey, t.CGW_Res.IV, t.CTX)
 // 			if err != nil {
-// 				fmt.Println("[ERR] Error in decryption for order response parser :", err)
+// 				utils.Printf(static.LOG_FLAG, "[ERR] Error in decryption for order response parser :", err)
 // 				// return nil
 // 				// return
 // 			}
 
 // 			server_res, err1 := GetTimestamps(order_res)
 // 			if err1 != nil {
-// 				fmt.Println("[ERR] Error while getting timestamps")
+// 				utils.Printf(static.LOG_FLAG, "[ERR] Error while getting timestamps")
 // 			} else {
-// 				fmt.Printf("[INFO] Order Entry Server Processing Time(T6-T1):  %v microseconds\n", (server_res.GW_Res_Out-server_res.GW_Req_In)/1000)
+// 				utils.Printf(static.LOG_FLAG, fmt.Sprintf("[INFO] Order Entry Server Processing Time(T6-T1):  %v microseconds\n", (server_res.GW_Res_Out-server_res.GW_Req_In)/1000)
 // 			}
-// 			// fmt.Println("[INFO] TimeStamps: ", timeStamps)
+// 			// utils.Printf(static.LOG_FLAG, "[INFO] TimeStamps: ", timeStamps)
 
 // 			order_id, act_time, err = SingleLegLeanOrderResponse(order_res, t.CTX)
 // 			if err != nil {
-// 				fmt.Println("[ERR] Error in lean order response parser :", err)
+// 				utils.Printf(static.LOG_FLAG, "[ERR] Error in lean order response parser :", err)
 // 				// return nil
 // 				// return
 // 			}
@@ -348,14 +348,14 @@ package utils
 
 // 			order_res, err := DecryptData(response, t.CGW_Res.SecKey, t.CGW_Res.IV, t.CTX)
 // 			if err != nil {
-// 				fmt.Println("[ERR] Error in decryption for order response parser :", err)
+// 				utils.Printf(static.LOG_FLAG, "[ERR] Error in decryption for order response parser :", err)
 // 			}
 
 // 			server_res, err1 := GetTimestamps(order_res)
 // 			if err1 != nil {
-// 				fmt.Println("[ERR] Error while getting timestamps")
+// 				utils.Printf(static.LOG_FLAG, "[ERR] Error while getting timestamps")
 // 			} else {
-// 				fmt.Printf("[INFO] Order Cancel Server Processing Time(T6-T1):  %v microseconds\n", (server_res.GW_Res_Out-server_res.GW_Req_In)/1000)
+// 				utils.Printf(static.LOG_FLAG, fmt.Sprintf("[INFO] Order Cancel Server Processing Time(T6-T1):  %v microseconds\n", (server_res.GW_Res_Out-server_res.GW_Req_In)/1000)
 // 			}
 
 // 			order_id = uint64(0)
@@ -370,21 +370,21 @@ package utils
 
 // 			order_res, err := DecryptData(response, t.CGW_Res.SecKey, t.CGW_Res.IV, t.CTX)
 // 			if err != nil {
-// 				fmt.Println("[ERR] Error in decryption for order response parser :", err)
+// 				utils.Printf(static.LOG_FLAG, "[ERR] Error in decryption for order response parser :", err)
 // 				// return nil
 // 				// return
 // 			}
 // 			server_res, err1 := GetTimestamps(order_res)
 // 			if err1 != nil {
-// 				fmt.Println("[ERR] Error while getting timestamps")
+// 				utils.Printf(static.LOG_FLAG, "[ERR] Error while getting timestamps")
 // 			} else {
-// 				fmt.Printf("[INFO] Order Mod Server Processing Time(T6-T1):  %v microseconds\n", (server_res.GW_Res_Out-server_res.GW_Req_In)/1000)
+// 				utils.Printf(static.LOG_FLAG, fmt.Sprintf("[INFO] Order Mod Server Processing Time(T6-T1):  %v microseconds\n", (server_res.GW_Res_Out-server_res.GW_Req_In)/1000)
 // 			}
-// 			// fmt.Println("[INFO] TimeStamps: ", timeStamps)
+// 			// utils.Printf(static.LOG_FLAG, "[INFO] TimeStamps: ", timeStamps)
 
 // 			order_id, act_time, err = SingleLegLeanOrderModifiedResponse(order_res, t.CTX)
 // 			if err != nil {
-// 				fmt.Println("[ERR] Error in lean order response parser :", err)
+// 				utils.Printf(static.LOG_FLAG, "[ERR] Error in lean order response parser :", err)
 // 				// return nil
 // 				// return
 // 			}
@@ -398,16 +398,16 @@ package utils
 // 		if read_response == DELETE_ALL_ORDERS || read_response == DELETE_ALL_ORDERS_NO_HITS {
 // 			order_res, err := DecryptData(response, t.CGW_Res.SecKey, t.CGW_Res.IV, t.CTX)
 // 			if err != nil {
-// 				fmt.Println("[ERR] Error in decryption for order response parser :", err)
+// 				utils.Printf(static.LOG_FLAG, "[ERR] Error in decryption for order response parser :", err)
 // 				// return nil
 // 				// return
 // 			}
 
 // 			server_res, err1 := GetTimestamps(order_res)
 // 			if err1 != nil {
-// 				fmt.Println("[ERR] Error while getting timestamps")
+// 				utils.Printf(static.LOG_FLAG, "[ERR] Error while getting timestamps")
 // 			} else {
-// 				fmt.Printf("[INFO] Order Delete All Orders Server Processing Time(T6-T1):  %v microseconds\n", (server_res.GW_Res_Out-server_res.GW_Req_In)/1000)
+// 				utils.Printf(static.LOG_FLAG, fmt.Sprintf("[INFO] Order Delete All Orders Server Processing Time(T6-T1):  %v microseconds\n", (server_res.GW_Res_Out-server_res.GW_Req_In)/1000)
 // 			}
 
 // 			order_id = uint64(0)
@@ -432,11 +432,11 @@ package utils
 
 // 		if read_response == IMMEDIATE_EXECUTION {
 
-// 			fmt.Println("Received IMMEDIATE_EXECUTION")
+// 			utils.Printf(static.LOG_FLAG, "Received IMMEDIATE_EXECUTION")
 
 // 			_, err := DecryptData(response, t.CGW_Res.SecKey, t.CGW_Res.IV, t.CTX)
 // 			if err != nil {
-// 				fmt.Println("[ERR] Error in decryption for order response parser :", err)
+// 				utils.Printf(static.LOG_FLAG, "[ERR] Error in decryption for order response parser :", err)
 // 			}
 
 // 			// return 0, 0, IMMEDIATE_EXECUTION, nil
@@ -444,32 +444,32 @@ package utils
 // 			act_time = uint64(0)
 // 			template_type = IMMEDIATE_EXECUTION
 
-// 			fmt.Println("IMMEDIATE_EXECUTION, Template type: ", template_type)
+// 			utils.Printf(static.LOG_FLAG, "IMMEDIATE_EXECUTION, Template type: ", template_type)
 
 // 		}
 
 // 		if read_response == ORDER_BOOK_EXECUTION {
 
-// 			fmt.Println("Received ORDER_BOOK_EXECUTION")
+// 			utils.Printf(static.LOG_FLAG, "Received ORDER_BOOK_EXECUTION")
 // 			decytped_res, err := DecryptData(response, t.CGW_Res.SecKey, t.CGW_Res.IV, t.CTX)
 // 			if err != nil {
-// 				fmt.Println("[ERR] Error in decryption for order response parser :", err)
+// 				utils.Printf(static.LOG_FLAG, "[ERR] Error in decryption for order response parser :", err)
 // 			}
 
-// 			fmt.Println("BOok execution res: ", decytped_res)
+// 			utils.Printf(static.LOG_FLAG, "BOok execution res: ", decytped_res)
 
 // 			// return 0, 0, ORDER_BOOK_EXECUTION, nil
 // 			order_id = uint64(0)
 // 			act_time = uint64(0)
 // 			template_type = ORDER_BOOK_EXECUTION
 
-// 			fmt.Println("ORDER_BOOK_EXECUTION, Template type: ", template_type)
+// 			utils.Printf(static.LOG_FLAG, "ORDER_BOOK_EXECUTION, Template type: ", template_type)
 
 // 		}
 
 // 	}
 
-// 	fmt.Println("Response of checkbuffer: ", order_id, act_time, template_type)
+// 	utils.Printf(static.LOG_FLAG, "Response of checkbuffer: ", order_id, act_time, template_type)
 
 // 	return order_id, act_time, template_type, nil
 
@@ -490,33 +490,33 @@ package utils
 // 	modPerOrder := int(math.Floor(float64(sendModCount) / float64(orderEntry)))
 // 	sendMod := MODIFY_PERCENT != 0
 
-// 	fmt.Println("Batch Size :", batchSize)
-// 	fmt.Println("Total Order Entry Count :", orderEntry)
-// 	fmt.Println("Total Mod Count :", sendModCount, "Mods/order count :", modPerOrder)
-// 	fmt.Println("Total Cancel Count: ", cancelOrders)
+// 	utils.Printf(static.LOG_FLAG, "Batch Size :", batchSize)
+// 	utils.Printf(static.LOG_FLAG, "Total Order Entry Count :", orderEntry)
+// 	utils.Printf(static.LOG_FLAG, "Total Mod Count :", sendModCount, "Mods/order count :", modPerOrder)
+// 	utils.Printf(static.LOG_FLAG, "Total Cancel Count: ", cancelOrders)
 
 // 	count := 0
 
 // 	for data := range dataChan {
 
 // 		count++
-// 		fmt.Println("Packet No. (Iteration) in data channel :", count)
+// 		utils.Printf(static.LOG_FLAG, "Packet No. (Iteration) in data channel :", count)
 
 // 	outerLoop:
 // 		for j := 0; j < orderEntry; j++ {
 
-// 			fmt.Println("Outer for loop :", j, "Iteration order :", count)
+// 			utils.Printf(static.LOG_FLAG, "Outer for loop :", j, "Iteration order :", count)
 
 // 			elapsedTime := time.Since(startTime)
-// 			fmt.Println("Elapsed Time :", elapsedTime)
+// 			utils.Printf(static.LOG_FLAG, "Elapsed Time :", elapsedTime)
 // 			if packetCount >= batchSize || elapsedTime >= time.Second {
-// 				fmt.Println("Initial Case matched!")
+// 				utils.Printf(static.LOG_FLAG, "Initial Case matched!")
 // 				if packetCount >= batchSize && elapsedTime < time.Second {
-// 					fmt.Println("In Sleep Case!!")
-// 					fmt.Printf("Session id %d , sleeping for %v\n", t.session_id, 1000*time.Millisecond-elapsedTime)
+// 					utils.Printf(static.LOG_FLAG, "In Sleep Case!!")
+// 					utils.Printf(static.LOG_FLAG, fmt.Sprintf("Session id %d , sleeping for %v\n", t.session_id, 1000*time.Millisecond-elapsedTime)
 // 					time.Sleep(time.Second - elapsedTime)
 // 				}
-// 				fmt.Printf("Session id %d sent %d packets.\n", t.session_id, packetCount)
+// 				utils.Printf(static.LOG_FLAG, fmt.Sprintf("Session id %d sent %d packets.\n", t.session_id, packetCount)
 // 				startTime = time.Now()
 // 				packetCount = 0
 // 				sendMod = true
@@ -539,7 +539,7 @@ package utils
 // 				order_type = 2 //sell
 // 			}
 
-// 			fmt.Println("OE => Price :", price, "Qty :", data.Qty, "Order Type :", order_type)
+// 			utils.Printf(static.LOG_FLAG, "OE => Price :", price, "Qty :", data.Qty, "Order Type :", order_type)
 
 // 			orderRequest, err := SingleLegLeanOrder(t.MID, t.TID, t.msg_seq, data.InstrumentId, price, data.Qty, order_type, t.CTX, t.ClOrdID, client_code)
 // 			if err != nil {
@@ -547,22 +547,22 @@ package utils
 // 			}
 
 // 			if err := t.sendDataToServer(orderRequest); err != nil {
-// 				fmt.Printf("Error sending data with session id %d: %v", t.session_id, err)
+// 				utils.Printf(static.LOG_FLAG, fmt.Sprintf("Error sending data with session id %d: %v\n", t.session_id, err)
 // 			}
 
 // 			orderID, actTime, template, err := t.OrderResponseListner(data.InstrumentId)
 // 			if err != nil {
-// 				return fmt.Errorf("response error for session id %d: %v", t.session_id, err)
+// 				return fmt.Errorf("response error for session id %d: %v\n", t.session_id, err)
 // 			}
 // 			t.msg_seq++
 // 			packetCount++
 // 			totalPacketCount++
 
-// 			fmt.Println("Packet Count after LEAN ORDER :", packetCount)
+// 			utils.Printf(static.LOG_FLAG, "Packet Count after LEAN ORDER :", packetCount)
 
 // 			if template == LEAN_ORDER && sendMod {
 // 				for i := 0; i < modPerOrder; i++ {
-// 					fmt.Println("Mod order iteration count :", i)
+// 					utils.Printf(static.LOG_FLAG, "Mod order iteration count :", i)
 // 					if UNIQUE_CLIENT_IDENTIFIER {
 // 						t.OrigClOrdID = t.ClOrdID
 // 						t.ClOrdID++
@@ -582,11 +582,11 @@ package utils
 // 						}
 // 					}
 
-// 					fmt.Println("OM => Price :", price, "Qty :", data.Qty, "Order Type :", order_type)
+// 					utils.Printf(static.LOG_FLAG, "OM => Price :", price, "Qty :", data.Qty, "Order Type :", order_type)
 
 // 					orderID, actTime, template, err = t.sendOrderModify(data.InstrumentId, price, data.Qty, order_type, orderID, actTime)
 // 					if err != nil {
-// 						fmt.Printf("Modify error for session id %d: %v", t.session_id, err)
+// 						utils.Printf(static.LOG_FLAG, fmt.Sprintf("Modify error for session id %d: %v\n", t.session_id, err)
 // 					}
 
 // 					packetCount++
@@ -594,26 +594,26 @@ package utils
 // 					totalPacketCount++
 
 // 					if template != MODIFY_LEAN_ORDER {
-// 						fmt.Println("Breaking from Mod loop :", template)
+// 						utils.Printf(static.LOG_FLAG, "Breaking from Mod loop :", template)
 // 						break
 // 					}
 
-// 					fmt.Println("MODIFY ORDER iteration count success :", i, "Packet count :", packetCount)
+// 					utils.Printf(static.LOG_FLAG, "MODIFY ORDER iteration count success :", i, "Packet count :", packetCount)
 
 // 					elapsedTime = time.Since(startTime)
-// 					fmt.Println("Elapsed Time in Modify :", elapsedTime)
+// 					utils.Printf(static.LOG_FLAG, "Elapsed Time in Modify :", elapsedTime)
 // 					if packetCount >= batchSize || elapsedTime >= time.Second {
-// 						fmt.Println("Initial Case matched in modify!")
+// 						utils.Printf(static.LOG_FLAG, "Initial Case matched in modify!")
 // 						if packetCount >= batchSize && elapsedTime < time.Second {
-// 							fmt.Println("In modify Sleep Case!!")
-// 							fmt.Printf("Session id %d , sleeping for %v\n", t.session_id, 1000*time.Millisecond-elapsedTime)
+// 							utils.Printf(static.LOG_FLAG, "In modify Sleep Case!!")
+// 							utils.Printf(static.LOG_FLAG, fmt.Sprintf("Session id %d , sleeping for %v\n", t.session_id, 1000*time.Millisecond-elapsedTime)
 // 							time.Sleep(time.Second - elapsedTime)
 // 						}
-// 						fmt.Printf("Session id %d sent %d packets.\n", t.session_id, packetCount)
+// 						utils.Printf(static.LOG_FLAG, fmt.Sprintf("Session id %d sent %d packets.\n", t.session_id, packetCount)
 // 						startTime = time.Now()
 // 						packetCount = 0
 // 						sendMod = true
-// 						fmt.Println("Exiting for loop!")
+// 						utils.Printf(static.LOG_FLAG, "Exiting for loop!")
 // 						break outerLoop
 // 					}
 // 				}
@@ -621,21 +621,21 @@ package utils
 
 // 			if template == LEAN_ORDER || template == MODIFY_LEAN_ORDER && CANCEL_PERCENT != 0 {
 
-// 				fmt.Println("In cancel order Case!!")
+// 				utils.Printf(static.LOG_FLAG, "In cancel order Case!!")
 // 				if UNIQUE_CLIENT_IDENTIFIER {
 // 					t.OrigClOrdID = t.ClOrdID
 // 					t.ClOrdID++
 // 				}
 
 // 				if err := t.sendOrderCancel(data.InstrumentId, data.ProductId, orderID); err != nil {
-// 					fmt.Printf("Cancel error for session id %d: %v", t.session_id, err)
+// 					utils.Printf(static.LOG_FLAG, fmt.Sprintf("Cancel error for session id %d: %v\n", t.session_id, err)
 // 				}
 
 // 				t.msg_seq++
 // 				packetCount++
 // 				totalPacketCount++
 
-// 				fmt.Println("Packet count after CANCEL ORDER success :", packetCount)
+// 				utils.Printf(static.LOG_FLAG, "Packet count after CANCEL ORDER success :", packetCount)
 
 // 				orderID = 0
 // 				actTime = 0
@@ -645,7 +645,7 @@ package utils
 // 		}
 
 // 		if len(dataChan) == 0 {
-// 			fmt.Printf("Session id %d took total time: %v and sent packets: %v\n",
+// 			utils.Printf(static.LOG_FLAG, fmt.Sprintf("Session id %d took total time: %v and sent packets: %v\n",
 // 				t.session_id, time.Since(totalTime), totalPacketCount)
 // 			return nil
 // 		}
@@ -665,10 +665,10 @@ package utils
 
 // 		if err != nil {
 // 			if err == io.EOF {
-// 				fmt.Printf("[INFO] Connection closed for session id %d: %v\n", t.session_id, err)
+// 				utils.Printf(static.LOG_FLAG, fmt.Sprintf("[INFO] Connection closed for session id %d: %v\n", t.session_id, err)
 // 				return 0, 0, 0, err
 // 			}
-// 			fmt.Printf("[ERR] Error reading responses for session id %d: %v", t.session_id, err)
+// 			utils.Printf(static.LOG_FLAG, fmt.Sprintf("[ERR] Error reading responses for session id %d: %v\n", t.session_id, err)
 // 			return 0, 0, 0, nil
 // 		}
 
@@ -677,35 +677,35 @@ package utils
 // 		responseLength := len(responseBuf)
 
 // 		if responseLength == 0 {
-// 			fmt.Println("Response len is 0.")
+// 			utils.Printf(static.LOG_FLAG, "Response len is 0.")
 // 			return 0, 0, 0, nil
 // 		}
 
-// 		fmt.Println("Len of Response: ", responseLength)
+// 		utils.Printf(static.LOG_FLAG, "Len of Response: ", responseLength)
 
 // 		var responseArr [][]byte
 // 		count := 0
 // 		for len(responseBuf) > 0 {
 // 			count++
 // 			if len(responseBuf) < 4 {
-// 				fmt.Println("[ERR] Response buffer too short to read size")
+// 				utils.Printf(static.LOG_FLAG, "[ERR] Response buffer too short to read size")
 // 				return 0, 0, 0, fmt.Errorf("response buffer too short")
 // 			}
 // 			size := int(binary.LittleEndian.Uint32(responseBuf[:4]))
-// 			fmt.Println("size: ", size)
+// 			utils.Printf(static.LOG_FLAG, "size: ", size)
 // 			if len(responseBuf) < size {
-// 				fmt.Println("Response Buf: ", responseBuf)
-// 				fmt.Println("[ERR] Response buffer too short for the indicated size")
+// 				utils.Printf(static.LOG_FLAG, "Response Buf: ", responseBuf)
+// 				utils.Printf(static.LOG_FLAG, "[ERR] Response buffer too short for the indicated size")
 // 				return 0, 0, 0, fmt.Errorf("response buffer too short for indicated size")
 // 			}
 
 // 			responseArr = append(responseArr, responseBuf[:size])
 
 // 			responseBuf = responseBuf[size:]
-// 			fmt.Println("COunt: ", count)
+// 			utils.Printf(static.LOG_FLAG, "COunt: ", count)
 // 		}
 
-// 		fmt.Println("Len of response buf: ", len(responseArr))
+// 		utils.Printf(static.LOG_FLAG, "Len of response buf: ", len(responseArr))
 
 // 		for _, response := range responseArr {
 
@@ -715,41 +715,41 @@ package utils
 
 // 			val, err := GetTemplateID(response)
 // 			if err != nil {
-// 				fmt.Println("[ERR] Error in template id parser :", err)
+// 				utils.Printf(static.LOG_FLAG, "[ERR] Error in template id parser :", err)
 // 				// return
 // 			}
 
-// 			fmt.Printf("For session Id %v, TEMPLATE ID: %v", t.session_id, val)
+// 			utils.Printf(static.LOG_FLAG, fmt.Sprintf("For session Id %v, TEMPLATE ID: %v\n", t.session_id, val)
 // 			read_response, err := t.readReceivedResponse(val, inst_id, response)
 // 			if err != nil {
-// 				fmt.Println("[ERR] Error in reading received response :", err)
+// 				utils.Printf(static.LOG_FLAG, "[ERR] Error in reading received response :", err)
 // 			}
 
 // 			switch {
 // 			case read_response == ORDER_CONFIRMATION:
-// 				fmt.Println("[PASS] Order Confirmation Received for session id:", t.session_id)
+// 				utils.Printf(static.LOG_FLAG, "[PASS] Order Confirmation Received for session id:", t.session_id)
 
 // 			case read_response != ORDER_CONFIRMATION:
 
 // 				if read_response == LEAN_ORDER {
 // 					order_res, err := DecryptData(response, t.CGW_Res.SecKey, t.CGW_Res.IV, t.CTX)
 // 					if err != nil {
-// 						fmt.Println("[ERR] Error in decryption for order response parser :", err)
+// 						utils.Printf(static.LOG_FLAG, "[ERR] Error in decryption for order response parser :", err)
 // 						// return nil
 // 						// return
 // 					}
 
 // 					server_res, err1 := GetTimestamps(order_res)
 // 					if err1 != nil {
-// 						fmt.Println("[ERR] Error while getting timestamps")
+// 						utils.Printf(static.LOG_FLAG, "[ERR] Error while getting timestamps")
 // 					} else {
-// 						fmt.Printf("[INFO] Order Entry Server Processing Time(T6-T1):  %v microseconds\n", (server_res.GW_Res_Out-server_res.GW_Req_In)/1000)
+// 						utils.Printf(static.LOG_FLAG, fmt.Sprintf("[INFO] Order Entry Server Processing Time(T6-T1):  %v microseconds\n", (server_res.GW_Res_Out-server_res.GW_Req_In)/1000)
 // 					}
-// 					// fmt.Println("[INFO] TimeStamps: ", timeStamps)
+// 					// utils.Printf(static.LOG_FLAG, "[INFO] TimeStamps: ", timeStamps)
 
 // 					order_id, act_time, err := SingleLegLeanOrderResponse(order_res, t.CTX)
 // 					if err != nil {
-// 						fmt.Println("[ERR] Error in lean order response parser :", err)
+// 						utils.Printf(static.LOG_FLAG, "[ERR] Error in lean order response parser :", err)
 // 						// return nil
 // 						// return
 // 					}
@@ -761,14 +761,14 @@ package utils
 
 // 					order_res, err := DecryptData(response, t.CGW_Res.SecKey, t.CGW_Res.IV, t.CTX)
 // 					if err != nil {
-// 						fmt.Println("[ERR] Error in decryption for order response parser :", err)
+// 						utils.Printf(static.LOG_FLAG, "[ERR] Error in decryption for order response parser :", err)
 // 					}
 
 // 					server_res, err1 := GetTimestamps(order_res)
 // 					if err1 != nil {
-// 						fmt.Println("[ERR] Error while getting timestamps")
+// 						utils.Printf(static.LOG_FLAG, "[ERR] Error while getting timestamps")
 // 					} else {
-// 						fmt.Printf("[INFO] Order Cancel Server Processing Time(T6-T1):  %v microseconds\n", (server_res.GW_Res_Out-server_res.GW_Req_In)/1000)
+// 						utils.Printf(static.LOG_FLAG, fmt.Sprintf("[INFO] Order Cancel Server Processing Time(T6-T1):  %v microseconds\n", (server_res.GW_Res_Out-server_res.GW_Req_In)/1000)
 // 					}
 
 // 					return 0, 0, CANCEL_LEAN_ORDER, nil
@@ -779,21 +779,21 @@ package utils
 
 // 					order_res, err := DecryptData(response, t.CGW_Res.SecKey, t.CGW_Res.IV, t.CTX)
 // 					if err != nil {
-// 						fmt.Println("[ERR] Error in decryption for order response parser :", err)
+// 						utils.Printf(static.LOG_FLAG, "[ERR] Error in decryption for order response parser :", err)
 // 						// return nil
 // 						// return
 // 					}
 // 					server_res, err1 := GetTimestamps(order_res)
 // 					if err1 != nil {
-// 						fmt.Println("[ERR] Error while getting timestamps")
+// 						utils.Printf(static.LOG_FLAG, "[ERR] Error while getting timestamps")
 // 					} else {
-// 						fmt.Printf("[INFO] Order Mod Server Processing Time(T6-T1):  %v microseconds\n", (server_res.GW_Res_Out-server_res.GW_Req_In)/1000)
+// 						utils.Printf(static.LOG_FLAG, fmt.Sprintf("[INFO] Order Mod Server Processing Time(T6-T1):  %v microseconds\n", (server_res.GW_Res_Out-server_res.GW_Req_In)/1000)
 // 					}
-// 					// fmt.Println("[INFO] TimeStamps: ", timeStamps)
+// 					// utils.Printf(static.LOG_FLAG, "[INFO] TimeStamps: ", timeStamps)
 
 // 					order_id, act_time, err := SingleLegLeanOrderModifiedResponse(order_res, t.CTX)
 // 					if err != nil {
-// 						fmt.Println("[ERR] Error in lean order response parser :", err)
+// 						utils.Printf(static.LOG_FLAG, "[ERR] Error in lean order response parser :", err)
 // 						// return nil
 // 						// return
 // 					}
@@ -814,7 +814,7 @@ package utils
 
 // 					_, err := DecryptData(response, t.CGW_Res.SecKey, t.CGW_Res.IV, t.CTX)
 // 					if err != nil {
-// 						fmt.Println("[ERR] Error in decryption for order response parser :", err)
+// 						utils.Printf(static.LOG_FLAG, "[ERR] Error in decryption for order response parser :", err)
 // 					}
 
 // 					return 0, 0, IMMEDIATE_EXECUTION, nil
@@ -825,10 +825,10 @@ package utils
 
 // 					decytped_res, err := DecryptData(response, t.CGW_Res.SecKey, t.CGW_Res.IV, t.CTX)
 // 					if err != nil {
-// 						fmt.Println("[ERR] Error in decryption for order response parser :", err)
+// 						utils.Printf(static.LOG_FLAG, "[ERR] Error in decryption for order response parser :", err)
 // 					}
 
-// 					fmt.Println("BOok execution res: ", decytped_res)
+// 					utils.Printf(static.LOG_FLAG, "BOok execution res: ", decytped_res)
 
 // 					return 0, 0, ORDER_BOOK_EXECUTION, nil
 
@@ -838,17 +838,17 @@ package utils
 
 // 					decytped_res, err := DecryptData(response, t.CGW_Res.SecKey, t.CGW_Res.IV, t.CTX)
 // 					if err != nil {
-// 						fmt.Println("[ERR] Error in decryption for order response parser :", err)
+// 						utils.Printf(static.LOG_FLAG, "[ERR] Error in decryption for order response parser :", err)
 // 					}
 
-// 					fmt.Println("TRADING_SESSION_EVENT: ", decytped_res)
+// 					utils.Printf(static.LOG_FLAG, "TRADING_SESSION_EVENT: ", decytped_res)
 
 // 					return 0, 0, TRADING_SESSION_EVENT, nil
 
 // 				}
 
 // 			default:
-// 				fmt.Println("Other Template ID: ", read_response)
+// 				utils.Printf(static.LOG_FLAG, "Other Template ID: ", read_response)
 
 // 			}
 
@@ -866,7 +866,7 @@ package utils
 
 // 	defer func() { // Recover in case of panic
 // 		if r := recover(); r != nil {
-// 			fmt.Println("Recovered from panic:", r)
+// 			utils.Printf(static.LOG_FLAG, "Recovered from panic:", r)
 // 		}
 // 	}()
 
@@ -881,17 +881,17 @@ package utils
 // 	dataChan = newDataChan
 // 	recordsChan = newRecordsChan
 
-// 	fmt.Println("Instances set before delete")
+// 	utils.Printf(static.LOG_FLAG, "Instances set before delete")
 
 // 	err1 := safeClose(oldDataChan)
 // 	err2 := safeClose(oldRecordsChan)
 
 // 	if err1 != nil || err2 != nil {
-// 		fmt.Println("error closing old channels")
+// 		utils.Printf(static.LOG_FLAG, "error closing old channels")
 // 	}
 
 // 	SWITCH_CH = false
-// 	fmt.Println("Switching channel instances!")
+// 	utils.Printf(static.LOG_FLAG, "Switching channel instances!")
 
 // 	// return nil
 // }
@@ -899,7 +899,7 @@ package utils
 // func safeClose(ch interface{}) error {
 // 	defer func() {
 // 		if r := recover(); r != nil {
-// 			fmt.Println("Recovered in safeClose:", r)
+// 			utils.Printf(static.LOG_FLAG, "Recovered in safeClose:", r)
 // 		}
 // 	}()
 
@@ -913,7 +913,7 @@ package utils
 // 		}
 // 		close(c)
 // 	default:
-// 		fmt.Println("invalid channel type")
+// 		utils.Printf(static.LOG_FLAG, "invalid channel type")
 // 		return nil
 // 	}
 

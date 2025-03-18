@@ -22,6 +22,7 @@ var (
 	ConnThrottleChan chan int
 	RecordsChan      chan []DataPacket
 	Mu               sync.RWMutex
+	SessionConn      chan int
 )
 
 var (
@@ -42,6 +43,7 @@ var (
 	ORDER_PUMPING_TYPE       int
 	TRADERS                  []Trader
 	ORDERPUMPINGSTATUS       bool
+	LOG_FLAG                 bool
 )
 
 var (
@@ -141,12 +143,13 @@ var (
 )
 
 var (
-	PRODUCTION_ENV      = 2
-	LAB_ENV             = 1
-	SIMULATION_ENV      = 0
-	DATA_CHANNEL_LENGTH = 100000
-	DUMMY_ID            = 11
-	EPOCH_FORMAT        = "2006-01-02 15:04:05.000000000"
+	PRODUCTION_ENV        = 2
+	LAB_ENV               = 1
+	SIMULATION_ENV        = 0
+	DATA_CHANNEL_LENGTH   = 100000
+	DUMMY_ID              = 11
+	EPOCH_FORMAT          = "2006-01-02 15:04:05.000000000"
+	DEFAULT_SESSION_COUNT = 100
 )
 
 var SessionIdSets map[string][]Member
