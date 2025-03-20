@@ -373,6 +373,7 @@ func SetConfig(c *gin.Context) {
 		static.ORDER_PUMPING_TYPE = static.SYNC_ORDER_PUMPING_TYPE
 	case static.ASYNC_ORDER_PUMPING_OEOMOC_TYPE:
 		static.ORDER_PUMPING_TYPE = static.ASYNC_ORDER_PUMPING_OEOMOC_TYPE
+		static.UNIQUE_CLIENT_IDENTIFIER = true
 		static.DISABLED_ACTIVITY_SYSTEM_VENDOR = configData.AppSystemVendorName
 		if static.TARGET_ENV == static.LAB_ENV {
 			static.LAB_DISABLED_ACTIVITY_SYSTEM_VERSION = configData.AppSystemVersion

@@ -167,6 +167,7 @@ func Start() {
 	}
 	go utils.CheckSessionLogon(20 * time.Second) // print session count every 20 seconds.
 	go StartOPSCounter()
+	go StartRejectionCounter()
 	wg.Wait()
 
 }
