@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"op-middleware/static"
+	"strconv"
 	// logger "op-middleware/logging"
 )
 
@@ -22,11 +23,11 @@ func ValidateChangeOPS(opsRate static.OPSRate) error {
 	if opsRate.Throttle > 200000 {
 		return fmt.Errorf("ops per pod must be less than 2L")
 	}
-	// if opsRate.Throttle != 0 {
-	// 	if opsRate.Throttle%100 != 0 {
-	// 		return fmt.Errorf("ops rate must be divisible by 100")
-	// 	}
-	// }
+	if opsRate.Throttle > 0 {
+		if opsRate.Throttle%100 != 0 {
+			return fmt.Errorf("ops rate must be divisible by 100")
+		}
+	}
 
 	if len(opsRate.Pods) == 1 {
 		isPodPresent := CheckPodAvailability(opsRate.Pods[0])
@@ -87,10 +88,42 @@ func ValidateRecord(record static.Record) error {
 
 func DeleteOrdersValidationCheck(record static.DeleteOrder) error {
 	if record.InstrumentID <= 0 {
-		return fmt.Errorf("invalid instrument_id")
+		return fmt.Errorf("inst id must be greater than 0")
 	}
 	if record.ProductID <= 0 {
-		return fmt.Errorf("product_id must be greater than 0")
+		return fmt.Errorf("prdct id must be greater than 0")
+	}
+	if record.Type > 3 {
+		return fmt.Errorf("invalid type")
+	}
+	if record.Type == 0 {
+		for sid, _ := range record.Ids {
+
+			convrtedSid := strconv.Itoa(sid)
+			if len(convrtedSid) != 9 {
+				return fmt.Errorf("session Id must be 9 digits")
+			}
+			mid := convrtedSid[:4]
+			// fmt.Println("Mid in delete order: ", mid)
+			_, ok := static.MemberPodMap[mid]
+			if !ok {
+				return fmt.Errorf("session Id %v is not logged on", sid)
+			}
+		}
+	}
+
+	if record.Type == 1 {
+		for mid, _ := range record.Ids {
+			convrtedMid := strconv.Itoa(mid)
+			// fmt.Println("Mid in delete orders: ", convrtedMid)
+			if len(convrtedMid) != 4 {
+				return fmt.Errorf("member Id must be 4 digits")
+			}
+			_, ok := static.MemberPodMap[convrtedMid]
+			if !ok {
+				return fmt.Errorf("memder Id %v is not in use", mid)
+			}
+		}
 	}
 	return nil
 }
@@ -194,6 +227,12 @@ func ValidatePattern(data static.GraphPattern) error {
 func ValidatePriceRangeChange(data static.PriceRangeChangeDetails) error {
 	if data.Interval <= 1 {
 		return fmt.Errorf("interval must be greater than 1")
+	}
+	if data.Interval >= 3600 {
+		return fmt.Errorf("interval must be less than 3600")
+	}
+	if len(data.Instruments) < 1 {
+		return fmt.Errorf("empty config received. Please add instruments")
 	}
 
 	return nil

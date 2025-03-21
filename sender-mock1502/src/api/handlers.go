@@ -127,6 +127,8 @@ func DeleteOrders(c *gin.Context) {
 		return
 	}
 
+	// fmt.Println("Delete Order Request: ", data)
+
 	static.DELETE_ORDERS_DETAILS.InstrumentID = data.InstrumentID
 	static.DELETE_ORDERS_DETAILS.ProductID = data.ProductID
 	static.DELETE_ORDERS_DETAILS.Type = data.Type

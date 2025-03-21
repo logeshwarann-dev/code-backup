@@ -124,6 +124,10 @@ func UpdateRecords(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "Invalid request body" + err.Error(),
 		})
+		static.EventChannel <- static.SseData{
+			Message: "Invalid request body" + err.Error(),
+			Type:    1,
+		}
 		return
 	}
 
@@ -132,6 +136,10 @@ func UpdateRecords(c *gin.Context) {
 			c.JSON(http.StatusBadRequest, gin.H{
 				"error": "Validation error" + strconv.Itoa(i) + err.Error(),
 			})
+			static.EventChannel <- static.SseData{
+				Message: "invalid requet: " + err.Error(),
+				Type:    1,
+			}
 			return
 		}
 	}
@@ -334,6 +342,10 @@ func DeleteRecords(c *gin.Context) {
 	if err := c.ShouldBindBodyWithJSON(&data); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "Request format is not proper"})
+		static.EventChannel <- static.SseData{
+			Message: "Request format is not proper",
+			Type:    1,
+		}
 		return
 	}
 
@@ -351,6 +363,10 @@ func DeleteRecords(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"message": "No Instrument Id present as " + strconv.Itoa(data.InstId),
 		})
+		static.EventChannel <- static.SseData{
+			Message: "Instrument Id not available: " + strconv.Itoa(data.InstId),
+			Type:    1,
+		}
 		return
 	}
 
@@ -545,6 +561,10 @@ func DeleteOrders(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "Invalid request body" + err.Error(),
 		})
+		static.EventChannel <- static.SseData{
+			Message: "Invalid request:" + err.Error(),
+			Type:    1,
+		}
 		return
 	}
 
@@ -552,6 +572,39 @@ func DeleteOrders(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "Validation error" + err.Error(),
 		})
+		static.EventChannel <- static.SseData{
+			Message: "Invalid request:" + err.Error(),
+			Type:    1,
+		}
+		return
+	}
+
+	recordCheck := 0
+	for _, record := range static.RECORDS {
+		if record.InstrumentID == deleteOrder.InstrumentID {
+			recordCheck = 1
+			if record.Product_ID != deleteOrder.ProductID {
+				c.JSON(http.StatusBadRequest, gin.H{
+					"message": "Invalid Product Id: " + strconv.Itoa(deleteOrder.ProductID),
+				})
+				static.EventChannel <- static.SseData{
+					Message: "Invalid Product Id: " + strconv.Itoa(deleteOrder.ProductID),
+					Type:    1,
+				}
+				return
+			}
+			break
+		}
+	}
+
+	if recordCheck == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"message": "No Instrument Id present as " + strconv.Itoa(deleteOrder.InstrumentID),
+		})
+		static.EventChannel <- static.SseData{
+			Message: "Instrument Id not available: " + strconv.Itoa(deleteOrder.InstrumentID),
+			Type:    1,
+		}
 		return
 	}
 
@@ -571,6 +624,8 @@ func DeleteOrders(c *gin.Context) {
 		message := static.DeleteOrder{
 			InstrumentID: deleteOrder.InstrumentID,
 			ProductID:    deleteOrder.ProductID,
+			Type:         deleteOrder.Type,
+			Ids:          deleteOrder.Ids,
 		}
 
 		reqMsg, err := json.Marshal(message)
@@ -1406,6 +1461,10 @@ func AddSlidingPrice(c *gin.Context) {
 			"error":   "Invalid request body",
 			"details": err.Error(),
 		})
+		static.EventChannel <- static.SseData{
+			Message: "Invalid request:" + err.Error(),
+			Type:    1,
+		}
 		return
 	}
 
@@ -1414,6 +1473,29 @@ func AddSlidingPrice(c *gin.Context) {
 			"error":   "Validation error",
 			"details": err.Error(),
 		})
+		static.EventChannel <- static.SseData{
+			Message: "Invalid request:" + err.Error(),
+			Type:    1,
+		}
+		return
+	}
+
+	var totalRecordsFound []int
+	for _, record := range static.RECORDS {
+		_, ok := slidingPriceData.Instruments[strconv.Itoa(record.InstrumentID)]
+		if ok {
+			totalRecordsFound = append(totalRecordsFound, 1)
+		}
+	}
+
+	if len(totalRecordsFound) != len(slidingPriceData.Instruments) {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"message": fmt.Sprintf("One or many Instrument Ids not available: only %v records found.", len(totalRecordsFound)),
+		})
+		static.EventChannel <- static.SseData{
+			Message: fmt.Sprintf("One or many Instrument Ids not available: only %v records found.", len(totalRecordsFound)),
+			Type:    1,
+		}
 		return
 	}
 
@@ -1422,6 +1504,10 @@ func AddSlidingPrice(c *gin.Context) {
 			"error":   "Validation error",
 			"details": err.Error(),
 		})
+		static.EventChannel <- static.SseData{
+			Message: "Invalid request:" + err.Error(),
+			Type:    1,
+		}
 		return
 	}
 
@@ -1430,6 +1516,10 @@ func AddSlidingPrice(c *gin.Context) {
 			"error":   "error in sliding price",
 			"details": err.Error(),
 		})
+		static.EventChannel <- static.SseData{
+			Message: "error in sliding price:" + err.Error(),
+			Type:    1,
+		}
 		return
 	}
 

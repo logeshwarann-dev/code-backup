@@ -603,7 +603,7 @@ export class ConfigPanelComponent implements OnInit {
   }
 
   applyConfig(): void {
-    this.isButtonDisabled = true;
+    
     this.isLoading = true;
 
     const dataToSend = this.prepareConfigData();
@@ -612,6 +612,11 @@ export class ConfigPanelComponent implements OnInit {
     this.apiService.setConfig(dataToSend).subscribe((response: any) => {
       if (response.status == 200){
         console.log('Response of set config', response);
+        this.isButtonDisabled = true;
+        this.isLoading = false;
+      } else {
+        console.log('Response of set config', response);
+        // this.isButtonDisabled = false;
         this.isLoading = false;
       }
     });
@@ -776,7 +781,7 @@ export class ConfigPanelComponent implements OnInit {
 
     this.apiService.uploadFile(this.selectedFile).subscribe({
       next: (response) => {
-        this.uploadMessage = `File "${this.selectedFile?.name}" uploaded successfully!`;
+        this.uploadMessage = `File "${this.selectedFile?.name}" uploaded!`;
         this.isSuccess = true;
         this.selectedFile = null;
       },

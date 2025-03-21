@@ -17,6 +17,8 @@ type DeleteRecordStruct struct {
 type DeleteOrder struct {
 	InstrumentID int `json:"instId" binding:"required"`
 	ProductID    int `json:"prodId" binding:"required"`
+	Type         int `json:"type"`
+	Ids          map[int]int
 }
 
 type Record struct {

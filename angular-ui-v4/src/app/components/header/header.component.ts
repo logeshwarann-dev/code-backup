@@ -106,6 +106,7 @@ export class HeaderComponent{
       },
       complete: () => {
         this.stateService.updateLoadingState(false); // Stop loading after completion
+        
       }
     });
 

@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: middleware
-        image: app-middleware:v1803.02
+        image: app-middleware:v203.08
         env:
             - name: POD_NAME
               valueFrom:

@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: angular-ui
-        image: app-angular:v1803.01
+        image: app-angular:v203.03
         imagePullPolicy: Never
         ports:
         - containerPort: 443

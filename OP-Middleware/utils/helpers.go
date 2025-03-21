@@ -417,7 +417,7 @@ func GetK8sClientset() (*kubernetes.Clientset, error) {
 }
 
 func CreatePodMap(targetCount int) error {
-	for range 5 {
+	for range 15 {
 		time.Sleep(5 * time.Second)
 		isPodActive := GetPodHealthStatus(static.SENDER_POD_LABEL, targetCount)
 		if !isPodActive {
